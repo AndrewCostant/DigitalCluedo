@@ -36,4 +36,15 @@ public class CluedoGame {
 		throw new UnsupportedOperationException();
 	}
 
+	// GETTERS AND SETTERS
+	public int getNumberOfPlayer() {
+		return this.numberOfPlayer;
+	}	
+
+	public Player getCurrentPlayer() {
+		return currentPlayer;
+	}
+	public void setCurrentPlayer(Player currentPlayer) {
+		this.currentPlayer = currentPlayer;
+	}
 }

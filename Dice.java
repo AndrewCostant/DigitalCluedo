@@ -7,4 +7,19 @@ public class Dice {
 		throw new UnsupportedOperationException();
 	}
 
+	public int getFaceNumber() {
+		return this.faceNumber;
+	}
+	public void setFaceNumber(int faceNumber) {
+		this.faceNumber = faceNumber;
+	}
+
+	// GETTERS AND SETTERS
+	public int getFaceNumber() {
+		return this.faceNumber;
+	}
+	public void setFaceNumber(int faceNumber) {
+		this.faceNumber = faceNumber;
+	}
+
 }

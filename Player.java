@@ -1,7 +1,7 @@
 public class Player {
 
-	private int username;
-	private int pawnSkin;
+	private String username;
+	private String pawnSkin;
 
 	public Cell getPosition() {
 		// TODO - implement Player.getPosition
@@ -53,6 +53,23 @@ public class Player {
 	public Card showACard(Guess guess) {
 		// TODO - implement Player.showACard
 		throw new UnsupportedOperationException();
+	}
+
+	// GETTERS AND SETTERS
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPawnSkin() {
+		return pawnSkin;
+	}
+
+	public void setPawnSkin(String pawnSkin) {
+		this.pawnSkin = pawnSkin;
 	}
 
 }

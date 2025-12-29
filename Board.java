@@ -31,4 +31,13 @@ public class Board {
 		throw new UnsupportedOperationException();
 	}
 
+	// GETTERS AND SETTERS
+	public int getDimesion() {
+		return this.dimesion;
+	}
+
+	public void setDimesion(int dimesion) {
+		this.dimesion = dimesion;
+	}
+
 }
