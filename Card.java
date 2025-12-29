@@ -1,14 +1,18 @@
 public abstract class Card {
 
-	private String nome;
+	private String name;
 
-	// GETTERS AND SETTERS
-	public String getNome() {
-		return nome;
+	public Card(String name) {
+		this.name = name;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	// GETTERS AND SETTERS
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

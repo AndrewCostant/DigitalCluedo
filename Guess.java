@@ -3,6 +3,12 @@ public class Guess {
     private WeaponC weapon;
     private RoomC room;
 
+    public Guess(SuspectC suspect, WeaponC weapon, RoomC room) {
+        this.suspect = suspect;
+        this.weapon = weapon;
+        this.room = room;
+    }
+
     // GETTERS AND SETTERS
     public SuspectC getSuspect() {
         return suspect;

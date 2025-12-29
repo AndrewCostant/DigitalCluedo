@@ -1,20 +1,54 @@
+import java.util.ArrayList;
+
 public class CluedoGame {
+
+
+	private static volatile CluedoGame instance;
 
 	private int numberOfPlayer;
 	private Player currentPlayer;
+	private ArrayList<Player> players;
+	private Dice dice;
+	//winning solution
+	private SuspectC suspectW;
+	private RoomC roomW;
+	private WeaponC weaponW;
 
+	private CluedoGame() {
+		this.dice = new Dice(6);
+		this.players = new ArrayList<Player>();
+		this.numberOfPlayer = this.players.size();
+		this.currentPlayer = this.players.get(0);
+		// TODO - metodo per inizializzare la soluzione vincente e distribuire le carte ai giocatori
+		suspectW = new SuspectC();
+		roomW = new RoomC();
+		weaponW = new WeaponC();
+	}
+
+	public static CluedoGame getInstance() {
+		if (instance == null) {
+			instance = new CluedoGame();
+		}
+		return instance;
+	}
+	
+
+	/**
+	 * Rolls the dice and returns all the possible moves.
+	 */
 	public ArrayList<Cell> rollDices() {
-		// TODO - implement CluedoGame.rollDices
-		throw new UnsupportedOperationException();
+		int rollResult = dice.roll() + dice.roll();
+		Cell currentPosition = currentPlayer.getPosition();
+		ArrayList<Cell> possibleMoves = Board.getInstance().possibleDestinations(currentPosition, rollResult);
+		return possibleMoves;
 	}
 
 	/**
-	 * 
+	 * Moves the current player to a new cell.	
 	 * @param newPosition
 	 */
-	public string goToCell(Cell newPosition) {
-		// TODO - implement CluedoGame.goToCell
-		throw new UnsupportedOperationException();
+	public String goToCell(Cell newPosition) {
+		return currentPlayer.moveTo(newPosition);
 	}
 
 	public void endTurn() {
@@ -28,12 +62,37 @@ public class CluedoGame {
 	}
 
 	/**
-	 * 
+	 * Verifies a player's guess.
 	 * @param newGuess
 	 */
-	public string verifyGuess(Guess newGuess) {
-		// TODO - implement CluedoGame.verifyGuess
-		throw new UnsupportedOperationException();
+	public String verifyGuess(Guess newGuess) {
+		if(  newGuess.getSuspect().getName().equals(suspectW.getName()) &&
+				newGuess.getRoom().getName().equals(roomW.getName()) &&
+				newGuess.getWeapon().getName().equals(weaponW.getName()) ) {
+			CluedoGame.getInstance().endGame();
+			return "Correct Guess! You win!";
+		} else {
+			int i = players.indexOf(currentPlayer);
+			boolean t = true;
+			while ( t ) {
+				i++;
+				if (i == numberOfPlayer) {
+					i = 0;
+				}
+				Player player = players.get(i);
+				if (player != currentPlayer) {
+					Card shownCard = player.showACard(newGuess);
+					if (shownCard != null) {
+						currentPlayer.addKnownCard(shownCard);
+						t = false;
+					}
+				}else{
+					t = false;
+				}
+			}
+			CluedoGame.getInstance().endTurn();
+			return "Wrong Guess! Game continues.";
+		}
 	}
 
 	// GETTERS AND SETTERS

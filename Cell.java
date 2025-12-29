@@ -1,19 +1,15 @@
-public class Cell {
-
-	public string action() {
-		// TODO - implement Cell.action
-		throw new UnsupportedOperationException();
-	}
+public interface Cell {
+	/**
+	 * Performs the action associated with this cell.
+	 */
+	public abstract String action();
 
 	/**
-	 * 
+	 * Does an action with a suspect and a weapon for a player.
 	 * @param suspect
 	 * @param weapon
 	 * @param player
 	 */
-	public string doAction(SuspectC suspect, WeaponC weapon, Player player) {
-		// TODO - implement Cell.doAction
-		throw new UnsupportedOperationException();
-	}
+	public String doAction(SuspectC suspect, WeaponC weapon, Player player);
 
 }
