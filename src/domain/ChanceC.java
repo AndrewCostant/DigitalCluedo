@@ -1,3 +1,5 @@
+package domain;
+
 public class ChanceC extends Card {
     public ChanceC() {
         super("Unnamed Chance");

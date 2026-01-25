@@ -1,3 +1,5 @@
+package domain;
+
 public class SuspectC extends Card {
     public SuspectC() {
         super("Unnamed Suspect");

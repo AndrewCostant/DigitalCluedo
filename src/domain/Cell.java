@@ -1,3 +1,4 @@
+package domain;
 public interface Cell {
 
 	public abstract int getX();

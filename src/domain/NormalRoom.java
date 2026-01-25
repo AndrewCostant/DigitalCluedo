@@ -1,3 +1,5 @@
+package domain;
+
 import java.util.Objects;
 
 public class NormalRoom extends Room {

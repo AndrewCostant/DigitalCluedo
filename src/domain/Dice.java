@@ -1,3 +1,5 @@
+package domain;
+
 public class Dice {
 
 	private int faceNumber;

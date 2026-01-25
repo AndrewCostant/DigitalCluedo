@@ -1,3 +1,5 @@
+package domain;
+
 public class Guess {
     private SuspectC suspect;
     private WeaponC weapon;

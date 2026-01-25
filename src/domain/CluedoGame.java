@@ -1,3 +1,4 @@
+package domain;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -6,7 +7,7 @@ public class CluedoGame {
 
 	private static volatile CluedoGame instance;
 
-	private int numberOfPlayer;
+	private int numberOfPlayers;
 	private Player currentPlayer;
 	private ArrayList<Player> players;
 	private Dice dice;
@@ -18,7 +19,7 @@ public class CluedoGame {
 	private CluedoGame() {
 		this.dice = new Dice(6);
 		this.players = new ArrayList<Player>();
-		this.numberOfPlayer = this.players.size();
+		this.numberOfPlayers = this.players.size();
 		this.currentPlayer = this.players.get(0);
 		// TODO - metodo per inizializzare la soluzione vincente e distribuire le carte ai giocatori
 		suspectW = new SuspectC();
@@ -77,7 +78,7 @@ public class CluedoGame {
 			boolean t = true;
 			while ( t ) {
 				i++;
-				if (i == numberOfPlayer) {
+				if (i == numberOfPlayers) {
 					i = 0;
 				}
 				Player player = players.get(i);
@@ -97,8 +98,8 @@ public class CluedoGame {
 	}
 
 	// GETTERS AND SETTERS
-	public int getNumberOfPlayer() {
-		return this.numberOfPlayer;
+	public int getNumberOfPlayers() {
+		return this.numberOfPlayers;
 	}	
 
 	public Player getCurrentPlayer() {

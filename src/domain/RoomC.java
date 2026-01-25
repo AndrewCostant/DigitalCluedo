@@ -1,3 +1,5 @@
+package domain;
+
 public class RoomC extends Card {
 
     public RoomC() {

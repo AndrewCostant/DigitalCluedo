@@ -1,3 +1,5 @@
+package domain;
+
 public class WeaponC extends Card {
     public WeaponC() {
         super("Unnamed Weapon");

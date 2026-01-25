@@ -1,3 +1,5 @@
+package domain;
+
 import org.jgrapht.*;
 import org.jgrapht.graph.*;
 
@@ -200,7 +202,6 @@ public class Board {
 		graph.addVertex(Balcony);
 		graph.addVertex(cell28);
 		graph.addVertex(cell29);
-		graph.addVertex(cell30);
 		// Adding edges to the graph (defining connections between cells)
 		addDoor(library, chanceCell0);
 		addDoor(chanceCell0, cell1);
@@ -221,8 +222,8 @@ public class Board {
 		addDoor(cell5, cell10);
 		addDoor(cell6, chanceCell1);
 		addDoor(cell6, cell11);
-		addDoor(chance1, cell7);
-		addDoor(chance1, cell12);
+		addDoor(chanceCell1, cell7);
+		addDoor(chanceCell1, cell12);
 		// riga 2
 		addDoor(cell8, cell9);
 		addDoor(cell9, chanceCell2);

@@ -1,3 +1,5 @@
+package domain;
+
 import java.util.Objects;
 public class ChanceCell implements Cell {
 	private final int x;

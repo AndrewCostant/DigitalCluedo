@@ -1,11 +1,13 @@
-public class SaltaTurno extends EffectStrategy {
+package domain;
+
+public class SpostaPlayer extends EffectStrategy {
 
 	/**
 	 * 
 	 * @param player
 	 */
 	public void effect(Player player) {
-		// TODO - implement SaltaTurno.effect
+		// TODO - implement SpostaPlayer.effect
 		throw new UnsupportedOperationException();
 	}
 
