@@ -1,4 +1,7 @@
 public interface Cell {
+
+	public abstract int getX();
+	public abstract int getY();
 	/**
 	 * Performs the action associated with this cell.
 	 */

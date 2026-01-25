@@ -1,7 +1,9 @@
+import java.util.Objects;
+
 public class ProgrammableAccessRoom extends Room {
 
-	public ProgrammableAccessRoom(String name) {
-		super(name);
+	public ProgrammableAccessRoom(int x, int y, String name) {
+		super(x, y, name);
 	}
 
 	private String conditions;
@@ -27,4 +29,18 @@ public class ProgrammableAccessRoom extends Room {
 		this.conditions = conditions;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null || getClass() != obj.getClass())
+			return false;
+		ProgrammableAccessRoom other = (ProgrammableAccessRoom) obj;
+		return this.x == other.getX() && this.y == other.getY();
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(x, y);
+	}
 }

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Set;
 
 public class CluedoGame {
 
@@ -36,10 +37,10 @@ public class CluedoGame {
 	/**
 	 * Rolls the dice and returns all the possible moves.
 	 */
-	public ArrayList<Cell> rollDices() {
+	public Set<Cell> rollDices() {
 		int rollResult = dice.roll() + dice.roll();
 		Cell currentPosition = currentPlayer.getPosition();
-		ArrayList<Cell> possibleMoves = Board.getInstance().possibleDestinations(currentPosition, rollResult);
+		Set<Cell> possibleMoves = Board.getInstance().possibleDestinations(currentPosition, rollResult);
 		return possibleMoves;
 	}
 
