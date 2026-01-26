@@ -16,7 +16,7 @@ public class App {
         System.out.println("    y    0         1         2         3         4         5         6   ");
         System.out.println(" x  +---------+---------+---------+---------+---------+---------+---------+");
         System.out.println("    |         |         |         |         |         |         |         |");
-        System.out.println(" 0  | Library =    ?    |         =   H G   |         =  Lounge = Bathroom|");
+        System.out.println(" 0  | Library =    ?    |         = HomeGym |         =  Lounge = Bathroom|");
         System.out.println("    |         |         |         |         |         |         |         |");  
         System.out.println("    +----║----+---------+---------+---------+---------+---------+----║----+");
         System.out.println("    |         |         |         |         |         |         |         |");
@@ -27,9 +27,9 @@ public class App {
         System.out.println(" 2  |         =         |    ?    |         |         |         |  Garden |");
         System.out.println("    |         |         |         |         |         |         |         |");
         System.out.println("    +---------+---------+---------+----║----+---------+---------+----║----+"); 
-        System.out.println("    |         |         |         |         |         |         |         |");
+        System.out.println("    |         |         |         |  P2     |         |         |         |");
         System.out.println(" 3  | DiningR =         |         =  Hall   =         |         |    ?    |");
-        System.out.println("    |         |         |         |  P1  P2 |         |         |         |");
+        System.out.println("    |         |         |         |  P1     |         |         |         |");
         System.out.println("    +----║----+---------+---------+----║----+---------+---------+---------+");
         System.out.println("    |         |         |         |         |         |         |         |");
         System.out.println(" 4  |         |    ?    |         |         |         |         |         |");
@@ -70,24 +70,38 @@ public class App {
         players.add(player2);
         CluedoGame.getInstance().setPlayers(players);
 
-        CluedoGame.getInstance().setCurrentPlayer();
-        Player currentPlayer = CluedoGame.getInstance().getCurrentPlayer();
-        System.out.print(currentPlayer.getUsername() + " starts\n");
-        System.out.print("Press enter to roll the dices... \n");
-        scanner.nextLine();
-        Set<Cell> possibleDestinations = CluedoGame.getInstance().rollDices();
-        System.out.print("You have " + possibleDestinations.size() + " possible destinations: \n");
-        int number = 1;
-        for (Cell destination: possibleDestinations) {
-            System.out.println(number + ": " + destination);
-            number++;
-        }
-        System.out.print("Insert x coordinate ");
-        int choice = scanner.nextInt();
-        System.out.print("Insert y coordinate ");
-        int choice2 = scanner.nextInt();
+        boolean gameOver = false;
 
-        CluedoGame.getInstance().goToCell(Board.getInstance().getCellXY(choice, choice2));
+        //loop dei turni
+        while(!gameOver) {
+            CluedoGame.getInstance().setCurrentPlayer();
+            System.out.println("================================"+CluedoGame.getInstance().getCurrentPlayer().getUsername()+"'s turn'===========================================");
+            
+
+            
+            
+            System.out.print("Press enter to roll the dices... \n");
+            scanner.nextLine();
+            Set<Cell> possibleDestinations = CluedoGame.getInstance().rollDices();
+            System.out.print("\nYou have " + possibleDestinations.size() + " possible destinations: \n");
+            int number = 1;
+            for (Cell destination: possibleDestinations) {
+                System.out.println(number + ": " + destination);
+                number++;
+            }
+            System.out.print("\nInsert x coordinate ");
+            int choice = scanner.nextInt();
+            System.out.print("Insert y coordinate ");
+            int choice2 = scanner.nextInt();
+            scanner.nextLine(); // consume newline
+
+            CluedoGame.getInstance().goToCell(Board.getInstance().getCellXY(choice, choice2));
+            printBoardWithPlayers(CluedoGame.getInstance().getPlayers()); 
+
+            System.out.println("===========================================================================");
+
+        }
+        
         scanner.close();
 
         /* 
@@ -98,5 +112,94 @@ public class App {
             System.out.println("Possible destination: (" + cell + ")");
         }
         */
+    }
+
+
+
+    /**
+     * Stampa la mappa ASCII con i nomi dei player nelle loro posizioni attuali.
+     * @param players Lista dei giocatori da stampare sulla mappa.
+     */
+    public static void printBoardWithPlayers(List<Player> players) {
+
+        String[] map = {
+            "    y    0         1         2         3         4         5         6   ",
+            " x  +---------+---------+---------+---------+---------+---------+---------+",
+            "    |         |         |         |         |         |         |         |",
+            " 0  | Library =    ?    |         = HomeGym |         =  Lounge = Bathroom|",
+            "    |         |         |         |         |         |         |         |",
+            "    +----║----+---------+---------+---------+---------+---------+----║----+",
+            "    |         |         |         |         |         |         |         |",
+            " 1  | Kitchen |         |         |         |         |         |    ?    |",
+            "    |         |         |         |         |         |         |         |",
+            "    +----║----+---------+---------+---------+---------+---------+---------+",
+            "    |         |         |         |         |         |         |         |",
+            " 2  |         =         |    ?    |         |         |         |  Garden |",
+            "    |         |         |         |         |         |         |         |",
+            "    +---------+---------+---------+----║----+---------+---------+----║----+",
+            "    |         |         |         |         |         |         |         |",
+            " 3  | DiningR =         |         =  Hall   =         |         |    ?    |",
+            "    |         |         |         |         |         |         |         |",
+            "    +----║----+---------+---------+----║----+---------+---------+---------+",
+            "    |         |         |         |         |         |         |         |",
+            " 4  |         |    ?    |         |         |         |         |         |",
+            "    |         |         |         |         |         |         |         |",
+            "    +---------+----║----+---------+---------+---------+---------+---------+",
+            "    |         |         |         |         |         |         |         |",
+            " 5  | BedRoom =  Study  =         |    ?    |         |    ?    =  Ghouse |",
+            "    |         |         |         |         |         |         |         |",
+            "    +----║----+---------+---------+----║----+---------+---------+----║----+",
+            "    |         |         |         |         |         |         |         |",
+            " 6  |    ?    |         |         | Balcony |         |         |         |",
+            "    |         |         |         |         |         |         |         |",
+            "    +---------+---------+---------+---------+---------+---------+---------+"
+        };
+
+        StringBuilder[] output = new StringBuilder[map.length];
+        for (int i = 0; i < map.length; i++) {
+            output[i] = new StringBuilder(map[i]);
+        }
+
+        // raggruppa player per cella
+        Map<String, List<String>> playersPerCell = new HashMap<>();
+        for (Player p : players) {
+            int x = p.getPosition().getX();
+            int y = p.getPosition().getY();
+            playersPerCell
+                .computeIfAbsent(x + "," + y, k -> new ArrayList<>())
+                .add(p.getUsername());
+        }
+
+        // scrittura player: SEMPRE riga bassa della cella
+        for (var entry : playersPerCell.entrySet()) {
+
+            String[] xy = entry.getKey().split(",");
+            int x = Integer.parseInt(xy[0]);
+            int y = Integer.parseInt(xy[1]);
+
+            int row = asciiBottomRowForCell(x);
+            int col = asciiColForCell(y);
+
+            String text = String.join(" ", entry.getValue());
+
+            for (int i = 0; i < text.length(); i++) {
+                if (col + i < output[row].length()) {
+                    output[row].setCharAt(col + i, text.charAt(i));
+                }
+            }
+        }
+
+        for (StringBuilder line : output) {
+            System.out.println(line);
+        }
+    }
+
+    private static int asciiBottomRowForCell(int x) {
+        // riga bassa della cella
+        return 4 + x * 4;
+    }
+
+    private static int asciiColForCell(int y) {
+        return 7 + y * 10;
     }
 }

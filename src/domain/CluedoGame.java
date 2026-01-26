@@ -9,6 +9,7 @@ public class CluedoGame {
 
 	private int numberOfPlayers;
 	private Player currentPlayer;
+	private int currentPlayerIndex;
 	private ArrayList<Player> players;
 	private Dice dice;
 	//winning solution
@@ -19,7 +20,8 @@ public class CluedoGame {
 	private CluedoGame() {
 		this.dice = new Dice(3);
 		this.players = new ArrayList<Player>();
-		this.numberOfPlayers = this.players.size();
+		this.currentPlayerIndex = 0;
+		this.numberOfPlayers = 0;
 		// TODO - metodo per inizializzare la soluzione vincente e distribuire le carte ai giocatori
 		suspectW = new SuspectC();
 		roomW = new RoomC();
@@ -106,10 +108,16 @@ public class CluedoGame {
 		return currentPlayer;
 	}
 	public void setCurrentPlayer() {
-		this.currentPlayer = players.get(0);
+		this.currentPlayer = players.get(currentPlayerIndex);
+		this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.numberOfPlayers;
 	}
 
 	public void setPlayers(ArrayList<Player> players) {
 		this.players = players;
+		this.numberOfPlayers = players.size();
+	}
+
+	public ArrayList<Player> getPlayers() {
+		return players;
 	}
 }
