@@ -82,6 +82,12 @@ public class App {
             System.out.println(number + ": " + destination);
             number++;
         }
+        System.out.print("Insert x coordinate ");
+        int choice = scanner.nextInt();
+        System.out.print("Insert y coordinate ");
+        int choice2 = scanner.nextInt();
+
+        CluedoGame.getInstance().goToCell(Board.getInstance().getCellXY(choice, choice2));
         scanner.close();
 
         /* 
