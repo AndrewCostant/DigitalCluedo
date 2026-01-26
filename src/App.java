@@ -89,11 +89,23 @@ public class App {
                 System.out.println(number + ": " + destination);
                 number++;
             }
-            System.out.print("\nInsert x coordinate ");
-            int choice = scanner.nextInt();
-            System.out.print("Insert y coordinate ");
-            int choice2 = scanner.nextInt();
-            scanner.nextLine(); // consume newline
+            boolean validChoice = false;
+            int choice = -1;
+            int choice2 = -1;
+
+            while (!validChoice) {
+                System.out.print("\nInsert x coordinate ");
+                choice = scanner.nextInt();
+                System.out.print("Insert y coordinate ");
+                choice2 = scanner.nextInt();
+                scanner.nextLine(); // consume newline
+                if (checkCoordinates(choice, choice2, possibleDestinations)) {
+                    validChoice = true;
+                } else {
+                    System.out.println("Invalid coordinates. Please choose again.");
+
+                }
+            }
 
             CluedoGame.getInstance().goToCell(Board.getInstance().getCellXY(choice, choice2));
             printBoardWithPlayers(CluedoGame.getInstance().getPlayers()); 
@@ -112,6 +124,15 @@ public class App {
             System.out.println("Possible destination: (" + cell + ")");
         }
         */
+    }
+
+    public static boolean checkCoordinates(int x, int y, Set<Cell> possibleDestinations) {
+        for (Cell cell : possibleDestinations) {
+            if (cell.getX() == x && cell.getY() == y) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
