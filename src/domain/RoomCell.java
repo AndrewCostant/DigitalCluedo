@@ -1,12 +1,12 @@
 package domain;
 import java.util.Objects;
-public class Room implements Cell {
+public class RoomCell implements Cell {
 
 	protected final int x;
 	protected final int y;
 	private String name;
 
-	public Room(int x, int y, String name) {
+	public RoomCell(int x, int y, String name) {
 		this.name = name;
 		this.x = x;
 		this.y = y;
@@ -24,7 +24,7 @@ public class Room implements Cell {
 
 	@Override
 	public String action() {
-		// TODO - implement Room.action
+		// TODO - implement RoomCell.action
 		return "Room_Cell";
 	}
 
@@ -39,7 +39,7 @@ public class Room implements Cell {
 			return true;
 		if (obj == null || getClass() != obj.getClass())
 			return false;
-		Room other = (Room) obj;
+		RoomCell other = (RoomCell) obj;
 		return x == other.getX() && y == other.getY();
 	}
 

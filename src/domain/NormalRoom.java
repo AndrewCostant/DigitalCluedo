@@ -2,7 +2,7 @@ package domain;
 
 import java.util.Objects;
 
-public class NormalRoom extends Room {
+public class NormalRoom extends RoomCell {
 
 	public NormalRoom(int x, int y, String name) {
 		super(x, y, name);
