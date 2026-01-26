@@ -104,14 +104,14 @@ public class Board {
 	
 
 	private void initializeBoardCells() {
-		Room library = new NormalRoom(0, 0, "Library");
+		RoomCell library = new NormalRoom(0, 0, "Library");
 		ChanceCell chanceCell0 = new ChanceCell(0, 1);
 		NormalCell cell1 = new NormalCell(0, 2);
-		Room homeGym = new NormalRoom(0, 3, "Home Gym");
+		RoomCell homeGym = new NormalRoom(0, 3, "Home Gym");
 		NormalCell cell2 = new NormalCell(0, 4);
-		Room Lounge = new NormalRoom(0,5, "Lounge");
-		Room Bathroom = new NormalRoom(0,6, "Bathroom");
-		Room Kitchen = new NormalRoom(1,0, "Kitchen");
+		RoomCell Lounge = new NormalRoom(0,5, "Lounge");
+		RoomCell Bathroom = new NormalRoom(0,6, "Bathroom");
+		RoomCell Kitchen = new NormalRoom(1,0, "Kitchen");
 		NormalCell cell3 = new NormalCell(1, 1);
 		NormalCell cell4 = new NormalCell(1, 2);
 		NormalCell cell5 = new NormalCell(1, 3);
@@ -124,11 +124,11 @@ public class Board {
 		NormalCell cell10 = new NormalCell(2, 3);
 		NormalCell cell11 = new NormalCell(2, 4);
 		NormalCell cell12 = new NormalCell(2, 5);
-		Room Garden = new NormalRoom(2,6, "Garden");
-		Room DiningRoom = new NormalRoom(3,0, "Dining Room");
+		RoomCell Garden = new NormalRoom(2,6, "Garden");
+		RoomCell DiningRoom = new NormalRoom(3,0, "Dining RoomCell");
 		NormalCell cell13 = new NormalCell(3, 1);
 		NormalCell cell14 = new NormalCell(3, 2);
-		Room Hall = new NormalRoom(3,3, "Hall");
+		RoomCell Hall = new NormalRoom(3,3, "Hall");
 		NormalCell cell15 = new NormalCell(3, 4);
 		NormalCell cell16 = new NormalCell(3, 5);
 		ChanceCell chanceCell3 = new ChanceCell(3,6);
@@ -139,17 +139,17 @@ public class Board {
 		NormalCell cell20 = new NormalCell(4, 4);
 		NormalCell cell21 = new NormalCell(4, 5);
 		NormalCell cell22 = new NormalCell(4, 6);
-		Room BedRoom = new Room(5,0, "Bed Room");
-		Room Study = new Room(5,1, "Study");
+		RoomCell BedRoom = new RoomCell(5,0, "Bed RoomCell");
+		RoomCell Study = new RoomCell(5,1, "Study");
 		NormalCell cell23 = new NormalCell(5, 2);
 		ChanceCell chanceCell5 = new ChanceCell(5,3);
 		NormalCell cell24 = new NormalCell(5, 4);
 		ChanceCell chanceCell6 = new ChanceCell(5,5);
-		Room Greenhouse = new Room(5,6, "Greenhouse");
+		RoomCell Greenhouse = new RoomCell(5,6, "Greenhouse");
 		ChanceCell chanceCell7 = new ChanceCell(6,0);
 		NormalCell cell25 = new NormalCell(6, 1);
 		NormalCell cell26 = new NormalCell(6, 2);
-		Room Balcony = new Room(6,3, "Balcony");
+		RoomCell Balcony = new RoomCell(6,3, "Balcony");
 		NormalCell cell27 = new NormalCell(6, 4);
 		NormalCell cell28 = new NormalCell(6, 5);
 		NormalCell cell29 = new NormalCell(6,6);
