@@ -50,7 +50,7 @@ public class NormalCell implements Cell {
 
     @Override
 	public String toString() {
-		return "NormalCell [" + x + "," + y + "]";
+		return "NormalCell [ x= " + x + ", y= " + y + "]";
 	}
 
 }
