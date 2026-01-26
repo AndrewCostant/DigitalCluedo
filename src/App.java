@@ -53,7 +53,7 @@ public class App {
         System.out.println("Each player will take turns to roll the dice and move on the board.");
         System.out.println("Enjoy the demo!");
 
-         Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         System.out.print("P1's name: ");
         String name1 = scanner.nextLine();
 
