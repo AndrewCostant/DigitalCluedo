@@ -4,7 +4,7 @@ public class RoomCell implements Cell {
 
 	protected final int x;
 	protected final int y;
-	private String name;
+	protected String name;
 
 	public RoomCell(int x, int y, String name) {
 		this.name = name;
@@ -46,5 +46,10 @@ public class RoomCell implements Cell {
 	@Override
 	public int hashCode() {
 		return Objects.hash(x, y);
+	}
+
+	@Override
+	public String toString() {
+		return "RoomCell [" + name + "," + x + "," + y + "]";
 	}
 }

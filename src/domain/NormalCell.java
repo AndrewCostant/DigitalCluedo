@@ -48,4 +48,9 @@ public class NormalCell implements Cell {
         return Objects.hash(x, y);
     }
 
+    @Override
+	public String toString() {
+		return "NormalCell [" + x + "," + y + "]";
+	}
+
 }

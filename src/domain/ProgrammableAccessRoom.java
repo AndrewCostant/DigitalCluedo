@@ -44,4 +44,8 @@ public class ProgrammableAccessRoom extends RoomCell {
 	public int hashCode() {
 		return Objects.hash(x, y);
 	}
+	@Override
+	public String toString() {
+		return "ProgrammableAccessRoom [" + name + "," + x + "," + y + "]";
+	}
 }

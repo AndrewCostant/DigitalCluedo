@@ -34,4 +34,8 @@ public class NormalRoom extends RoomCell {
 	public int hashCode() {
 		return Objects.hash(x, y);
 	}
+	@Override
+	public String toString() {
+		return "NormalRoom [" + name + "," + x + "," + y + "]";
+	}
 }
