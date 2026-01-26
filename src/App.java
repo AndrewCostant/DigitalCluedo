@@ -18,7 +18,7 @@ public class App {
         System.out.println("    y   0       1       2       3       4       5       6   ");
         System.out.println(" x  +---------+---------+---------+---------+---------+---------+---------+");
         System.out.println("    |         |         |         |         |         |         |         |");
-        System.out.println(" 0  |   LIB   =    ?    |         =   H G   |         =  Lounge =  Bath   |");
+        System.out.println(" 0  |   LIB   =    ?    |         =   H G   |         =  Lounge =   Bath  |");
         System.out.println("    |         |         |         |         |         |         |         |");  
         System.out.println("    +----‖----+---------+---------+---------+---------+---------+----‖----+");
         System.out.println("    |         |         |         |         |         |         |         |");
