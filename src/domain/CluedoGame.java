@@ -39,7 +39,7 @@ public class CluedoGame {
 	 */
 	public Set<Cell> rollDices() {
 		int rollResult = dice.roll() + dice.roll();
-		System.out.println("E' uscito " + rollResult);
+		System.out.println("You rolled a " + rollResult + "!");
 		Cell currentPosition = currentPlayer.getPosition();
 		Set<Cell> possibleMoves = Board.getInstance().possibleDestinations(currentPosition, rollResult);
 		return possibleMoves;
