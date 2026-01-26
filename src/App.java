@@ -221,6 +221,6 @@ public class App {
     }
 
     private static int asciiColForCell(int y) {
-        return 7 + y * 10;
+        return 5 + y * 10;
     }
 }
