@@ -68,6 +68,15 @@ public class Board {
         return visited;
 	}
 
+	public Cell getCellXY(int x, int y) {
+		for (Cell cell : graph.vertexSet()) {
+			if (cell.getX() == x && cell.getY() == y) {
+				return cell;
+			}
+		}
+		return null; // Cell not found
+	}
+
 	/**
 	 * Performs an action with a suspect and a weapon.
 	 * @param sus
@@ -101,8 +110,6 @@ public class Board {
 	private void addDoor(Cell a, Cell b) {
         graph.addEdge(a, b);
     }
-
-	
 
 	private void initializeBoardCells() {
 		RoomCell library = new NormalRoom(0, 0, "Library");
@@ -284,5 +291,4 @@ public class Board {
 		addDoor(cell27, cell28);
 		addDoor(cell28, cell29);
 	}
-
 }

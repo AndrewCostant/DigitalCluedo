@@ -20,6 +20,14 @@ public class Player {
 		this.handCards = new ArrayList<Card>();
 	}
 
+	public Player(String username, Cell position) {
+		this.username = username;
+		this.position = position;
+		this.guesses = new ArrayList<Guess>();
+		this.knownCards = new ArrayList<Card>();
+		this.handCards = new ArrayList<Card>();
+	}
+
 	/**
 	 * Updates the player's position.
 	 * @param newPosition
@@ -125,6 +133,9 @@ public class Player {
 	}
 
 
-
+	@Override
+	public String toString() {
+		return "Player [username=" + username + ", position=" + position + "]";
+	}
 
 }

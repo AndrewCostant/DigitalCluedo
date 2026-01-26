@@ -17,10 +17,9 @@ public class CluedoGame {
 	private WeaponC weaponW;
 
 	private CluedoGame() {
-		this.dice = new Dice(6);
+		this.dice = new Dice(3);
 		this.players = new ArrayList<Player>();
 		this.numberOfPlayers = this.players.size();
-		this.currentPlayer = this.players.get(0);
 		// TODO - metodo per inizializzare la soluzione vincente e distribuire le carte ai giocatori
 		suspectW = new SuspectC();
 		roomW = new RoomC();
@@ -40,6 +39,7 @@ public class CluedoGame {
 	 */
 	public Set<Cell> rollDices() {
 		int rollResult = dice.roll() + dice.roll();
+		System.out.println("E' uscito " + rollResult);
 		Cell currentPosition = currentPlayer.getPosition();
 		Set<Cell> possibleMoves = Board.getInstance().possibleDestinations(currentPosition, rollResult);
 		return possibleMoves;
@@ -105,7 +105,11 @@ public class CluedoGame {
 	public Player getCurrentPlayer() {
 		return currentPlayer;
 	}
-	public void setCurrentPlayer(Player currentPlayer) {
-		this.currentPlayer = currentPlayer;
+	public void setCurrentPlayer() {
+		this.currentPlayer = players.get(0);
+	}
+
+	public void setPlayers(ArrayList<Player> players) {
+		this.players = players;
 	}
 }
