@@ -64,6 +64,7 @@ public class Board {
                 }
             }
         }
+		visited.remove(startPosition); // Exclude the starting position
         return visited;
 	}
 
@@ -139,7 +140,7 @@ public class Board {
 		NormalCell cell20 = new NormalCell(4, 4);
 		NormalCell cell21 = new NormalCell(4, 5);
 		NormalCell cell22 = new NormalCell(4, 6);
-		RoomCell BedRoom = new RoomCell(5,0, "Bed RoomCell");
+		RoomCell BedRoom = new RoomCell(5,0, "BedRoom");
 		RoomCell Study = new RoomCell(5,1, "Study");
 		NormalCell cell23 = new NormalCell(5, 2);
 		ChanceCell chanceCell5 = new ChanceCell(5,3);
