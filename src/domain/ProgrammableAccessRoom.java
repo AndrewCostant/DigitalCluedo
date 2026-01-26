@@ -1,7 +1,7 @@
 package domain;
 import java.util.Objects;
 
-public class ProgrammableAccessRoom extends Room {
+public class ProgrammableAccessRoom extends RoomCell {
 
 	public ProgrammableAccessRoom(int x, int y, String name) {
 		super(x, y, name);

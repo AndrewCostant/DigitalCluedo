@@ -1,7 +1,7 @@
 package domain;
 
 import java.util.Objects;
-public class SecretPassageRoom extends Room {
+public class SecretPassageRoom extends RoomCell {
 
     public SecretPassageRoom(int x, int y, String name) {
         super(x, y, name);
