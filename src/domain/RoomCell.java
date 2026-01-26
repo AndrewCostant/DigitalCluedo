@@ -50,6 +50,6 @@ public class RoomCell implements Cell {
 
 	@Override
 	public String toString() {
-		return "RoomCell [" + name + "," + x + "," + y + "]";
+		return "RoomCell [" + name + ", x= " + x + ", y= " + y + "]";
 	}
 }

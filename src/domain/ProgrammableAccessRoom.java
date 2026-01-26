@@ -46,6 +46,6 @@ public class ProgrammableAccessRoom extends RoomCell {
 	}
 	@Override
 	public String toString() {
-		return "ProgrammableAccessRoom [" + name + "," + x + "," + y + "]";
+		return "ProgrammableAccessRoom [" + name + ", x= " + x + ", y= " + y + "]";
 	}
 }

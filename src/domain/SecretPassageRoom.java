@@ -33,6 +33,6 @@ public class SecretPassageRoom extends RoomCell {
     }
     @Override
 	public String toString() {
-		return "SecretPassageRoom [" + name + "," + x + "," + y + "]";
+		return "SecretPassageRoom [" + name + ", x= " + x + ", y= " + y + "]";
 	}
 }

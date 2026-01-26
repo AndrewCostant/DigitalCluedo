@@ -36,6 +36,6 @@ public class NormalRoom extends RoomCell {
 	}
 	@Override
 	public String toString() {
-		return "NormalRoom [" + name + "," + x + "," + y + "]";
+		return name + " [x= " + x + ", y= " + y + "]";
 	}
 }
