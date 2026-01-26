@@ -57,6 +57,6 @@ public class ChanceCell implements Cell {
 
 	@Override
 	public String toString() {
-		return "ChanceCell [" + x + "," + y + "]";
+		return "ChanceCell [x= " + x + ", y= " + y + "]";
 	}
 }

@@ -51,7 +51,7 @@ public class App {
         System.out.println("===========================================================================");
         System.out.println();
         System.out.println("In questa demo ci sono 2 giocatori: P1 e P2. Entrambi iniziano nella Hall e,");
-        System.out.println("a turno, possono lanciare i dadi e muoversi nella mappa.");
+        System.out.println("a turno, possono lanciare i dadi  muoversi nella mappa.");
         System.out.println("Enjoy the demo!");
 
 
