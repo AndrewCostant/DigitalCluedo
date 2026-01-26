@@ -26,7 +26,7 @@ public class App {
         System.out.println("    |         |         |         |         |         |         |         |");
         System.out.println(" 2  |         =         |    ?    |         |         |         |  Garden |");
         System.out.println("    |         |         |         |         |         |         |         |");
-        System.out.println("    +---------+---------+---------+----\u2016----+---------+---------+----\u2016----+"); 
+        System.out.println("    +---------+---------+---------+----║----+---------+---------+----\u2016----+"); 
         System.out.println("    |         |         |         |         |         |         |         |");
         System.out.println(" 3  | DiningR =         |         =  Hall   =         |         |    ?    |");
         System.out.println("    |         |         |         |  P1  P2 |         |         |         |");
