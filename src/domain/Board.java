@@ -170,6 +170,7 @@ public class Board {
 		graph.addVertex(cell7);
 		graph.addVertex(cell8);
 		graph.addVertex(cell9);
+		graph.addVertex(cell10);
 		graph.addVertex(chanceCell2);
 		graph.addVertex(cell11);
 		graph.addVertex(cell12);
