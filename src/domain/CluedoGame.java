@@ -148,7 +148,9 @@ public class CluedoGame {
 	}
 
 	/**
-	 * Verifies a player's guess.
+	 * Verifies a player's guess. if the guess is correct, ends the game. 
+	 * Otherwise, asks other players to show a card then, if one of them shows a card, adds it to the current player's known cards otherwise, some of these cards are in the winning solution.
+	 * Then ends the current player's turn.
 	 * @param newGuess
 	 */
 	public String verifyGuess(Guess newGuess) {
@@ -166,6 +168,7 @@ public class CluedoGame {
 					i = 0;
 				}
 				Player player = players.get(i);
+				//se nessuno ha mostrato una carta esce dal loop e bisogna aggiungere le carte dell'assunzione che il player corrente non ha nel mazzo known card del player stesso con il valore "scoperto"
 				if (player != currentPlayer) {
 					Card shownCard = player.showACard(newGuess);
 					if (shownCard != null) {
