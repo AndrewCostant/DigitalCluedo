@@ -78,7 +78,7 @@ public class CluedoGame {
 		switch (className) {
 			case "SuspectC":
 				try {
-					Scanner sc = new Scanner(new File("../../utility/suspectCard.txt"));
+					Scanner sc = new Scanner(new File("../utility/suspectCard.txt"));
 					while (sc.hasNextLine()) {
 						String name = sc.nextLine();
 						SuspectC suspect = new SuspectC(name);
@@ -91,7 +91,7 @@ public class CluedoGame {
 				break;
 			case "RoomC":
 				try {
-					Scanner sc = new Scanner(new File("../../utility/roomCard.txt"));
+					Scanner sc = new Scanner(new File("../utility/roomCard.txt"));
 					while (sc.hasNextLine()) {
 						String name = sc.nextLine();
 						RoomC room = new RoomC(name);
@@ -104,7 +104,7 @@ public class CluedoGame {
 				break;
 			case "WeaponC":
 				try {
-					Scanner sc = new Scanner(new File("../../utility/weaponCard.txt"));
+					Scanner sc = new Scanner(new File("../utility/weaponCard.txt"));
 					while (sc.hasNextLine()) {
 						String name = sc.nextLine();
 						WeaponC weapon = new WeaponC(name);
