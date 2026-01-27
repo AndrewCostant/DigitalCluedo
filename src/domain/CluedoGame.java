@@ -1,6 +1,10 @@
 package domain;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.Collections;
+import java.util.Scanner;
 
 public class CluedoGame {
 
@@ -12,6 +16,8 @@ public class CluedoGame {
 	private int currentPlayerIndex;
 	private ArrayList<Player> players;
 	private Dice dice;
+	//game deck
+	private ArrayList<Card> gameDeck;
 	//winning solution
 	private SuspectC suspectW;
 	private RoomC roomW;
@@ -22,10 +28,6 @@ public class CluedoGame {
 		this.players = new ArrayList<Player>();
 		this.currentPlayerIndex = 0;
 		this.numberOfPlayers = 0;
-		// TODO - metodo per inizializzare la soluzione vincente e distribuire le carte ai giocatori
-		suspectW = new SuspectC();
-		roomW = new RoomC();
-		weaponW = new WeaponC();
 	}
 
 	public static CluedoGame getInstance() {
@@ -35,6 +37,87 @@ public class CluedoGame {
 		return instance;
 	}
 	
+	public boolean startGame( ArrayList<Player> players ){
+		setPlayers(players);
+		createGameDeck();
+		int cardsPerPlayer = gameDeck.size() / numberOfPlayers;
+		for ( Player player : this.players ) {
+			for ( int i = 0; i < cardsPerPlayer; i++ ) {
+				player.addCardToHand( gameDeck.remove(0) );
+			}
+		}
+		while(!gameDeck.isEmpty()) {
+			for ( Player player : this.players ) {
+				player.addKnownCard(gameDeck.get(0).getName(), "Everyone");
+			}
+			gameDeck.remove(0);
+		}
+		// set startPosition
+		for ( Player player : this.players ) {
+			player.setPosition(Board.getInstance().getCellXY(3,3));
+		}
+		setCurrentPlayer();
+		return true;
+	}
+
+	public void createGameDeck() {
+		ArrayList<Card> deck = createSpecificDecks("SuspectC");
+		this.suspectW = (SuspectC) deck.remove( (int)(Math.random() * deck.size()) );
+		gameDeck.addAll(deck);
+		deck = createSpecificDecks("RoomC");
+		this.roomW = (RoomC) deck.remove( (int)(Math.random() * deck.size()) );
+		gameDeck.addAll(deck);
+		deck = createSpecificDecks("WeaponC");
+		this.weaponW = (WeaponC) deck.remove( (int)(Math.random() * deck.size()) );
+		gameDeck.addAll(deck);
+		Collections.shuffle(gameDeck);
+	}
+
+	public ArrayList<Card> createSpecificDecks(String className) {
+		ArrayList<Card> deck = new ArrayList<Card>();
+		switch (className) {
+			case "SuspectC":
+				try {
+					Scanner sc = new Scanner(new File("../../utility/suspectCard.txt"));
+					while (sc.hasNextLine()) {
+						String name = sc.nextLine();
+						SuspectC suspect = new SuspectC(name);
+						deck.add(suspect);
+					}
+					sc.close();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+				break;
+			case "RoomC":
+				try {
+					Scanner sc = new Scanner(new File("../../utility/roomCard.txt"));
+					while (sc.hasNextLine()) {
+						String name = sc.nextLine();
+						RoomC room = new RoomC(name);
+						deck.add(room);
+					}
+					sc.close();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+				break;
+			case "WeaponC":
+				try {
+					Scanner sc = new Scanner(new File("../../utility/weaponCard.txt"));
+					while (sc.hasNextLine()) {
+						String name = sc.nextLine();
+						WeaponC weapon = new WeaponC(name);
+						deck.add(weapon);
+					}
+					sc.close();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+				break;
+		}
+		return deck;
+	}
 
 	/**
 	 * Rolls the dice and returns all the possible moves.
@@ -56,8 +139,7 @@ public class CluedoGame {
 	}
 
 	public void endTurn() {
-		// TODO - implement CluedoGame.endTurn
-		throw new UnsupportedOperationException();
+		setCurrentPlayer();
 	}
 
 	public void endGame() {
@@ -87,7 +169,7 @@ public class CluedoGame {
 				if (player != currentPlayer) {
 					Card shownCard = player.showACard(newGuess);
 					if (shownCard != null) {
-						currentPlayer.addKnownCard(shownCard);
+						currentPlayer.addKnownCard(shownCard.getName(), player.getUsername());
 						t = false;
 					}
 				}else{

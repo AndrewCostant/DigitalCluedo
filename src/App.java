@@ -71,15 +71,11 @@ public class App {
         CluedoGame.getInstance().setPlayers(players);
 
         boolean gameOver = false;
+        CluedoGame.getInstance().startGame(players);
 
         //loop dei turni
         while(!gameOver) {
-            CluedoGame.getInstance().setCurrentPlayer();
             System.out.println("================================"+CluedoGame.getInstance().getCurrentPlayer().getUsername()+"'s turn'===========================================");
-            
-
-            
-            
             System.out.print("Press enter to roll the dices... \n");
             scanner.nextLine();
             Set<Cell> possibleDestinations = CluedoGame.getInstance().rollDices();
@@ -103,15 +99,13 @@ public class App {
                     validChoice = true;
                 } else {
                     System.out.println("Invalid coordinates. Please choose again.");
-
                 }
             }
 
             CluedoGame.getInstance().goToCell(Board.getInstance().getCellXY(choice, choice2));
             printBoardWithPlayers(CluedoGame.getInstance().getPlayers()); 
-
+            CluedoGame.getInstance().endTurn();
             System.out.println("===========================================================================");
-
         }
         
         scanner.close();

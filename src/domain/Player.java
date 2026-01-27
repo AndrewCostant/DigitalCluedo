@@ -1,5 +1,5 @@
 package domain;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Player {
 
@@ -7,7 +7,7 @@ public class Player {
 	private String pawnSkin;
 	private Cell position;
 	private ArrayList<Guess> guesses;
-	private ArrayList<Card> knownCards;
+	private Map<String, String> knownCards;
 	private ArrayList<Card> handCards;
 
 
@@ -16,7 +16,7 @@ public class Player {
 		this.pawnSkin = pawnSkin;
 		this.position = position;
 		this.guesses = new ArrayList<Guess>();
-		this.knownCards = new ArrayList<Card>();
+		this.knownCards = new HashMap<String, String>();
 		this.handCards = new ArrayList<Card>();
 	}
 
@@ -24,7 +24,7 @@ public class Player {
 		this.username = username;
 		this.position = position;
 		this.guesses = new ArrayList<Guess>();
-		this.knownCards = new ArrayList<Card>();
+		this.knownCards = new HashMap<String, String>();
 		this.handCards = new ArrayList<Card>();
 	}
 
@@ -66,8 +66,9 @@ public class Player {
 	 * Adds a card to the player's hand.
 	 * @param card
 	 */
-	public void addCardToHand(Card card) {
+	public Boolean addCardToHand(Card card) {
 		handCards.add(card);
+		return true;
 	}
 
 	/**
@@ -89,8 +90,8 @@ public class Player {
 	 * Adds a known card to the player's list of known cards.
 	 * @param kCard
 	 */
-	public Boolean addKnownCard(Card kCard) {
-		knownCards.add(kCard);
+	public Boolean addKnownCard(String cardName , String playerName) {
+		knownCards.put(cardName, playerName);
 		return true;
 	}
 
@@ -98,13 +99,8 @@ public class Player {
 	 * Searches for a known card by name.
 	 * @param cardName
 	 */
-	public Card searchKnownCard(String cardName) {
-		for (Card card : knownCards) {
-			if (card.getName().equals(cardName)) {
-				return card;
-			}
-		}
-		return null; // Card not found
+	public String searchKnownCard(String cardName) {
+		return knownCards.get(cardName);
 	}
 
 	// GETTERS AND SETTERS
