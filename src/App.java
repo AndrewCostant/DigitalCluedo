@@ -68,7 +68,6 @@ public class App {
         ArrayList<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);
-        CluedoGame.getInstance().setPlayers(players);
 
         boolean gameOver = false;
         CluedoGame.getInstance().startGame(players);
@@ -83,10 +82,10 @@ public class App {
             for (Card card : currentPlayerHand) {
                 System.out.println(card);
             }
-            System.out.println("These are your known cards ");
+            System.out.println("\nThese are your known cards ");
             Map<String, String> currentPlayerKnownCards = CluedoGame.getInstance().getCurrentPlayer().getKnownCards();
             for (Map.Entry<String, String> entry : currentPlayerKnownCards.entrySet()) {
-                System.out.println(entry.getKey() + " own by " + entry.getValue());
+                System.out.println(entry.getKey() + " own by " + entry.getValue() + "\n");
             }
             Set<Cell> possibleDestinations = CluedoGame.getInstance().rollDices();
             System.out.print("\nYou have " + possibleDestinations.size() + " possible destinations: \n");

@@ -37,7 +37,7 @@ public class CluedoGame {
 		return instance;
 	}
 	
-	public boolean startGame( ArrayList<Player> players ){
+	public boolean startGame(ArrayList<Player> players){
 		setPlayers(players);
 		createGameDeck();
 		int cardsPerPlayer = gameDeck.size() / numberOfPlayers;

@@ -17,6 +17,6 @@ public abstract class Card {
 	}
 
 	public String toString() {
-		return "Card [" + name + "]";
+		return "[" + name + "]";
 	}
 }

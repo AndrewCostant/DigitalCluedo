@@ -8,4 +8,9 @@ public class RoomC extends Card {
     public RoomC(String name) {
         super(name);
     }
+
+    @Override
+    public String toString(){
+        return "Room[" + this.getName() + "]";
+    }
 }
