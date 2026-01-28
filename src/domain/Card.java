@@ -16,4 +16,7 @@ public abstract class Card {
 		this.name = name;
 	}
 
+	public String toString() {
+		return "Card [" + name + "]";
+	}
 }

@@ -78,6 +78,16 @@ public class App {
             System.out.println("================================"+CluedoGame.getInstance().getCurrentPlayer().getUsername()+"'s turn'===========================================");
             System.out.print("Press enter to roll the dices... \n");
             scanner.nextLine();
+            System.out.println("This is your hand ");
+            ArrayList<Card> currentPlayerHand = CluedoGame.getInstance().getCurrentPlayer().getHandCards();
+            for (Card card : currentPlayerHand) {
+                System.out.println(card);
+            }
+            System.out.println("These are your known cards ");
+            Map<String, String> currentPlayerKnownCards = CluedoGame.getInstance().getCurrentPlayer().getKnownCards();
+            for (Map.Entry<String, String> entry : currentPlayerKnownCards.entrySet()) {
+                System.out.println(entry.getKey() + " own by " + entry.getValue());
+            }
             Set<Cell> possibleDestinations = CluedoGame.getInstance().rollDices();
             System.out.print("\nYou have " + possibleDestinations.size() + " possible destinations: \n");
             int number = 1;

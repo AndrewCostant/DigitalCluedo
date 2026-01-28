@@ -84,6 +84,13 @@ public class Player {
 		return null; // Card not found
 	}
 
+	/**
+	 * Returns the list of cards in the player's hand.
+	 */
+	public ArrayList<Card> getHandCards() {
+		return handCards;
+	}
+
 	// Known Cards Management
 
 	/**	
@@ -95,12 +102,38 @@ public class Player {
 		return true;
 	}
 
+	public Boolean addSuspectCards(Guess guess) {
+		SuspectC suspect = guess.getSuspect();
+		WeaponC weapon = guess.getWeapon();
+		RoomC room = guess.getRoom();
+		ArrayList<Card> controlList = new ArrayList<Card>();
+		controlList.add(suspect);
+		controlList.add(weapon);
+		controlList.add(room);
+		for (Card card: controlList){
+			if (handCards.contains(card)){
+				controlList.remove(card);
+			}
+			else{
+				addKnownCard(card.getName(), "Sospetto");
+			}
+		}
+		return true;
+	}
+
 	/**
 	 * Searches for a known card by name.
 	 * @param cardName
 	 */
 	public String searchKnownCard(String cardName) {
 		return knownCards.get(cardName);
+	}
+
+	/**
+	 * Returns the map of known cards.
+	 */
+	public Map<String, String> getKnownCards() {
+		return knownCards;
 	}
 
 	// GETTERS AND SETTERS
