@@ -27,6 +27,7 @@ public class CluedoGame {
 	private CluedoGame() {
 		this.dice = new Dice(3);
 		this.players = new ArrayList<Player>();
+		this.gameDeck = new ArrayList<Card>();
 		this.currentPlayerIndex = 0;
 		this.numberOfPlayers = 0;
 	}
@@ -136,13 +137,13 @@ public class CluedoGame {
 				break;
 		}
 
-		try (InputStream is = getClass().getClassLoader().getResourceAsStream(filePath);
-			Scanner sc = new Scanner(is)) {
+		InputStream is = getClass().getClassLoader().getResourceAsStream(filePath);
 
-			if (is == null) {
-				throw new RuntimeException("File not found: " + filePath);
-			}
+		if (is == null) {
+			throw new RuntimeException("File not found in classpath: " + filePath);
+		}
 
+		try (Scanner sc = new Scanner(is)) {
 			while (sc.hasNextLine()) {
 				String name = sc.nextLine();
 				switch (className) {
@@ -151,9 +152,6 @@ public class CluedoGame {
 					case "WeaponC" -> deck.add(new WeaponC(name));
 				}
 			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 
 		return deck;

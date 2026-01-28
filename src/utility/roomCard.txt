@@ -1,0 +1,12 @@
+Library
+Home Gym
+Lounge
+Bathroom
+Kitchen
+Garden
+Dining Room
+Hall
+Bedroom
+Study
+Greenhouse
+Balcony
