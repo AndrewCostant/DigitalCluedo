@@ -1,6 +1,7 @@
 package domain;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.Collections;
@@ -73,7 +74,7 @@ public class CluedoGame {
 		Collections.shuffle(gameDeck);
 	}
 
-	public ArrayList<Card> createSpecificDecks(String className) {
+	/* public ArrayList<Card> createSpecificDecks(String className) {
 		ArrayList<Card> deck = new ArrayList<Card>();
 		switch (className) {
 			case "SuspectC":
@@ -116,6 +117,45 @@ public class CluedoGame {
 				}
 				break;
 		}
+		return deck;
+	} */
+
+	public ArrayList<Card> createSpecificDecks(String className) {
+		ArrayList<Card> deck = new ArrayList<>();
+		String filePath = null;
+
+		switch (className) {
+			case "SuspectC":
+				filePath = "utility/suspectCard.txt";
+				break;
+			case "RoomC":
+				filePath = "utility/roomCard.txt";
+				break;
+			case "WeaponC":
+				filePath = "utility/weaponCard.txt";
+				break;
+		}
+
+		try (InputStream is = getClass().getClassLoader().getResourceAsStream(filePath);
+			Scanner sc = new Scanner(is)) {
+
+			if (is == null) {
+				throw new RuntimeException("File not found: " + filePath);
+			}
+
+			while (sc.hasNextLine()) {
+				String name = sc.nextLine();
+				switch (className) {
+					case "SuspectC" -> deck.add(new SuspectC(name));
+					case "RoomC" -> deck.add(new RoomC(name));
+					case "WeaponC" -> deck.add(new WeaponC(name));
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return deck;
 	}
 
