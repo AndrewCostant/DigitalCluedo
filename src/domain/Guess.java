@@ -35,4 +35,17 @@ public class Guess {
     public void setRoom(RoomC room) {
         this.room = room;
     }
+
+    public boolean isInHand(Card card) {
+        if (this.suspect.equals(card)) {
+            return true;
+        } 
+        else if (this.weapon.equals(card)) {
+            return true;
+        }
+        else if (this.room.equals(card)) {
+            return true;
+        }
+        return false;
+    }
 }

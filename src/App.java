@@ -1,6 +1,5 @@
 import domain.*;
 
-import java.io.InputStream;
 import java.io.File;
 import java.util.*;
 
@@ -101,6 +100,8 @@ public class App {
             int choice = -1;
             int choice2 = -1;
 
+            System.out.println(CluedoGame.getInstance().getWinningTriplet());
+
             while (!validChoice) {
                 System.out.print("\nInsert x coordinate ");
                 choice = scanner.nextInt();
@@ -155,11 +156,13 @@ public class App {
                     for (Card card : currentPlayerHand) {
                         System.out.println(card);
                     }
+                    System.out.println("\nThese are your known cards ");
                     for (Map.Entry<String, String> entry : currentPlayerKnownCards.entrySet()) {
                         System.out.println(entry.getKey() + " owned by " + entry.getValue() + "\n");
                     }
-                    System.out.println("\nThese are your known cards ");
-                         
+                    
+                    System.out.println(CluedoGame.getInstance().getWinningTriplet());
+
                     System.out.println("\nEnter your suspected person:");
                     String person = scanner.nextLine().trim();
                     suspectedPerson = new SuspectC(person);
@@ -169,7 +172,12 @@ public class App {
                     suspectedWeapon = new WeaponC(weapon);
                 }
 
-                Board.getInstance().doAction(suspectedPerson, suspectedWeapon);
+                String result = Board.getInstance().doAction(suspectedPerson, suspectedWeapon);
+                System.out.println(result);
+
+                if (result == "Correct guess! You win!") {
+                    gameOver = true;
+                } 
 
             System.out.println("===========================================================================");
         }

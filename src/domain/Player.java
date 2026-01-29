@@ -55,8 +55,12 @@ public class Player {
 	 * @param guess
 	 */
 	public Card showACard(Guess guess) {
-		// TODO - implement Player.showACard
-		throw new UnsupportedOperationException();
+		for (Card card: handCards) {
+			if (guess.isInHand(card)) {
+				return card;
+			}
+		}
+		return null;
 	}
 
 	
@@ -115,8 +119,8 @@ public class Player {
 		controlList.add(weapon);
 		controlList.add(room);
 		for (Card card: controlList){
-			if (handCards.contains(card)){
-				controlList.remove(card);
+			if (isInHand(card)){
+				continue;
 			}
 			else{
 				addKnownCard(card.getName(), "Sospetto");
@@ -165,6 +169,14 @@ public class Player {
 		this.position = position;
 	}
 
+	public boolean isInHand(Card card) {
+		for (Card cardH: handCards){
+			if (cardH.equals(card)){
+				return true;
+			}
+		}
+        return false;
+    }
 
 	@Override
 	public String toString() {

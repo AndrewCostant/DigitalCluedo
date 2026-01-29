@@ -16,6 +16,10 @@ public abstract class Card {
 		this.name = name;
 	}
 
+	public boolean equals(Card o){
+		return this.name.equals(o.getName());
+	}
+
 	public String toString() {
 		return "[" + name + "]";
 	}

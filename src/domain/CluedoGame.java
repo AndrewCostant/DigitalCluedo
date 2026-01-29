@@ -178,9 +178,8 @@ public class CluedoGame {
 		setCurrentPlayer();
 	}
 
-	public void endGame() {
-		// TODO - implement CluedoGame.endGame
-		throw new UnsupportedOperationException();
+	public String endGame() {
+		return "Correct guess! You win!";
 	}
 
 	/**
@@ -193,8 +192,7 @@ public class CluedoGame {
 		if(  newGuess.getSuspect().getName().equals(suspectW.getName()) &&
 				newGuess.getRoom().getName().equals(roomW.getName()) &&
 				newGuess.getWeapon().getName().equals(weaponW.getName()) ) {
-			endGame();
-			return "Correct Guess! You win!";
+			return endGame();
 		} else {
 			int i = players.indexOf(currentPlayer);
 			boolean t = true;
@@ -207,6 +205,8 @@ public class CluedoGame {
 				//se nessuno ha mostrato una carta esce dal loop e bisogna aggiungere le carte dell'assunzione che il player corrente non ha nel mazzo known card del player stesso con il valore "scoperto"
 				if (player != currentPlayer) {
 					Card shownCard = player.showACard(newGuess);
+					System.out.println(player.getUsername());
+					System.out.println(shownCard);
 					if (shownCard != null) {
 						currentPlayer.addKnownCard(shownCard.getName(), player.getUsername());
 						t = false;
@@ -244,5 +244,9 @@ public class CluedoGame {
 
 	public ArrayList<Player> getPlayers() {
 		return players;
+	}
+
+	public String getWinningTriplet() {
+		return this.suspectW.getName() + this.weaponW.getName() + this.roomW.getName();
 	}
 }
