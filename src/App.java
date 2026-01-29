@@ -1,4 +1,7 @@
 import domain.*;
+
+import java.io.InputStream;
+import java.io.File;
 import java.util.*;
 
 public class App {
@@ -74,7 +77,7 @@ public class App {
 
         //loop dei turni
         while(!gameOver) {
-            System.out.println("================================"+CluedoGame.getInstance().getCurrentPlayer().getUsername()+"'s turn'===========================================");
+            System.out.println("================================"+CluedoGame.getInstance().getCurrentPlayer().getUsername()+"'s turn===========================================");
             System.out.print("Press enter to roll the dices... \n");
             scanner.nextLine();
             System.out.println("This is your hand ");
@@ -85,7 +88,7 @@ public class App {
             System.out.println("\nThese are your known cards ");
             Map<String, String> currentPlayerKnownCards = CluedoGame.getInstance().getCurrentPlayer().getKnownCards();
             for (Map.Entry<String, String> entry : currentPlayerKnownCards.entrySet()) {
-                System.out.println(entry.getKey() + " own by " + entry.getValue() + "\n");
+                System.out.println(entry.getKey() + " owned by " + entry.getValue() + "\n");
             }
             Set<Cell> possibleDestinations = CluedoGame.getInstance().rollDices();
             System.out.print("\nYou have " + possibleDestinations.size() + " possible destinations: \n");
@@ -111,9 +114,63 @@ public class App {
                 }
             }
 
-            CluedoGame.getInstance().goToCell(Board.getInstance().getCellXY(choice, choice2));
+            String typeOfAction = CluedoGame.getInstance().goToCell(Board.getInstance().getCellXY(choice, choice2));
             printBoardWithPlayers(CluedoGame.getInstance().getPlayers()); 
-            CluedoGame.getInstance().endTurn();
+
+            /**
+             * Versione demo di gestione delle azioni della stanza :)
+             */
+            SuspectC suspectedPerson = null;
+            WeaponC suspectedWeapon = null;
+
+            switch (typeOfAction) {
+                case "Normal_Cell": 
+                    System.out.println("Press Enter to end your turn");
+                    scanner.nextLine();
+                    break;
+                case "Chance_Cell":
+                    System.out.println("You are on a chance cell, press Enter to draw a chanceCard");
+                    scanner.nextLine();
+                    break;
+                default:
+                    System.out.println("You entered a room, make your assumption. Please, note that the suspected room is the room you are into.");
+                    String path = "src/utility/suspectCard.txt";
+                    System.out.println("Suspects:");
+                    try (Scanner sc = new Scanner( new File(path))) {
+                        while (sc.hasNextLine()) {
+                            String name = sc.nextLine();
+                            System.out.println(name);
+                        }
+                    }
+                    System.out.println("Weapons:");
+                    path = "src/utility/weaponCard.txt";
+                    try (Scanner sc = new Scanner( new File(path))) {
+                        while (sc.hasNextLine()) {
+                            String name = sc.nextLine();
+                            System.out.println(name);
+                        }
+                    }
+
+                    System.out.println("This is your hand ");
+                    for (Card card : currentPlayerHand) {
+                        System.out.println(card);
+                    }
+                    for (Map.Entry<String, String> entry : currentPlayerKnownCards.entrySet()) {
+                        System.out.println(entry.getKey() + " owned by " + entry.getValue() + "\n");
+                    }
+                    System.out.println("\nThese are your known cards ");
+                         
+                    System.out.println("\nEnter your suspected person:");
+                    String person = scanner.nextLine().trim();
+                    suspectedPerson = new SuspectC(person);
+
+                    System.out.println("\nEnter your suspected weapon:");
+                    String weapon = scanner.nextLine().trim();
+                    suspectedWeapon = new WeaponC(weapon);
+                }
+
+                Board.getInstance().doAction(suspectedPerson, suspectedWeapon);
+
             System.out.println("===========================================================================");
         }
         
@@ -226,4 +283,6 @@ public class App {
     private static int asciiColForCell(int y) {
         return 5 + y * 10;
     }
+
+    //TODO: controllo input carte sospetto
 }

@@ -102,6 +102,10 @@ public class Player {
 		return true;
 	}
 
+	/**
+	 * verifica se nella guess del giocare ci sono carte di cui è in possesso
+	 * quelle di cui non è in possesso le aggiunge alle known card
+	 */
 	public Boolean addSuspectCards(Guess guess) {
 		SuspectC suspect = guess.getSuspect();
 		WeaponC weapon = guess.getWeapon();

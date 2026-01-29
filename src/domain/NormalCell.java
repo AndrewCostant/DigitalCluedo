@@ -23,7 +23,6 @@ public class NormalCell implements Cell {
 
     @Override
     public String action() {
-        // TODO - implement NormalCell.action
         return "Normal_Cell";
     }
 

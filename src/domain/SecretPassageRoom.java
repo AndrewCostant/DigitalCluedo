@@ -12,11 +12,6 @@ public class SecretPassageRoom extends RoomCell {
         return "SecretPassage_Room";
     }
 
-    @Override
-    public String doAction(SuspectC suspect, WeaponC weapon, Player player) {
-        // TODO - implement SecretPassageRoom.doAction
-        return "Secret Passage Room Do Action";
-    }
 
     @Override
     public boolean equals(Object obj) {

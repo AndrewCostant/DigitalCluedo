@@ -193,7 +193,7 @@ public class CluedoGame {
 		if(  newGuess.getSuspect().getName().equals(suspectW.getName()) &&
 				newGuess.getRoom().getName().equals(roomW.getName()) &&
 				newGuess.getWeapon().getName().equals(weaponW.getName()) ) {
-			CluedoGame.getInstance().endGame();
+			endGame();
 			return "Correct Guess! You win!";
 		} else {
 			int i = players.indexOf(currentPlayer);
@@ -211,11 +211,15 @@ public class CluedoGame {
 						currentPlayer.addKnownCard(shownCard.getName(), player.getUsername());
 						t = false;
 					}
-				}else{
-					t = false;
+				}
+				else{
+					break;
 				}
 			}
-			CluedoGame.getInstance().endTurn();
+			if (t) {
+				currentPlayer.addSuspectCards(newGuess);
+			}
+			endTurn();
 			return "Wrong Guess! Game continues.";
 		}
 	}

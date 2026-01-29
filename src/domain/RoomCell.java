@@ -24,7 +24,6 @@ public class RoomCell implements Cell {
 
 	@Override
 	public String action() {
-		// TODO - implement RoomCell.action
 		return "Room_Cell";
 	}
 
@@ -33,6 +32,7 @@ public class RoomCell implements Cell {
 		RoomC room = new RoomC(name);
 		return player.makeAGuess(suspect, weapon, room);
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

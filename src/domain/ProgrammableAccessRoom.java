@@ -15,12 +15,6 @@ public class ProgrammableAccessRoom extends RoomCell {
 		return "ProgrammableAccess_Room";
 	}
 
-	@Override
-	public String doAction(SuspectC suspect, WeaponC weapon, Player player) {
-		// TODO - implement ProgrammableAccessRoom.doAction
-		return "ProgrammableAccess_Room Do Action";
-	}
-
 	// GETTERS AND SETTERS
 	public String getConditions() {
 		return conditions;
