@@ -61,13 +61,13 @@ public class CluedoGame {
 	}
 
 	public void createGameDeck() {
-		ArrayList<Card> deck = createSpecificDecks("SuspectC");
+		ArrayList<Card> deck = createSpecificDecks("suspect");
 		this.suspectW = (SuspectC) deck.remove( (int)(Math.random() * deck.size()) );
 		gameDeck.addAll(deck);
-		deck = createSpecificDecks("RoomC");
+		deck = createSpecificDecks("room");
 		this.roomW = (RoomC) deck.remove( (int)(Math.random() * deck.size()) );
 		gameDeck.addAll(deck);
-		deck = createSpecificDecks("WeaponC");
+		deck = createSpecificDecks("weapon");
 		this.weaponW = (WeaponC) deck.remove( (int)(Math.random() * deck.size()) );
 		gameDeck.addAll(deck);
 		Collections.shuffle(gameDeck);
@@ -120,20 +120,8 @@ public class CluedoGame {
 	} */
 
 	public ArrayList<Card> createSpecificDecks(String className) {
+		String filePath = "utility/" + className.toLowerCase() + "Card.txt";
 		ArrayList<Card> deck = new ArrayList<>();
-		String filePath = null;
-
-		switch (className) {
-			case "SuspectC":
-				filePath = "utility/suspectCard.txt";
-				break;
-			case "RoomC":
-				filePath = "utility/roomCard.txt";
-				break;
-			case "WeaponC":
-				filePath = "utility/weaponCard.txt";
-				break;
-		}
 
 		InputStream is = getClass().getClassLoader().getResourceAsStream(filePath);
 
@@ -145,14 +133,33 @@ public class CluedoGame {
 			while (sc.hasNextLine()) {
 				String name = sc.nextLine();
 				switch (className) {
-					case "SuspectC" -> deck.add(new SuspectC(name));
-					case "RoomC" -> deck.add(new RoomC(name));
-					case "WeaponC" -> deck.add(new WeaponC(name));
+					case "suspect" -> deck.add(new SuspectC(name));
+					case "room" -> deck.add(new RoomC(name));
+					case "weapon" -> deck.add(new WeaponC(name));
 				}
 			}
 		}
 
 		return deck;
+	}
+
+	public String printSpecificDeckByType(String className) throws Exception {
+		String path = "utility/" + className.toLowerCase() + "Card.txt";
+		InputStream is = getClass().getClassLoader().getResourceAsStream(path);
+		if (is == null) {
+			return "File not found in classpath: " + path;	
+		}
+		StringBuilder result = new StringBuilder();
+		try (Scanner sc = new Scanner(is)) {
+			while (sc.hasNextLine()) {
+				String name = sc.nextLine();
+				result.append(name).append("\n");	
+			}
+			sc.close();
+		}catch(Exception e){
+			return "An error occurred while reading the file: " + e.getMessage();
+		}
+		return result.toString();
 	}
 
 	/**
@@ -244,6 +251,11 @@ public class CluedoGame {
 
 	public ArrayList<Player> getPlayers() {
 		return players;
+	}
+
+	public Player getNextPlayer(){
+		int nextIndex = (this.currentPlayerIndex) % this.numberOfPlayers;
+		return players.get(nextIndex);
 	}
 
 	public String getWinningTriplet() {

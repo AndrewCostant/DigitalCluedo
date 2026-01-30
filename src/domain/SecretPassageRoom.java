@@ -3,15 +3,24 @@ package domain;
 import java.util.Objects;
 public class SecretPassageRoom extends RoomCell {
 
+    private SecretPassageRoom linkedRoom;
+
     public SecretPassageRoom(int x, int y, String name) {
         super(x, y, name);
-    }
-    @Override
-    public String action() {
-        // TODO - implement SecretPassageRoom.action
-        return "SecretPassage_Room";
+        this.linkedRoom = null;
     }
 
+    public SecretPassageRoom getLinkedRoom() {
+        return linkedRoom;
+    }
+    public void setLinkedRoom(SecretPassageRoom linkedRoom) {
+        this.linkedRoom = linkedRoom;
+    }
+
+    @Override
+    public String action() {
+        return "SecretPassage_Room";
+    }
 
     @Override
     public boolean equals(Object obj) {

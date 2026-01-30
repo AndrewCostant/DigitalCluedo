@@ -144,6 +144,50 @@ public class Player {
 		return knownCards;
 	}
 
+	/**
+	 * Prints all known cards.
+	 */
+	public String printKnownCards() {
+		StringBuilder sb = new StringBuilder();
+		for (Map.Entry<String, String> entry : knownCards.entrySet()) {
+			sb.append(entry.getKey())
+			  .append(" owned by ").append(entry.getValue())
+			  .append("\n");
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * Prints all hand cards.
+	 */
+	public String printHandCards() {
+		StringBuilder sb = new StringBuilder();
+		for (Card card : handCards) {
+			sb.append(card.getName()).append("\n");
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * Clears all known cards.
+	 */
+	public void clearKnownCards() {
+		knownCards.clear();
+	}
+
+	/**
+	 * Peeks at a random card from the player's hand without revealing it.
+	 */
+	public String peekRandomCard() {
+		if (handCards.isEmpty()) {
+			return null; // No cards to peek at
+		}
+		Random rand = new Random();
+		int randomIndex = rand.nextInt(handCards.size());
+		Card randomCard = handCards.get(randomIndex);
+		return randomCard.getName();
+	}
+
 	// GETTERS AND SETTERS
 	public String getUsername() {
 		return username;

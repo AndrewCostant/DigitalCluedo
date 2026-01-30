@@ -112,7 +112,7 @@ public class Board {
     }
 
 	private void initializeBoardCells() {
-		RoomCell library = new NormalRoom(0, 0, "Library");
+		SecretPassageRoom library = new SecretPassageRoom(0, 0, "Library");
 		ChanceCell chanceCell0 = new ChanceCell(0, 1);
 		NormalCell cell1 = new NormalCell(0, 2);
 		RoomCell homeGym = new NormalRoom(0, 3, "Home Gym");
@@ -153,7 +153,7 @@ public class Board {
 		ChanceCell chanceCell5 = new ChanceCell(5,3);
 		NormalCell cell24 = new NormalCell(5, 4);
 		ChanceCell chanceCell6 = new ChanceCell(5,5);
-		RoomCell Greenhouse = new NormalRoom(5,6, "Greenhouse");
+		SecretPassageRoom Greenhouse = new SecretPassageRoom(5,6, "Greenhouse");
 		ChanceCell chanceCell7 = new ChanceCell(6,0);
 		NormalCell cell25 = new NormalCell(6, 1);
 		NormalCell cell26 = new NormalCell(6, 2);
@@ -161,6 +161,9 @@ public class Board {
 		NormalCell cell27 = new NormalCell(6, 4);
 		NormalCell cell28 = new NormalCell(6, 5);
 		NormalCell cell29 = new NormalCell(6,6);
+
+		library.setLinkedRoom(Greenhouse);
+		Greenhouse.setLinkedRoom(library);
 		// Adding vertices to the graph
 		graph.addVertex(library);
 		graph.addVertex(chanceCell0);
@@ -290,5 +293,7 @@ public class Board {
 		addDoor(cell25, cell26);
 		addDoor(cell27, cell28);
 		addDoor(cell28, cell29);
+		// arco passaggio segreto
+		addDoor(library, Greenhouse);
 	}
 }

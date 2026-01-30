@@ -1,14 +1,11 @@
 package domain;
 
-public abstract class EffectStrategy {
+public interface EffectStrategy {
 
 	/**
 	 * 
 	 * @param player
 	 */
-	public void effect(Player player) {
-		// TODO - implement EffectStrategy.effect
-		throw new UnsupportedOperationException();
-	}
+	public void effect(Player player);
 
 }
