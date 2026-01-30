@@ -4,6 +4,7 @@ import org.jgrapht.*;
 import org.jgrapht.graph.*;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Board {
 
@@ -90,11 +91,9 @@ public class Board {
 
 	/**
 	 * Draws a chance card for a player.
-	 * @param player
 	 */
-	public String DrawChanceC(Player player) {
-		// TODO - implement Board.DrawChanceC
-		throw new UnsupportedOperationException();
+	public ChanceC DrawChanceC() {
+		return chanceDeck.get(ThreadLocalRandom.current().nextInt(chanceDeck.size()));
 	}
 
 	// GETTERS AND SETTERS

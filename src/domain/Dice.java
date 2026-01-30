@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Dice {
 
 	private int faceNumber;
@@ -9,7 +11,7 @@ public class Dice {
 	}
 
 	public int roll() {
-		int result = (int)(Math.random() * faceNumber) + 1;
+		int result = ThreadLocalRandom.current().nextInt(faceNumber) + 1;
 		return result;
 	}
 

@@ -9,6 +9,7 @@ public class Player {
 	private ArrayList<Guess> guesses;
 	private Map<String, String> knownCards;
 	private ArrayList<Card> handCards;
+	private ChanceC chanceCard;
 
 
 	public Player(String username, String pawnSkin, Cell position) {
@@ -18,6 +19,7 @@ public class Player {
 		this.guesses = new ArrayList<Guess>();
 		this.knownCards = new HashMap<String, String>();
 		this.handCards = new ArrayList<Card>();
+		this.chanceCard = null;
 	}
 
 	public Player(String username, Cell position) {
@@ -93,6 +95,14 @@ public class Player {
 	 */
 	public ArrayList<Card> getHandCards() {
 		return handCards;
+	}
+
+	public ChanceC getChanceCard() {
+		return chanceCard;
+	}
+
+	public void setChanceCard(ChanceC chanceCard) {
+		this.chanceCard = chanceCard;
 	}
 
 	// Known Cards Management

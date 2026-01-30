@@ -131,6 +131,9 @@ public class App {
                     scanner.nextLine();
                     break;
                 case "Chance_Cell":
+                    /**
+                     * Leggi l'effetto della carta e chiede eventuali input
+                     */
                     System.out.println("You are on a chance cell, press Enter to draw a chanceCard");
                     scanner.nextLine();
                     break;

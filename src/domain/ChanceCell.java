@@ -22,6 +22,7 @@ public class ChanceCell implements Cell {
 	
 	@Override
 	public String action() {
+		CluedoGame.getInstance().getCurrentPlayer().setChanceCard(Board.getInstance().DrawChanceC());
 		return "Chance_Cell";
 	}
 
