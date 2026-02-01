@@ -266,7 +266,6 @@ public class App {
                 }
             }
         }
-
         for (StringBuilder line : output) {
             System.out.println(line);
         }

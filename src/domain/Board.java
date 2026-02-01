@@ -3,8 +3,11 @@ package domain;
 import org.jgrapht.*;
 import org.jgrapht.graph.*;
 
+import java.io.File;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Board {
 
@@ -17,7 +20,7 @@ public class Board {
 	private Board() {
 		this.graph = new SimpleGraph<>(DefaultEdge.class);
 		this.boardCells = new ArrayList<>();
-		initializeBoardCells();
+		loadBoardFromJson("src/utility/config.json");
 		this.chanceDeck = initializeChanceDeck();
 		this.dimension = this.boardCells.size();
 	}
@@ -110,189 +113,245 @@ public class Board {
         graph.addEdge(a, b);
     }
 
-	private void initializeBoardCells() {
-		SecretPassageRoom library = new SecretPassageRoom(0, 0, "Library");
-		ChanceCell chanceCell0 = new ChanceCell(0, 1);
-		NormalCell cell1 = new NormalCell(0, 2);
-		RoomCell homeGym = new NormalRoom(0, 3, "Home Gym");
-		NormalCell cell2 = new NormalCell(0, 4);
-		RoomCell Lounge = new NormalRoom(0,5, "Lounge");
-		RoomCell Bathroom = new NormalRoom(0,6, "Bathroom");
-		RoomCell Kitchen = new NormalRoom(1,0, "Kitchen");
-		NormalCell cell3 = new NormalCell(1, 1);
-		NormalCell cell4 = new NormalCell(1, 2);
-		NormalCell cell5 = new NormalCell(1, 3);
-		NormalCell cell6 = new NormalCell(1, 4);
-		ChanceCell chanceCell1 = new ChanceCell(1,5);
-		NormalCell cell7 = new NormalCell(1, 6);
-		NormalCell cell8 = new NormalCell(2, 0);
-		NormalCell cell9 = new NormalCell(2, 1);
-		ChanceCell chanceCell2 = new ChanceCell(2, 2);
-		NormalCell cell10 = new NormalCell(2, 3);
-		NormalCell cell11 = new NormalCell(2, 4);
-		NormalCell cell12 = new NormalCell(2, 5);
-		RoomCell Garden = new NormalRoom(2,6, "Garden");
-		RoomCell DiningRoom = new NormalRoom(3,0, "Dining Room");
-		NormalCell cell13 = new NormalCell(3, 1);
-		NormalCell cell14 = new NormalCell(3, 2);
-		RoomCell Hall = new NormalRoom(3,3, "Hall");
-		NormalCell cell15 = new NormalCell(3, 4);
-		NormalCell cell16 = new NormalCell(3, 5);
-		ChanceCell chanceCell3 = new ChanceCell(3,6);
-		NormalCell cell17 = new NormalCell(4, 0);
-		ChanceCell chanceCell4 = new ChanceCell(4, 1);
-		NormalCell cell18 = new NormalCell(4, 2);
-		NormalCell cell19 = new NormalCell(4, 3);
-		NormalCell cell20 = new NormalCell(4, 4);
-		NormalCell cell21 = new NormalCell(4, 5);
-		NormalCell cell22 = new NormalCell(4, 6);
-		RoomCell BedRoom = new NormalRoom(5,0, "BedRoom");
-		RoomCell Study = new NormalRoom(5,1, "Study");
-		NormalCell cell23 = new NormalCell(5, 2);
-		ChanceCell chanceCell5 = new ChanceCell(5,3);
-		NormalCell cell24 = new NormalCell(5, 4);
-		ChanceCell chanceCell6 = new ChanceCell(5,5);
-		SecretPassageRoom Greenhouse = new SecretPassageRoom(5,6, "Greenhouse");
-		ChanceCell chanceCell7 = new ChanceCell(6,0);
-		NormalCell cell25 = new NormalCell(6, 1);
-		NormalCell cell26 = new NormalCell(6, 2);
-		RoomCell Balcony = new NormalRoom(6,3, "Balcony");
-		NormalCell cell27 = new NormalCell(6, 4);
-		NormalCell cell28 = new NormalCell(6, 5);
-		NormalCell cell29 = new NormalCell(6,6);
 
-		library.setLinkedRoom(Greenhouse);
-		Greenhouse.setLinkedRoom(library);
-		// Adding vertices to the graph
-		graph.addVertex(library);
-		graph.addVertex(chanceCell0);
-		graph.addVertex(cell1);
-		graph.addVertex(homeGym);
-		graph.addVertex(cell2);
-		graph.addVertex(Lounge);
-		graph.addVertex(Bathroom);
-		graph.addVertex(Kitchen);
-		graph.addVertex(cell3);
-		graph.addVertex(cell4);
-		graph.addVertex(cell5);
-		graph.addVertex(cell6);
-		graph.addVertex(chanceCell1);
-		graph.addVertex(cell7);
-		graph.addVertex(cell8);
-		graph.addVertex(cell9);
-		graph.addVertex(cell10);
-		graph.addVertex(chanceCell2);
-		graph.addVertex(cell10);
-		graph.addVertex(cell11);
-		graph.addVertex(cell12);
-		graph.addVertex(cell13);
-		graph.addVertex(Garden);
-		graph.addVertex(DiningRoom);
-		graph.addVertex(cell14);
-		graph.addVertex(cell15);
-		graph.addVertex(Hall);
-		graph.addVertex(cell16);
-		graph.addVertex(cell17);
-		graph.addVertex(chanceCell3);
-		graph.addVertex(cell18);
-		graph.addVertex(chanceCell4);
-		graph.addVertex(cell19);
-		graph.addVertex(cell20);
-		graph.addVertex(cell21);
-		graph.addVertex(cell22);
-		graph.addVertex(cell23);
-		graph.addVertex(BedRoom);
-		graph.addVertex(Study);
-		graph.addVertex(cell24);
-		graph.addVertex(chanceCell5);
-		graph.addVertex(cell25);
-		graph.addVertex(chanceCell6);
-		graph.addVertex(Greenhouse);
-		graph.addVertex(chanceCell7);
-		graph.addVertex(cell26);
-		graph.addVertex(cell27);
-		graph.addVertex(Balcony);
-		graph.addVertex(cell28);
-		graph.addVertex(cell29);
-		// Adding edges to the graph (defining connections between cells)
-		addDoor(library, chanceCell0);
-		addDoor(chanceCell0, cell1);
-		addDoor(chanceCell0, cell3);
-		addDoor(cell1, homeGym);
-		addDoor(cell1, cell4);
-		addDoor(cell2, Lounge);
-		addDoor(cell2, cell6);
-		addDoor(Lounge, Bathroom);
-		addDoor(Bathroom, cell7);
-		// riga 1
-		addDoor(Kitchen, cell8);   
-		addDoor(cell3, cell4);
-		addDoor(cell3, cell9);
-		addDoor(cell4, chanceCell2);
-		addDoor(cell4, cell5);
-		addDoor(cell5, cell6);
-		addDoor(cell5, cell10);
-		addDoor(cell6, chanceCell1);
-		addDoor(cell6, cell11);
-		addDoor(chanceCell1, cell7);
-		addDoor(chanceCell1, cell12);
-		// riga 2
-		addDoor(cell8, cell9);
-		addDoor(cell9, chanceCell2);
-		addDoor(chanceCell2, cell10);
-		addDoor(cell10, cell11);
-		addDoor(cell11, cell12);
-		addDoor(cell9, cell13);
-		addDoor(chanceCell2, cell14);
-		addDoor(cell10, Hall);
-		addDoor(cell11, cell15);
-		addDoor(cell12, cell16);
-		addDoor(Garden, chanceCell3);
-		// riga 3
-		addDoor(DiningRoom, cell13);
-		addDoor(cell13, cell14);
-		addDoor(cell14, Hall);
-		addDoor(Hall, cell15);
-		addDoor(cell15, cell16);
-		addDoor(cell16, chanceCell3);
-		addDoor(DiningRoom, cell17);
-		addDoor(cell13, chanceCell4);
-		addDoor(cell14, cell18);
-		addDoor(Hall, cell19);
-		addDoor(cell15, cell20);
-		addDoor(cell16, cell21);
-		addDoor(chanceCell3, cell22);
-		// riga 4
-		addDoor(cell17, chanceCell4);
-		addDoor(chanceCell4, cell18);
-		addDoor(cell18, cell19);
-		addDoor(cell19, cell20);
-		addDoor(cell20, cell21);
-		addDoor(cell21, cell22);
-		addDoor(cell18, cell23);
-		addDoor(chanceCell4, Study);
-		addDoor(cell19, chanceCell5);
-		addDoor(cell20, cell24);
-		addDoor(cell21, chanceCell6);
-		// riga 5
-		addDoor(BedRoom, Study);
-		addDoor(Study, cell23);
-		addDoor(cell23, chanceCell5);
-		addDoor(chanceCell5, cell24);
-		addDoor(cell24, chanceCell6);
-		addDoor(chanceCell6, Greenhouse);
-		addDoor(BedRoom, chanceCell7);
-		addDoor(cell23, cell26);
-		addDoor(chanceCell5, Balcony);
-		addDoor(cell24, cell27);
-		addDoor(chanceCell6, cell28);
-		addDoor(Greenhouse, cell29);
-		// riga 6
-		addDoor(chanceCell7, cell25);
-		addDoor(cell25, cell26);
-		addDoor(cell27, cell28);
-		addDoor(cell28, cell29);
-		// arco passaggio segreto
-		addDoor(library, Greenhouse);
+	private void loadBoardFromJson(String path) {
+		ObjectMapper mapper = new ObjectMapper();
+
+		try {
+			JsonNode root = mapper.readTree(new File(path));
+
+			Map<String, Cell> cells = new HashMap<>();
+
+			// Crea celle (VERTICI)
+			for (JsonNode c : root.get("cells")) {
+				String type = c.get("type").asText();
+				int x = c.get("x").asInt();
+				int y = c.get("y").asInt();
+
+				Cell cell;
+				switch (type) {
+					case "NORMAL" -> cell = new NormalCell(x, y);
+					case "CHANCE" -> cell = new ChanceCell(x, y);
+					case "ROOM" -> cell = new NormalRoom(x, y, c.get("name").asText());
+					case "SECRET_ROOM" -> cell = new SecretPassageRoom(x, y, c.get("name").asText());
+					default -> throw new IllegalArgumentException("Unknown type");
+				}
+
+				graph.addVertex(cell);
+				cells.put(x + "," + y, cell);
+			}
+
+			// Crea archi (EDGE) - formato: [ [x1,y1], [x2,y2] ]
+			for (JsonNode e : root.get("edges")) {
+				JsonNode from = e.get(0);
+				JsonNode to = e.get(1);
+
+				int x1 = from.get(0).asInt();
+				int y1 = from.get(1).asInt();
+				int x2 = to.get(0).asInt();
+				int y2 = to.get(1).asInt();
+
+				Cell a = cells.get(x1 + "," + y1);
+				Cell b = cells.get(x2 + "," + y2);
+
+				if (a == null || b == null) {
+					throw new IllegalStateException("Edge refers to missing cell: (" +
+						x1 + "," + y1 + ") -> (" + x2 + "," + y2 + ")");
+				}
+
+				addDoor(a, b);
+			}
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
+
+
+
+	// private void initializeBoardCells() {
+	// 	SecretPassageRoom library = new SecretPassageRoom(0, 0, "Library");
+	// 	ChanceCell chanceCell0 = new ChanceCell(0, 1);
+	// 	NormalCell cell1 = new NormalCell(0, 2);
+	// 	RoomCell homeGym = new NormalRoom(0, 3, "Home Gym");
+	// 	NormalCell cell2 = new NormalCell(0, 4);
+	// 	RoomCell Lounge = new NormalRoom(0,5, "Lounge");
+	// 	RoomCell Bathroom = new NormalRoom(0,6, "Bathroom");
+	// 	RoomCell Kitchen = new NormalRoom(1,0, "Kitchen");
+	// 	NormalCell cell3 = new NormalCell(1, 1);
+	// 	NormalCell cell4 = new NormalCell(1, 2);
+	// 	NormalCell cell5 = new NormalCell(1, 3);
+	// 	NormalCell cell6 = new NormalCell(1, 4);
+	// 	ChanceCell chanceCell1 = new ChanceCell(1,5);
+	// 	NormalCell cell7 = new NormalCell(1, 6);
+	// 	NormalCell cell8 = new NormalCell(2, 0);
+	// 	NormalCell cell9 = new NormalCell(2, 1);
+	// 	ChanceCell chanceCell2 = new ChanceCell(2, 2);
+	// 	NormalCell cell10 = new NormalCell(2, 3);
+	// 	NormalCell cell11 = new NormalCell(2, 4);
+	// 	NormalCell cell12 = new NormalCell(2, 5);
+	// 	RoomCell Garden = new NormalRoom(2,6, "Garden");
+	// 	RoomCell DiningRoom = new NormalRoom(3,0, "Dining Room");
+	// 	NormalCell cell13 = new NormalCell(3, 1);
+	// 	NormalCell cell14 = new NormalCell(3, 2);
+	// 	RoomCell Hall = new NormalRoom(3,3, "Hall");
+	// 	NormalCell cell15 = new NormalCell(3, 4);
+	// 	NormalCell cell16 = new NormalCell(3, 5);
+	// 	ChanceCell chanceCell3 = new ChanceCell(3,6);
+	// 	NormalCell cell17 = new NormalCell(4, 0);
+	// 	ChanceCell chanceCell4 = new ChanceCell(4, 1);
+	// 	NormalCell cell18 = new NormalCell(4, 2);
+	// 	NormalCell cell19 = new NormalCell(4, 3);
+	// 	NormalCell cell20 = new NormalCell(4, 4);
+	// 	NormalCell cell21 = new NormalCell(4, 5);
+	// 	NormalCell cell22 = new NormalCell(4, 6);
+	// 	RoomCell BedRoom = new NormalRoom(5,0, "BedRoom");
+	// 	RoomCell Study = new NormalRoom(5,1, "Study");
+	// 	NormalCell cell23 = new NormalCell(5, 2);
+	// 	ChanceCell chanceCell5 = new ChanceCell(5,3);
+	// 	NormalCell cell24 = new NormalCell(5, 4);
+	// 	ChanceCell chanceCell6 = new ChanceCell(5,5);
+	// 	SecretPassageRoom Greenhouse = new SecretPassageRoom(5,6, "Greenhouse");
+	// 	ChanceCell chanceCell7 = new ChanceCell(6,0);
+	// 	NormalCell cell25 = new NormalCell(6, 1);
+	// 	NormalCell cell26 = new NormalCell(6, 2);
+	// 	RoomCell Balcony = new NormalRoom(6,3, "Balcony");
+	// 	NormalCell cell27 = new NormalCell(6, 4);
+	// 	NormalCell cell28 = new NormalCell(6, 5);
+	// 	NormalCell cell29 = new NormalCell(6,6);
+
+	// 	library.setLinkedRoom(Greenhouse);
+	// 	Greenhouse.setLinkedRoom(library);
+	// 	// Adding vertices to the graph
+	// 	graph.addVertex(library);
+	// 	graph.addVertex(chanceCell0);
+	// 	graph.addVertex(cell1);
+	// 	graph.addVertex(homeGym);
+	// 	graph.addVertex(cell2);
+	// 	graph.addVertex(Lounge);
+	// 	graph.addVertex(Bathroom);
+	// 	graph.addVertex(Kitchen);
+	// 	graph.addVertex(cell3);
+	// 	graph.addVertex(cell4);
+	// 	graph.addVertex(cell5);
+	// 	graph.addVertex(cell6);
+	// 	graph.addVertex(chanceCell1);
+	// 	graph.addVertex(cell7);
+	// 	graph.addVertex(cell8);
+	// 	graph.addVertex(cell9);
+	// 	graph.addVertex(cell10);
+	// 	graph.addVertex(chanceCell2);
+	// 	graph.addVertex(cell10);
+	// 	graph.addVertex(cell11);
+	// 	graph.addVertex(cell12);
+	// 	graph.addVertex(cell13);
+	// 	graph.addVertex(Garden);
+	// 	graph.addVertex(DiningRoom);
+	// 	graph.addVertex(cell14);
+	// 	graph.addVertex(cell15);
+	// 	graph.addVertex(Hall);
+	// 	graph.addVertex(cell16);
+	// 	graph.addVertex(cell17);
+	// 	graph.addVertex(chanceCell3);
+	// 	graph.addVertex(cell18);
+	// 	graph.addVertex(chanceCell4);
+	// 	graph.addVertex(cell19);
+	// 	graph.addVertex(cell20);
+	// 	graph.addVertex(cell21);
+	// 	graph.addVertex(cell22);
+	// 	graph.addVertex(cell23);
+	// 	graph.addVertex(BedRoom);
+	// 	graph.addVertex(Study);
+	// 	graph.addVertex(cell24);
+	// 	graph.addVertex(chanceCell5);
+	// 	graph.addVertex(cell25);
+	// 	graph.addVertex(chanceCell6);
+	// 	graph.addVertex(Greenhouse);
+	// 	graph.addVertex(chanceCell7);
+	// 	graph.addVertex(cell26);
+	// 	graph.addVertex(cell27);
+	// 	graph.addVertex(Balcony);
+	// 	graph.addVertex(cell28);
+	// 	graph.addVertex(cell29);
+	// 	// Adding edges to the graph (defining connections between cells)
+	// 	addDoor(library, chanceCell0);
+	// 	addDoor(chanceCell0, cell1);
+	// 	addDoor(chanceCell0, cell3);
+	// 	addDoor(cell1, homeGym);
+	// 	addDoor(cell1, cell4);
+	// 	addDoor(cell2, Lounge);
+	// 	addDoor(cell2, cell6);
+	// 	addDoor(Lounge, Bathroom);
+	// 	addDoor(Bathroom, cell7);
+	// 	// riga 1
+	// 	addDoor(Kitchen, cell8);   
+	// 	addDoor(cell3, cell4);
+	// 	addDoor(cell3, cell9);
+	// 	addDoor(cell4, chanceCell2);
+	// 	addDoor(cell4, cell5);
+	// 	addDoor(cell5, cell6);
+	// 	addDoor(cell5, cell10);
+	// 	addDoor(cell6, chanceCell1);
+	// 	addDoor(cell6, cell11);
+	// 	addDoor(chanceCell1, cell7);
+	// 	addDoor(chanceCell1, cell12);
+	// 	// riga 2
+	// 	addDoor(cell8, cell9);
+	// 	addDoor(cell9, chanceCell2);
+	// 	addDoor(chanceCell2, cell10);
+	// 	addDoor(cell10, cell11);
+	// 	addDoor(cell11, cell12);
+	// 	addDoor(cell9, cell13);
+	// 	addDoor(chanceCell2, cell14);
+	// 	addDoor(cell10, Hall);
+	// 	addDoor(cell11, cell15);
+	// 	addDoor(cell12, cell16);
+	// 	addDoor(Garden, chanceCell3);
+	// 	// riga 3
+	// 	addDoor(DiningRoom, cell13);
+	// 	addDoor(cell13, cell14);
+	// 	addDoor(cell14, Hall);
+	// 	addDoor(Hall, cell15);
+	// 	addDoor(cell15, cell16);
+	// 	addDoor(cell16, chanceCell3);
+	// 	addDoor(DiningRoom, cell17);
+	// 	addDoor(cell13, chanceCell4);
+	// 	addDoor(cell14, cell18);
+	// 	addDoor(Hall, cell19);
+	// 	addDoor(cell15, cell20);
+	// 	addDoor(cell16, cell21);
+	// 	addDoor(chanceCell3, cell22);
+	// 	// riga 4
+	// 	addDoor(cell17, chanceCell4);
+	// 	addDoor(chanceCell4, cell18);
+	// 	addDoor(cell18, cell19);
+	// 	addDoor(cell19, cell20);
+	// 	addDoor(cell20, cell21);
+	// 	addDoor(cell21, cell22);
+	// 	addDoor(cell18, cell23);
+	// 	addDoor(chanceCell4, Study);
+	// 	addDoor(cell19, chanceCell5);
+	// 	addDoor(cell20, cell24);
+	// 	addDoor(cell21, chanceCell6);
+	// 	// riga 5
+	// 	addDoor(BedRoom, Study);
+	// 	addDoor(Study, cell23);
+	// 	addDoor(cell23, chanceCell5);
+	// 	addDoor(chanceCell5, cell24);
+	// 	addDoor(cell24, chanceCell6);
+	// 	addDoor(chanceCell6, Greenhouse);
+	// 	addDoor(BedRoom, chanceCell7);
+	// 	addDoor(cell23, cell26);
+	// 	addDoor(chanceCell5, Balcony);
+	// 	addDoor(cell24, cell27);
+	// 	addDoor(chanceCell6, cell28);
+	// 	addDoor(Greenhouse, cell29);
+	// 	// riga 6
+	// 	addDoor(chanceCell7, cell25);
+	// 	addDoor(cell25, cell26);
+	// 	addDoor(cell27, cell28);
+	// 	addDoor(cell28, cell29);
+	// 	// arco passaggio segreto
+	// 	addDoor(library, Greenhouse);
+	//}
 }
