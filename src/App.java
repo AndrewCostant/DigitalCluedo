@@ -172,7 +172,7 @@ public class App {
      * 
      * @param players Lista dei giocatori da stampare sulla mappa.
      */
-    public static void printBoardWithPlayers(List<Player> players) {
+    public static void printBoardWithPlayers(ArrayList<Player> players) {
 
         String path = "utility/map.txt";
         InputStream is = App.class.getClassLoader().getResourceAsStream(path);
