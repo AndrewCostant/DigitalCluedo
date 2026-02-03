@@ -1,3 +1,4 @@
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,49 +12,22 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         System.out.println();
-        System.out.println("--------------------------Digital Cluedo Demo 1----------------------------");
+        System.out.println("-----------------------------------------Digital Cluedo Demo 1------------------------------------");
         System.out.println();
-        System.out.println("===========================================================================");
+        System.out.println("==================================================================================================");
+        System.out.println();
+        System.out.println(
+                            "██████╗ ██╗ ██████╗ ██╗████████╗ █████╗ ██╗      ██████╗██╗     ██╗   ██╗███████╗██████╗  ██████╗ \n" +
+                            "██╔══██╗██║██╔════╝ ██║╚══██╔══╝██╔══██╗██║     ██╔════╝██║     ██║   ██║██╔════╝██╔══██╗██╔═══██╗\n" +
+                            "██║  ██║██║██║  ███╗██║   ██║   ███████║██║     ██║     ██║     ██║   ██║█████╗  ██║  ██║██║   ██║\n" +
+                            "██║  ██║██║██║   ██║██║   ██║   ██╔══██║██║     ██║     ██║     ██║   ██║██╔══╝  ██║  ██║██║   ██║\n" +
+                            "██████╔╝██║╚██████╔╝██║   ██║   ██║  ██║███████╗╚██████╗███████╗╚██████╔╝███████╗██████╔╝╚██████╔╝\n" +
+                            "╚═════╝ ╚═╝ ╚═════╝ ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝ ╚═════╝╚══════╝ ╚═════╝ ╚══════╝╚═════╝  ╚═════╝"
+);
+        System.out.println();
+        System.out.println("==================================================================================================");
         System.out.println();
         System.out.println("Hi, this is the first demo of Digital Cluedo.");
-        System.out.println("Creating the board...");
-        System.out.println("The board layout is as follows:");
-        System.out.println();
-        System.out.println("    y    0         1         2         3         4         5         6   ");
-        System.out.println(" x  +---------+---------+---------+---------+---------+---------+---------+");
-        System.out.println("    |∆|       |         |         |         |         |         |         |");
-        System.out.println(" 0  | Library =    ?    |         = HomeGym |         =  Lounge = Bathroom|");
-        System.out.println("    |         |         |         |         |         |         |         |");
-        System.out.println("    +----║----+---------+---------+---------+---------+---------+----║----+");
-        System.out.println("    |         |         |         |         |         |         |         |");
-        System.out.println(" 1  | Kitchen |         |         |         |         |         |    ?    |");
-        System.out.println("    |         |         |         |         |         |         |         |");
-        System.out.println("    +----║----+---------+---------+---------+---------+---------+---------+");
-        System.out.println("    |         |         |         |         |         |         |         |");
-        System.out.println(" 2  |         =         |    ?    |         |         |         |  Garden |");
-        System.out.println("    |         |         |         |         |         |         |         |");
-        System.out.println("    +---------+---------+---------+----║----+---------+---------+----║----+");
-        System.out.println("    |         |         |         |  P2     |         |         |         |");
-        System.out.println(" 3  | DiningR =         |         =  Hall   =         |         |    ?    |");
-        System.out.println("    |         |         |         |  P1     |         |         |         |");
-        System.out.println("    +----║----+---------+---------+----║----+---------+---------+---------+");
-        System.out.println("    |         |         |         |         |         |         |         |");
-        System.out.println(" 4  |         |    ?    |         |         |         |         |         |");
-        System.out.println("    |         |         |         |         |         |         |         |");
-        System.out.println("    +---------+----║----+---------+---------+---------+---------+---------+");
-        System.out.println("    |         |         |         |         |         |         |       |∆|");
-        System.out.println(" 5  | BedRoom =  Study  =         |    ?    |         |    ?    =  Ghouse |");
-        System.out.println("    |         |         |         |         |         |         |         |");
-        System.out.println("    +----║----+---------+---------+----║----+---------+---------+----║----+");
-        System.out.println("    |         |         |         |         |         |         |         |");
-        System.out.println(" 6  |    ?    |         |         | Balcony |         |         |         |");
-        System.out.println("    |         |         |         |         |         |         |         |");
-        System.out.println("    +---------+---------+---------+---------+---------+---------+---------+");
-        System.out.println();
-        System.out.println("Legend: '=' and '‖' doors, '?' chances, '∆' secret passages.");
-        System.out.println();
-        System.out.println("===========================================================================");
-        System.out.println();
         System.out.println("This demo can be played by two players, called P1 and P2.");
         System.out.println("At the beginning, they are in the Hall.");
         System.out.println("Each player will take turns to roll the dice and move on the board.");
@@ -76,7 +50,7 @@ public class App {
 
         boolean gameOver = false;
         CluedoGame.getInstance().startGame(players);
-
+        printBoardWithPlayers(CluedoGame.getInstance().getPlayers());
         // loop dei turni
         while (!gameOver) {
             System.out.println(
@@ -169,7 +143,7 @@ public class App {
                 gameOver = true;
             }
 
-            System.out.println("===========================================================================");
+            System.out.println("================================================================================================");
         }
 
         scanner.close();
@@ -200,38 +174,21 @@ public class App {
      */
     public static void printBoardWithPlayers(List<Player> players) {
 
-        String[] map = {
-                "    y    0         1         2         3         4         5         6   ",
-                " x  +---------+---------+---------+---------+---------+---------+---------+",
-                "    |∆|       |         |         |         |         |         |    Ω    |",
-                " 0  | Library =    ?    |         = HomeGym |         =  Lounge = Bathroom|",
-                "    |         |         |         |         |         |         |         |",
-                "    +----║----+---------+---------+---------+---------+---------+----║----+",
-                "    |         |         |         |         |         |         |         |",
-                " 1  | Kitchen |         |         |         |         |         |    ?    |",
-                "    |         |         |         |         |         |         |         |",
-                "    +----║----+---------+---------+---------+---------+---------+---------+",
-                "    |         |         |         |         |         |         |         |",
-                " 2  |         =         |    ?    |         |         |         |  Garden |",
-                "    |         |         |         |         |         |         |         |",
-                "    +---------+---------+---------+----║----+---------+---------+----║----+",
-                "    |         |         |         |         |         |         |         |",
-                " 3  | DiningR =         |         =  Hall   =         |         |    ?    |",
-                "    |         |         |         |         |         |         |         |",
-                "    +----║----+---------+---------+----║----+---------+---------+---------+",
-                "    |         |         |         |         |         |         |         |",
-                " 4  |         |    ?    |         |         |         |         |         |",
-                "    |         |         |         |         |         |         |         |",
-                "    +---------+----║----+---------+---------+---------+---------+---------+",
-                "    |         |         |         |         |         |         |       |∆|",
-                " 5  | BedRoom =  Study  =         |    ?    |         |    ?    =  Ghouse |",
-                "    |         |         |         |         |         |         |         |",
-                "    +----║----+---------+---------+----║----+---------+---------+----║----+",
-                "    |         |         |         |         |         |         |         |",
-                " 6  |    ?    |         |         | Balcony |         |         |         |",
-                "    |         |         |         |         |         |         |         |",
-                "    +---------+---------+---------+---------+---------+---------+---------+"
-        };
+        String path = "utility/map.txt";
+        InputStream is = App.class.getClassLoader().getResourceAsStream(path);
+        if (is == null) {
+            throw new RuntimeException("File not found: " + path);
+        }
+        String[] map = new String[30];
+		try (Scanner sc = new Scanner(is)) {
+            for (int i = 0; i < map.length; i++) {
+                if (sc.hasNextLine()) {
+                    map[i] = sc.nextLine();
+                } else {
+                    throw new RuntimeException("File has fewer lines than expected: " + path);
+                }
+            }
+        }
         StringBuilder[] output = new StringBuilder[map.length];
         for (int i = 0; i < map.length; i++) {
             output[i] = new StringBuilder(map[i]);
