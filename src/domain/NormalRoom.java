@@ -9,11 +9,6 @@ public class NormalRoom extends RoomCell {
 	}
 
 	@Override
-	public String action() {
-		return "Normal_Room";
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

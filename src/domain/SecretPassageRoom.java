@@ -18,11 +18,6 @@ public class SecretPassageRoom extends RoomCell {
     }
 
     @Override
-    public String action() {
-        return "SecretPassage_Room";
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;

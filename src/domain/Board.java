@@ -152,6 +152,7 @@ public class Board {
 					case "CHANCE" -> cell = new ChanceCell(x, y);
 					case "ROOM" -> cell = new NormalRoom(x, y, c.get("name").asText());
 					case "SECRET_ROOM" -> cell = new SecretPassageRoom(x, y, c.get("name").asText());
+					case "GAMBLING" -> cell = new GamblingRoom(x, y, c.get("name").asText());
 					default -> throw new IllegalArgumentException("Unknown type");
 				}
 

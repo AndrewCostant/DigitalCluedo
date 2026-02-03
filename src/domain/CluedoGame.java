@@ -129,6 +129,24 @@ public class CluedoGame {
 		return possibleMoves;
 	}
 
+	public int getNumber(){
+		return dice.roll() + dice.roll();
+	}
+
+	public String getWinningCard(){
+		return suspectW.getName();
+	}
+
+	public void addKnownCardPlayers(String cardName){
+		for (Player p: players){
+			if (p.equals(currentPlayer)){
+				continue;
+			} else {
+				p.addKnownCard(cardName, currentPlayer.getUsername());
+			}
+		}
+	}
+
 	/**
 	 * Moves the current player to a new cell.	
 	 * @param newPosition
@@ -217,6 +235,7 @@ public class CluedoGame {
 	public String getWinningTriplet() {
 		return this.suspectW.getName() + this.weaponW.getName() + this.roomW.getName();
 	}
+
 
 
 

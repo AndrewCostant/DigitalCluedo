@@ -118,7 +118,7 @@ public class App {
 
             String typeOfAction = CluedoGame.getInstance().goToCell(Board.getInstance().getCellXY(choice, choice2));
             printBoardWithPlayers(CluedoGame.getInstance().getPlayers());
-
+            System.out.println(typeOfAction);
             /**
              * Versione demo di gestione delle azioni della stanza :)
              */
@@ -203,7 +203,7 @@ public class App {
         String[] map = {
                 "    y    0         1         2         3         4         5         6   ",
                 " x  +---------+---------+---------+---------+---------+---------+---------+",
-                "    |∆|       |         |         |         |         |         |         |",
+                "    |∆|       |         |         |         |         |         |    Ω    |",
                 " 0  | Library =    ?    |         = HomeGym |         =  Lounge = Bathroom|",
                 "    |         |         |         |         |         |         |         |",
                 "    +----║----+---------+---------+---------+---------+---------+----║----+",
@@ -232,7 +232,6 @@ public class App {
                 "    |         |         |         |         |         |         |         |",
                 "    +---------+---------+---------+---------+---------+---------+---------+"
         };
-
         StringBuilder[] output = new StringBuilder[map.length];
         for (int i = 0; i < map.length; i++) {
             output[i] = new StringBuilder(map[i]);

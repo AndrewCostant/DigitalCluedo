@@ -29,6 +29,7 @@ public class ChanceCell implements Cell {
 	@Override
 	public String doAction(SuspectC suspect, WeaponC weapon, Player player) {
 		String shownEffect = player.getChanceCard().effect(player);
+		CluedoGame.getInstance().endTurn();
 		return shownEffect;
 	}
 
