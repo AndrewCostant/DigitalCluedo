@@ -73,51 +73,7 @@ public class CluedoGame {
 		Collections.shuffle(gameDeck);
 	}
 
-	/* public ArrayList<Card> createSpecificDecks(String className) {
-		ArrayList<Card> deck = new ArrayList<Card>();
-		switch (className) {
-			case "SuspectC":
-				try {
-					Scanner sc = new Scanner(new File("/utility/suspectCard.txt"));
-					while (sc.hasNextLine()) {
-						String name = sc.nextLine();
-						SuspectC suspect = new SuspectC(name);
-						deck.add(suspect);
-					}
-					sc.close();
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
-				break;
-			case "RoomC":
-				try {
-					Scanner sc = new Scanner(new File("/utility/roomCard.txt"));
-					while (sc.hasNextLine()) {
-						String name = sc.nextLine();
-						RoomC room = new RoomC(name);
-						deck.add(room);
-					}
-					sc.close();
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
-				break;
-			case "WeaponC":
-				try {
-					Scanner sc = new Scanner(new File("/utility/weaponCard.txt"));
-					while (sc.hasNextLine()) {
-						String name = sc.nextLine();
-						WeaponC weapon = new WeaponC(name);
-						deck.add(weapon);
-					}
-					sc.close();
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
-				break;
-		}
-		return deck;
-	} */
+	
 
 	public ArrayList<Card> createSpecificDecks(String className) {
 		String filePath = "utility/" + className.toLowerCase() + "Card.txt";
@@ -261,4 +217,53 @@ public class CluedoGame {
 	public String getWinningTriplet() {
 		return this.suspectW.getName() + this.weaponW.getName() + this.roomW.getName();
 	}
+
+
+
+
+	/* public ArrayList<Card> createSpecificDecks(String className) {
+		ArrayList<Card> deck = new ArrayList<Card>();
+		switch (className) {
+			case "SuspectC":
+				try {
+					Scanner sc = new Scanner(new File("/utility/suspectCard.txt"));
+					while (sc.hasNextLine()) {
+						String name = sc.nextLine();
+						SuspectC suspect = new SuspectC(name);
+						deck.add(suspect);
+					}
+					sc.close();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+				break;
+			case "RoomC":
+				try {
+					Scanner sc = new Scanner(new File("/utility/roomCard.txt"));
+					while (sc.hasNextLine()) {
+						String name = sc.nextLine();
+						RoomC room = new RoomC(name);
+						deck.add(room);
+					}
+					sc.close();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+				break;
+			case "WeaponC":
+				try {
+					Scanner sc = new Scanner(new File("/utility/weaponCard.txt"));
+					while (sc.hasNextLine()) {
+						String name = sc.nextLine();
+						WeaponC weapon = new WeaponC(name);
+						deck.add(weapon);
+					}
+					sc.close();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+				break;
+		}
+		return deck;
+	} */
 }

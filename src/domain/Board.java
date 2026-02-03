@@ -4,6 +4,7 @@ import org.jgrapht.*;
 import org.jgrapht.graph.*;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -34,8 +35,25 @@ public class Board {
 
 
 	private ArrayList<ChanceC> initializeChanceDeck() {
-		// TODO - implement Board.initializeChanceDeck
-		return this.chanceDeck;
+		String filePath = "utility/chanceCard.txt";
+		ArrayList<ChanceC> deck = new ArrayList<>();
+
+		InputStream is = getClass().getClassLoader().getResourceAsStream(filePath);
+
+		if (is == null) {
+			throw new RuntimeException("File not found in classpath: " + filePath);
+		}
+
+		try (Scanner sc = new Scanner(is)) {
+			while (sc.hasNextLine()) {
+				String name = sc.nextLine();
+				switch (name) {
+					case "peekCard" -> deck.add(new ChanceC(new PeekCard()));
+					case "clearKnownCard" -> deck.add(new ChanceC(new ClearKnownCard()));
+				}
+			}
+		}
+		return deck;
 	}
 
 	/**

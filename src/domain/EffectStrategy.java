@@ -6,6 +6,6 @@ public interface EffectStrategy {
 	 * 
 	 * @param player
 	 */
-	public void effect(Player player);
+	public String effect(Player player);
 
 }

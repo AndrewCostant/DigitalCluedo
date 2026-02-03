@@ -9,8 +9,8 @@ public class ChanceC extends Card {
         this.effectStrategy = effectStrategy;
     }
 
-    public void effect(Player player) {
-        effectStrategy.effect(player);
+    public String effect(Player player) {
+        return effectStrategy.effect(player);
     }
     
     @Override

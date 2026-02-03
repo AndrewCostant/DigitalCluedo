@@ -28,8 +28,8 @@ public class ChanceCell implements Cell {
 
 	@Override
 	public String doAction(SuspectC suspect, WeaponC weapon, Player player) {
-		// TODO - implement ChanceCell.doAction
-		return "Chance Cell Do Action";
+		String shownEffect = player.getChanceCard().effect(player);
+		return shownEffect;
 	}
 
 	// GETTERS AND SETTERS
