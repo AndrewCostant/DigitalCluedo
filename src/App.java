@@ -1,56 +1,34 @@
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
 import domain.*;
+import ui.*;
 
 public class App {
 
     public static void main(String[] args) throws Exception {
         System.out.println();
-        System.out.println("-----------------------------------------Digital Cluedo Demo 1------------------------------------");
+        System.out.println(IO.printDigitalCluedo());
         System.out.println();
-        System.out.println("==================================================================================================");
-        System.out.println();
-        System.out.println(
-                            "██████╗ ██╗ ██████╗ ██╗████████╗ █████╗ ██╗      ██████╗██╗     ██╗   ██╗███████╗██████╗  ██████╗ \n" +
-                            "██╔══██╗██║██╔════╝ ██║╚══██╔══╝██╔══██╗██║     ██╔════╝██║     ██║   ██║██╔════╝██╔══██╗██╔═══██╗\n" +
-                            "██║  ██║██║██║  ███╗██║   ██║   ███████║██║     ██║     ██║     ██║   ██║█████╗  ██║  ██║██║   ██║\n" +
-                            "██║  ██║██║██║   ██║██║   ██║   ██╔══██║██║     ██║     ██║     ██║   ██║██╔══╝  ██║  ██║██║   ██║\n" +
-                            "██████╔╝██║╚██████╔╝██║   ██║   ██║  ██║███████╗╚██████╗███████╗╚██████╔╝███████╗██████╔╝╚██████╔╝\n" +
-                            "╚═════╝ ╚═╝ ╚═════╝ ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝ ╚═════╝╚══════╝ ╚═════╝ ╚══════╝╚═════╝  ╚═════╝"
-);
-        System.out.println();
-        System.out.println("==================================================================================================");
-        System.out.println();
-        System.out.println("Hi, this is the first demo of Digital Cluedo.");
-        System.out.println("This demo can be played by two players, called P1 and P2.");
-        System.out.println("At the beginning, they are in the Hall.");
-        System.out.println("Each player will take turns to roll the dice and move on the board.");
-        System.out.println("Enjoy the demo!");
-
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("P1's name: ");
-        String name1 = scanner.nextLine();
-
-        System.out.print("P2's name: ");
-        String name2 = scanner.nextLine();
 
         RoomCell startPosition = (RoomCell) Board.getInstance().getCellXY(3, 3);
-        Player player1 = new Player(name1, startPosition);
-        Player player2 = new Player(name2, startPosition);
-
         ArrayList<Player> players = new ArrayList<>();
-        players.add(player1);
-        players.add(player2);
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Number of players: ");
+        int numPlayers = scanner.nextInt();
+        scanner.nextLine(); 
+        for (int i = 0; i < numPlayers; i++) {
+            System.out.print("Player's name: ");
+            String name = scanner.nextLine();
+            Player player = new Player(name, startPosition);
+            players.add(player);
+        }
 
         boolean gameOver = false;
         CluedoGame.getInstance().startGame(players);
-        printBoardWithPlayers(CluedoGame.getInstance().getPlayers());
+        System.out.println();
+        IO.printBoardWithPlayers(CluedoGame.getInstance().getPlayers());
         // loop dei turni
         while (!gameOver) {
             System.out.println(
@@ -91,7 +69,7 @@ public class App {
             }
 
             String typeOfAction = CluedoGame.getInstance().goToCell(Board.getInstance().getCellXY(choice, choice2));
-            printBoardWithPlayers(CluedoGame.getInstance().getPlayers());
+            IO.printBoardWithPlayers(CluedoGame.getInstance().getPlayers());
             System.out.println(typeOfAction);
             /**
              * Versione demo di gestione delle azioni della stanza :)
@@ -166,75 +144,4 @@ public class App {
         }
         return false;
     }
-
-    /**
-     * Stampa la mappa ASCII con i nomi dei player nelle loro posizioni attuali.
-     * 
-     * @param players Lista dei giocatori da stampare sulla mappa.
-     */
-    public static void printBoardWithPlayers(ArrayList<Player> players) {
-
-        String path = "utility/map.txt";
-        InputStream is = App.class.getClassLoader().getResourceAsStream(path);
-        if (is == null) {
-            throw new RuntimeException("File not found: " + path);
-        }
-        String[] map = new String[30];
-		try (Scanner sc = new Scanner(is)) {
-            for (int i = 0; i < map.length; i++) {
-                if (sc.hasNextLine()) {
-                    map[i] = sc.nextLine();
-                } else {
-                    throw new RuntimeException("File has fewer lines than expected: " + path);
-                }
-            }
-        }
-        StringBuilder[] output = new StringBuilder[map.length];
-        for (int i = 0; i < map.length; i++) {
-            output[i] = new StringBuilder(map[i]);
-        }
-
-        // raggruppa player per cella
-        Map<String, List<String>> playersPerCell = new HashMap<>();
-        for (Player p : players) {
-            int x = p.getPosition().getX();
-            int y = p.getPosition().getY();
-            playersPerCell
-                    .computeIfAbsent(x + "," + y, k -> new ArrayList<>())
-                    .add(p.getUsername());
-        }
-
-        // scrittura player: SEMPRE riga bassa della cella
-        for (var entry : playersPerCell.entrySet()) {
-
-            String[] xy = entry.getKey().split(",");
-            int x = Integer.parseInt(xy[0]);
-            int y = Integer.parseInt(xy[1]);
-
-            int row = asciiBottomRowForCell(x);
-            int col = asciiColForCell(y);
-
-            String text = String.join(" ", entry.getValue());
-
-            for (int i = 0; i < text.length(); i++) {
-                if (col + i < output[row].length()) {
-                    output[row].setCharAt(col + i, text.charAt(i));
-                }
-            }
-        }
-        for (StringBuilder line : output) {
-            System.out.println(line);
-        }
-    }
-
-    private static int asciiBottomRowForCell(int x) {
-        // riga bassa della cella
-        return 4 + x * 4;
-    }
-
-    private static int asciiColForCell(int y) {
-        return 5 + y * 10;
-    }
-
-    // TODO: controllo input carte sospetto
 }
