@@ -111,8 +111,8 @@ public class Player {
 	 * Adds a known card to the player's list of known cards.
 	 * @param kCard
 	 */
-	public Boolean addKnownCard(String cardName , String playerName) {
-		knownCards.put(cardName, playerName);
+	public Boolean addKnownCard(Card card , Player player) {
+		knownCards.put(card.getName(), player);
 		return true;
 	}
 

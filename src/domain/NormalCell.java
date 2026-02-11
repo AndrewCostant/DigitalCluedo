@@ -2,10 +2,13 @@ package domain;
 
 import java.util.Objects;
 
+import domain.dto.*;
+
 public class NormalCell implements Cell {
 
     private final int x;
 	private final int y;
+    private final String type = "NormalCell";
 
     public NormalCell(int x, int y) {
         this.x = x;
@@ -23,7 +26,7 @@ public class NormalCell implements Cell {
 
     @Override
     public ActionResult action() {
-        return new NormalCellAction();
+        return new NormalCellAction(type, this);
     }
 
     @Override

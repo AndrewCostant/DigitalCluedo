@@ -1,5 +1,6 @@
 package domain;
 import java.util.Objects;
+import domain.dto.*;
 
 public class GamblingRoom extends RoomCell {
 
@@ -10,12 +11,13 @@ public class GamblingRoom extends RoomCell {
 	private String conditions;
 
 	@Override
-	public String action() {
+	public ActionResult action() {
+		ActionResult result = super.action();
 		int number = CluedoGame.getInstance().getNumber();
 		if (number == 6){
-			String cardName = CluedoGame.getInstance().getWinningCard();
-			CluedoGame.getInstance().getCurrentPlayer().addKnownCard(cardName, "Soluzione");
-			return "One of the winning cards is " + cardName + ".Gooooooool ahead";
+			Card card = CluedoGame.getInstance().getWinningCard();
+			CluedoGame.getInstance().getCurrentPlayer().addKnownCard(card, "Soluzione");
+			return new GamblingRoomAction(result.getType(), result.getCell(), number, card);
 		} else {
 			String cardName = CluedoGame.getInstance().getCurrentPlayer().peekRandomCard();
 			CluedoGame.getInstance().addKnownCardPlayers(cardName);

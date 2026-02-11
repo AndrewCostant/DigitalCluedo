@@ -1,12 +1,13 @@
 package domain;
 
 import java.util.Objects;
+import domain.dto.*;
 public class SecretPassageRoom extends RoomCell {
 
     private SecretPassageRoom linkedRoom;
 
     public SecretPassageRoom(int x, int y, String name) {
-        super(x, y, name);
+        super(x, y, name, "SECRET_PASSAGE_ROOM");
         this.linkedRoom = null;
     }
 
@@ -15,6 +16,12 @@ public class SecretPassageRoom extends RoomCell {
     }
     public void setLinkedRoom(SecretPassageRoom linkedRoom) {
         this.linkedRoom = linkedRoom;
+    }
+
+    @Override
+    public ActionResult action() {
+        ActionResult result = super.action();
+        return new SecretPassageAction(result.getType(), result.getCell());
     }
 
     @Override

@@ -1,11 +1,18 @@
 package domain;
 
 import java.util.Objects;
+import domain.dto.*;
 
 public class NormalRoom extends RoomCell {
 
 	public NormalRoom(int x, int y, String name) {
-		super(x, y, name);
+		super(x, y, name, "NORMAL_ROOM");
+	}
+
+	@Override
+	public ActionResult action() {
+		ActionResult result = super.action();
+		return result;
 	}
 
 	@Override

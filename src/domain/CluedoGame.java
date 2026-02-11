@@ -133,8 +133,8 @@ public class CluedoGame {
 		return dice.roll() + dice.roll();
 	}
 
-	public String getWinningCard(){
-		return suspectW.getName();
+	public Card getWinningCard(){
+		return suspectW;
 	}
 
 	public void addKnownCardPlayers(String cardName){

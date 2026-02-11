@@ -1,15 +1,25 @@
 package domain;
 import java.util.Objects;
+import domain.dto.*;
 public class RoomCell implements Cell {
 
 	protected final int x;
 	protected final int y;
 	protected String name;
+	protected final String type;
 
 	public RoomCell(int x, int y, String name) {
 		this.name = name;
 		this.x = x;
 		this.y = y;
+		this.type = "ROOM_CELL";
+	}
+
+	public RoomCell(int x, int y, String name, String type) {
+		this.name = name;
+		this.x = x;
+		this.y = y;
+		this.type = type;
 	}
 
 	@Override
@@ -23,8 +33,8 @@ public class RoomCell implements Cell {
 	}
 
 	@Override
-	public String action() {
-		return "Room_Cell";
+	public ActionResult action() {
+		return new NormalRoomAction(type, this);
 	}
 
 	@Override
