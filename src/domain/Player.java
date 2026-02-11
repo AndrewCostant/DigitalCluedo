@@ -112,7 +112,7 @@ public class Player {
 	 * @param kCard
 	 */
 	public Boolean addKnownCard(Card card , Player player) {
-		knownCards.put(card.getName(), player);
+		knownCards.put(card.getName(), player.getUsername());
 		return true;
 	}
 
@@ -133,7 +133,7 @@ public class Player {
 				continue;
 			}
 			else{
-				addKnownCard(card.getName(), "Sospetto");
+				addKnownCard(card, "Sospetto");
 			}
 		}
 		return true;
