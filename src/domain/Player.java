@@ -1,6 +1,8 @@
 package domain;
 import java.util.*;
 
+import domain.dto.*;
+
 public class Player {
 
 	private String username;
@@ -34,7 +36,7 @@ public class Player {
 	 * Updates the player's position.
 	 * @param newPosition
 	 */
-	public String moveTo(Cell newPosition) {
+	public ActionResult moveTo(Cell newPosition) {
 		setPosition(newPosition);
 		return newPosition.action();
 	}
@@ -188,14 +190,14 @@ public class Player {
 	/**
 	 * Peeks at a random card from the player's hand without revealing it.
 	 */
-	public String peekRandomCard() {
+	public Card peekRandomCard() {
 		if (handCards.isEmpty()) {
 			return null; // No cards to peek at
 		}
 		Random rand = new Random();
 		int randomIndex = rand.nextInt(handCards.size());
 		Card randomCard = handCards.get(randomIndex);
-		return randomCard.getName();
+		return randomCard;
 	}
 
 	// GETTERS AND SETTERS
