@@ -137,7 +137,7 @@ public class CluedoGame {
 		return suspectW;
 	}
 
-	public void addKnownCardPlayers(String cardName){
+	public void addKnownCardPlayers(Card cardName){
 		for (Player p: players){
 			if (p.equals(currentPlayer)){
 				continue;
