@@ -49,7 +49,7 @@ public class Player {
 	 * @param room
 	 */
 	/***************************************************** */
-	public String makeAGuess(SuspectC sus, WeaponC weapon, RoomC room) {
+	public DoActionResult makeAGuess(SuspectC sus, WeaponC weapon, RoomC room) {
 		Guess newGuess = new Guess(sus, weapon, room);
 		this.guesses.add(newGuess);
 		return CluedoGame.getInstance().verifyGuess(newGuess);
@@ -123,7 +123,8 @@ public class Player {
 	 * verifica se nella guess del giocare ci sono carte di cui è in possesso
 	 * quelle di cui non è in possesso le aggiunge alle known card
 	 */
-	public Boolean addSuspectCards(Guess guess) {
+	public ArrayList<Card> addSuspectCards(Guess guess) {
+		ArrayList<Card> result = new ArrayList<Card>();
 		SuspectC suspect = guess.getSuspect();
 		WeaponC weapon = guess.getWeapon();
 		RoomC room = guess.getRoom();
@@ -137,9 +138,10 @@ public class Player {
 			}
 			else{
 				addKnownCard(card, "Sospetto");
+				result.add(card);
 			}
 		}
-		return true;
+		return result;
 	}
 
 	/**

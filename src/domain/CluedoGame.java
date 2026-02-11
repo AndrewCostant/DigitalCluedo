@@ -1,5 +1,6 @@
 package domain;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.Collections;
@@ -172,11 +173,13 @@ public class CluedoGame {
 	 * @param newGuess
 	 */
 	/************************************************************ */
-	public String verifyGuess(Guess newGuess) {
+	public DoActionResult verifyGuess(Guess newGuess) {
+		Cell cell = currentPlayer.getPosition();
+		ArrayList<Card> result = new ArrayList<Card>();
 		if(  newGuess.getSuspect().getName().equals(suspectW.getName()) &&
 				newGuess.getRoom().getName().equals(roomW.getName()) &&
 				newGuess.getWeapon().getName().equals(weaponW.getName()) ) {
-			return endGame();
+			return new RoomCellDoAction(cell, true, null);
 		} else {
 			int i = players.indexOf(currentPlayer);
 			boolean t = true;
@@ -189,10 +192,10 @@ public class CluedoGame {
 				//se nessuno ha mostrato una carta esce dal loop e bisogna aggiungere le carte dell'assunzione che il player corrente non ha nel mazzo known card del player stesso con il valore "scoperto"
 				if (player != currentPlayer) {
 					Card shownCard = player.showACard(newGuess);
-					System.out.println(player.getUsername());
-					System.out.println(shownCard);
+					// mostra username del player che mostra la carta e la carta mostrata
 					if (shownCard != null) {
 						currentPlayer.addKnownCard(shownCard, player.getUsername());
+						result.add(shownCard);
 						t = false;
 					}
 				}
@@ -201,10 +204,9 @@ public class CluedoGame {
 				}
 			}
 			if (t) {
-				currentPlayer.addSuspectCards(newGuess);
+				result.addAll(currentPlayer.addSuspectCards(newGuess));
 			}
-			endTurn();
-			return "Wrong Guess! Game continues.";
+			return new RoomCellDoAction(cell, false, result);
 		}
 	}
 
