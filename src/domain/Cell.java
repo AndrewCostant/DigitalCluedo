@@ -1,4 +1,6 @@
 package domain;
+
+import domain.dto.*;
 public interface Cell {
 
 	public abstract int getX();
@@ -6,7 +8,7 @@ public interface Cell {
 	/**
 	 * Performs the action associated with this cell.
 	 */
-	public abstract String action();
+	public abstract ActionResult action();
 
 	/**
 	 * Does an action with a suspect and a weapon for a player.

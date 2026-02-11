@@ -22,8 +22,8 @@ public class NormalCell implements Cell {
     }
 
     @Override
-    public String action() {
-        return "Normal_Cell";
+    public ActionResult action() {
+        return new NormalCellAction();
     }
 
     @Override

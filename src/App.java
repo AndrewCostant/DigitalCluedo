@@ -3,7 +3,8 @@ import java.util.Scanner;
 import java.util.Set;
 
 import domain.*;
-import ui.*;
+import ui.IO;
+import domain.dto.RollResult;
 
 public class App {
 
@@ -42,7 +43,9 @@ public class App {
             System.out.println("\nThese are your known cards ");
             System.out.println(CluedoGame.getInstance().getCurrentPlayer().printKnownCards());
 
-            Set<Cell> possibleDestinations = CluedoGame.getInstance().rollDices();
+            RollResult rollResult = CluedoGame.getInstance().rollDices();
+            Set<Cell> possibleDestinations = rollResult.cells();
+            System.out.println("You rolled a: " + rollResult.value());
             System.out.print("\nYou have " + possibleDestinations.size() + " possible destinations: \n");
             int number = 1;
             for (Cell destination : possibleDestinations) {

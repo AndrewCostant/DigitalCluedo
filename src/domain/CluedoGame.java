@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.Collections;
 import java.util.Scanner;
+import domain.dto.RollResult;
 
 public class CluedoGame {
 
@@ -121,12 +122,11 @@ public class CluedoGame {
 	/**
 	 * Rolls the dice and returns all the possible moves.
 	 */
-	public Set<Cell> rollDices() {
+	public RollResult rollDices() {
 		int rollResult = dice.roll() + dice.roll();
-		System.out.println("You rolled a " + rollResult + "!");
 		Cell currentPosition = currentPlayer.getPosition();
 		Set<Cell> possibleMoves = Board.getInstance().possibleDestinations(currentPosition, rollResult);
-		return possibleMoves;
+		return new RollResult(rollResult, possibleMoves);
 	}
 
 	public int getNumber(){
