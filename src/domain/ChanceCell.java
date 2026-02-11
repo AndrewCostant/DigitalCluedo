@@ -2,8 +2,8 @@ package domain;
 
 import java.util.Objects;
 
-import domain.dto.ActionResult;
-import domain.dto.ChanceAction;
+import domain.dto.*;
+
 public class ChanceCell implements Cell {
 	private final int x;
 	private final int y;
@@ -32,10 +32,8 @@ public class ChanceCell implements Cell {
 	}
 
 	@Override
-	public String doAction(SuspectC suspect, WeaponC weapon, Player player) {
-		String shownEffect = player.getChanceCard().effect(player);
-		CluedoGame.getInstance().endTurn();
-		return shownEffect;
+	public DoActionResult doAction(SuspectC suspect, WeaponC weapon, Player player) {
+		return player.getChanceCard().effect(player);
 	}
 
 	// GETTERS AND SETTERS

@@ -10,6 +10,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import domain.dto.DoActionResult;
+
 public class Board {
 
 	private static volatile Board instance;
@@ -104,7 +106,7 @@ public class Board {
 	 * @param sus
 	 * @param weapon
 	 */
-	public String doAction(SuspectC sus, WeaponC weapon) {
+	public DoActionResult doAction(SuspectC sus, WeaponC weapon) {
 		Player player = CluedoGame.getInstance().getCurrentPlayer();
 		Cell playerPos = player.getPosition();
 		return playerPos.doAction(sus, weapon, player);

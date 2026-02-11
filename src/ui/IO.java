@@ -12,6 +12,31 @@ import domain.Player;
 
 public class IO {
 
+    ArrayList<StringBuilder> output;
+
+    public IO() {
+        output = new ArrayList<>();
+        String path = "utility/map.txt";
+        InputStream is = Board.class.getClassLoader().getResourceAsStream(path);
+        if (is == null) {
+            throw new RuntimeException("File not found: " + path);
+        }
+        String[] map = new String[30];
+		try (Scanner sc = new Scanner(is)) {
+            for (int i = 0; i < map.length; i++) {
+                if (sc.hasNextLine()) {
+                    map[i] = sc.nextLine();
+                } else {
+                    throw new RuntimeException("File has fewer lines than expected: " + path);
+                }
+            }
+        }
+        StringBuilder[] output = new StringBuilder[map.length];
+        for (int i = 0; i < map.length; i++) {
+            output[i] = new StringBuilder(map[i]);
+        }
+    }
+
     public static String printDigitalCluedo(){
         return 
         "==================================================================================================\n" +

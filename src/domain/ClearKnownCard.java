@@ -1,10 +1,13 @@
 package domain;
 
+import domain.dto.ChanceDoAction;
+import domain.dto.*;
+
 public class ClearKnownCard implements EffectStrategy {
     
     @Override
-    public String effect(Player player) {
+    public DoActionResult effect(Player player) {
         player.clearKnownCards();
-        return "Your knownCards deck has been deleted";
+        return new ChanceDoAction(player.getPosition(), false, null, this);
     }
 }

@@ -1,11 +1,13 @@
 package domain;
 
+import domain.dto.DoActionResult;
+
 public interface EffectStrategy {
 
 	/**
 	 * 
 	 * @param player
 	 */
-	public String effect(Player player);
+	public DoActionResult effect(Player player);
 
 }

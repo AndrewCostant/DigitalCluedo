@@ -16,7 +16,7 @@ public interface Cell {
 	 * @param weapon
 	 * @param player
 	 */
-	public String doAction(SuspectC suspect, WeaponC weapon, Player player);
+	public DoActionResult doAction(SuspectC suspect, WeaponC weapon, Player player);
 
 	@Override
 	public abstract String toString();

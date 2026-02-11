@@ -1,5 +1,7 @@
 package domain;
 
+import domain.dto.*;
+
 public class ChanceC extends Card {
 
     private EffectStrategy effectStrategy;
@@ -9,7 +11,7 @@ public class ChanceC extends Card {
         this.effectStrategy = effectStrategy;
     }
 
-    public String effect(Player player) {
+    public DoActionResult effect(Player player) {
         return effectStrategy.effect(player);
     }
     

@@ -4,6 +4,8 @@ import java.util.Set;
 
 import domain.*;
 import ui.IO;
+import domain.dto.ActionResult;
+import domain.dto.DoActionResult;
 import domain.dto.RollResult;
 
 public class App {
@@ -71,7 +73,7 @@ public class App {
                 }
             }
 
-            String typeOfAction = CluedoGame.getInstance().goToCell(Board.getInstance().getCellXY(choice, choice2));
+            ActionResult typeOfAction = CluedoGame.getInstance().goToCell(Board.getInstance().getCellXY(choice, choice2));
             IO.printBoardWithPlayers(CluedoGame.getInstance().getPlayers());
             System.out.println(typeOfAction);
             /**
@@ -117,7 +119,7 @@ public class App {
                     suspectedWeapon = new WeaponC(weapon);
             }
 
-            String result = Board.getInstance().doAction(suspectedPerson, suspectedWeapon);
+            DoActionResult result = Board.getInstance().doAction(suspectedPerson, suspectedWeapon);
             System.out.println(result);
 
             if (result == "Correct guess! You win!") {

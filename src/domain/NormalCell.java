@@ -30,9 +30,8 @@ public class NormalCell implements Cell {
     }
 
     @Override
-    public String doAction(SuspectC suspect, WeaponC weapon, Player player) {
-        CluedoGame.getInstance().endTurn();
-        return "Normal Cell Do Action";
+    public DoActionResult doAction(SuspectC suspect, WeaponC weapon, Player player) {
+        return new NormalCellDoAction(this);
     }
 
     @Override
