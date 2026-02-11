@@ -130,7 +130,7 @@ public class CluedoGame {
 		return new RollResult(rollResult, possibleMoves);
 	}
 
-	public int getNumber(){
+	public int gamble(){
 		return dice.roll() + dice.roll();
 	}
 
@@ -160,6 +160,7 @@ public class CluedoGame {
 		setCurrentPlayer();
 	}
 
+	//***************************************************************************************************************************************** */
 	public String endGame() {
 		return "Correct guess! You win!";
 	}
@@ -170,6 +171,7 @@ public class CluedoGame {
 	 * Then ends the current player's turn.
 	 * @param newGuess
 	 */
+	/************************************************************ */
 	public String verifyGuess(Guess newGuess) {
 		if(  newGuess.getSuspect().getName().equals(suspectW.getName()) &&
 				newGuess.getRoom().getName().equals(roomW.getName()) &&

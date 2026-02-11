@@ -8,13 +8,13 @@ public class GamblingRoom extends RoomCell {
 		super(x, y, name);
 	}
 
-	private String conditions;
+	private int condition = 6;
 
 	@Override
 	public ActionResult action() {
 		ActionResult result = super.action();
-		int number = CluedoGame.getInstance().getNumber();
-		if (number == 6){
+		int number = CluedoGame.getInstance().gamble();
+		if (number == condition){
 			Card card = CluedoGame.getInstance().getWinningCard();
 			CluedoGame.getInstance().getCurrentPlayer().addKnownCard(card, "Soluzione");
 			return new GamblingRoomAction(result.getType(), result.getCell(), number, card);
@@ -27,12 +27,12 @@ public class GamblingRoom extends RoomCell {
 
 
 	// GETTERS AND SETTERS
-	public String getConditions() {
-		return conditions;
+	public int getCondition() {
+		return condition;
 	}
 
-	public void setConditions(String conditions) {
-		this.conditions = conditions;
+	public void setCondition(int condition) {
+		this.condition = condition;
 	}
 
 	@Override

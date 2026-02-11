@@ -9,9 +9,9 @@ public class Player {
 	private String pawnSkin;
 	private Cell position;
 	private ArrayList<Guess> guesses;
-	private Map<String, String> knownCards;
+	private Map<String, String> knownCards; /***************** */
 	private ArrayList<Card> handCards;
-	private ChanceC chanceCard;
+	private ChanceC chanceCard; /*********************** */
 
 
 	public Player(String username, String pawnSkin, Cell position) {
@@ -48,6 +48,7 @@ public class Player {
 	 * @param weapon
 	 * @param room
 	 */
+	/***************************************************** */
 	public String makeAGuess(SuspectC sus, WeaponC weapon, RoomC room) {
 		Guess newGuess = new Guess(sus, weapon, room);
 		this.guesses.add(newGuess);
@@ -83,9 +84,9 @@ public class Player {
 	 * Searches for a card in the player's hand by name.
 	 * @param cardName
 	 */
-	public Card searchCardInHand(String cardName) {
-		for (Card card : handCards) {
-			if (card.getName().equals(cardName)) {
+	public Card searchCardInHand(Card card) {
+		for (Card handCard : handCards) {
+			if (handCard.equals(card)) {
 				return card;
 			}
 		}
@@ -145,6 +146,7 @@ public class Player {
 	 * Searches for a known card by name.
 	 * @param cardName
 	 */
+	/*********************** */
 	public String searchKnownCard(String cardName) {
 		return knownCards.get(cardName);
 	}
