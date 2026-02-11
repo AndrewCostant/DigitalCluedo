@@ -1,6 +1,8 @@
 package domain;
 import java.util.*;
 
+import domain.dto.*;
+
 public class Player {
 
 	private String username;
@@ -34,7 +36,7 @@ public class Player {
 	 * Updates the player's position.
 	 * @param newPosition
 	 */
-	public String moveTo(Cell newPosition) {
+	public ActionResult moveTo(Cell newPosition) {
 		setPosition(newPosition);
 		return newPosition.action();
 	}
@@ -111,8 +113,8 @@ public class Player {
 	 * Adds a known card to the player's list of known cards.
 	 * @param kCard
 	 */
-	public Boolean addKnownCard(Card card , Player player) {
-		knownCards.put(card.getName(), player.getUsername());
+	public Boolean addKnownCard(Card card , String player) {
+		knownCards.put(card.getName(), player);
 		return true;
 	}
 

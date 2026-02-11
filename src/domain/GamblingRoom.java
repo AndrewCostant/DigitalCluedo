@@ -19,9 +19,9 @@ public class GamblingRoom extends RoomCell {
 			CluedoGame.getInstance().getCurrentPlayer().addKnownCard(card, "Soluzione");
 			return new GamblingRoomAction(result.getType(), result.getCell(), number, card);
 		} else {
-			String cardName = CluedoGame.getInstance().getCurrentPlayer().peekRandomCard();
-			CluedoGame.getInstance().addKnownCardPlayers(cardName);
-			return "You have shown " + cardName + " to the other players!";
+			Card card = CluedoGame.getInstance().getCurrentPlayer().peekRandomCard();
+			CluedoGame.getInstance().addKnownCardPlayers(card);
+			return new GamblingRoomAction(result.getType(), result.getCell(), number, card);
 		}
 	}
 
