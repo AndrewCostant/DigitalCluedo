@@ -1,9 +1,13 @@
 package domain;
 
 import java.util.Objects;
+
+import domain.dto.ActionResult;
+import domain.dto.ChanceAction;
 public class ChanceCell implements Cell {
 	private final int x;
 	private final int y;
+	private final String type = "CHANCECELL";
 
 	public ChanceCell(int x, int y) {
 		this.x = x;
@@ -21,9 +25,10 @@ public class ChanceCell implements Cell {
 	}
 	
 	@Override
-	public String action() {
-		CluedoGame.getInstance().getCurrentPlayer().setChanceCard(Board.getInstance().DrawChanceC());
-		return "Chance_Cell";
+	public ActionResult action() {
+		ChanceC card = Board.getInstance().DrawChanceC();
+		CluedoGame.getInstance().getCurrentPlayer().setChanceCard(card);
+		return new ChanceAction(this.type, this, card);
 	}
 
 	@Override
