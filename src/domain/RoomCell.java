@@ -38,7 +38,7 @@ public class RoomCell implements Cell {
 	}
 
 	@Override
-	public String doAction(SuspectC suspect, WeaponC weapon, Player player) {
+	public DoActionResult doAction(SuspectC suspect, WeaponC weapon, Player player) {
 		RoomC room = new RoomC(name);
 		return player.makeAGuess(suspect, weapon, room);
 	}
