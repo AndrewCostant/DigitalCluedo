@@ -9,7 +9,7 @@ public class Player {
 	private String pawnSkin;
 	private Cell position;
 	private ArrayList<Guess> guesses;
-	private Map<String, String> knownCards; /***************** */
+	private Map<Card, String> knownCards; /***************** */
 	private ArrayList<Card> handCards;
 	private ChanceC chanceCard; /*********************** */
 
@@ -19,7 +19,7 @@ public class Player {
 		this.pawnSkin = pawnSkin;
 		this.position = position;
 		this.guesses = new ArrayList<Guess>();
-		this.knownCards = new HashMap<String, String>();
+		this.knownCards = new HashMap<Card, String>();
 		this.handCards = new ArrayList<Card>();
 		this.chanceCard = null;
 	}
@@ -28,7 +28,7 @@ public class Player {
 		this.username = username;
 		this.position = position;
 		this.guesses = new ArrayList<Guess>();
-		this.knownCards = new HashMap<String, String>();
+		this.knownCards = new HashMap<Card, String>();
 		this.handCards = new ArrayList<Card>();
 	}
 
@@ -115,7 +115,7 @@ public class Player {
 	 * @param kCard
 	 */
 	public Boolean addKnownCard(Card card , String player) {
-		knownCards.put(card.getName(), player);
+		knownCards.put(card, player);
 		return true;
 	}
 
@@ -143,18 +143,9 @@ public class Player {
 	}
 
 	/**
-	 * Searches for a known card by name.
-	 * @param cardName
-	 */
-	/*********************** */
-	public String searchKnownCard(String cardName) {
-		return knownCards.get(cardName);
-	}
-
-	/**
 	 * Returns the map of known cards.
 	 */
-	public Map<String, String> getKnownCards() {
+	public Map<Card, String> getKnownCards() {
 		return knownCards;
 	}
 
@@ -163,7 +154,7 @@ public class Player {
 	 */
 	public String printKnownCards() {
 		StringBuilder sb = new StringBuilder();
-		for (Map.Entry<String, String> entry : knownCards.entrySet()) {
+		for (Map.Entry<Card, String> entry : knownCards.entrySet()) {
 			sb.append(entry.getKey())
 			  .append(" owned by ").append(entry.getValue())
 			  .append("\n");
