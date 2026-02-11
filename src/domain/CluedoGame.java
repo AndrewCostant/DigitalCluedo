@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.Collections;
 import java.util.Scanner;
-import domain.dto.RollResult;
+import domain.dto.*;
+
 
 public class CluedoGame {
 
@@ -49,7 +50,7 @@ public class CluedoGame {
 		}
 		while(!gameDeck.isEmpty()) {
 			for ( Player player : this.players ) {
-				player.addKnownCard(gameDeck.get(0).getName(), "Everyone");
+				player.addKnownCard(gameDeck.get(0), "Everyone");
 			}
 			gameDeck.remove(0);
 		}
@@ -137,12 +138,12 @@ public class CluedoGame {
 		return suspectW;
 	}
 
-	public void addKnownCardPlayers(Card cardName){
+	public void addKnownCardPlayers(Card card){
 		for (Player p: players){
 			if (p.equals(currentPlayer)){
 				continue;
 			} else {
-				p.addKnownCard(cardName, currentPlayer.getUsername());
+				p.addKnownCard(card, currentPlayer.getUsername());
 			}
 		}
 	}
@@ -151,7 +152,7 @@ public class CluedoGame {
 	 * Moves the current player to a new cell.	
 	 * @param newPosition
 	 */
-	public String goToCell(Cell newPosition) {
+	public ActionResult goToCell(Cell newPosition) {
 		return currentPlayer.moveTo(newPosition);
 	}
 
@@ -189,7 +190,7 @@ public class CluedoGame {
 					System.out.println(player.getUsername());
 					System.out.println(shownCard);
 					if (shownCard != null) {
-						currentPlayer.addKnownCard(shownCard.getName(), player.getUsername());
+						currentPlayer.addKnownCard(shownCard, player.getUsername());
 						t = false;
 					}
 				}
