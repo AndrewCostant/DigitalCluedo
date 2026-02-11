@@ -188,14 +188,14 @@ public class Player {
 	/**
 	 * Peeks at a random card from the player's hand without revealing it.
 	 */
-	public String peekRandomCard() {
+	public Card peekRandomCard() {
 		if (handCards.isEmpty()) {
 			return null; // No cards to peek at
 		}
 		Random rand = new Random();
 		int randomIndex = rand.nextInt(handCards.size());
 		Card randomCard = handCards.get(randomIndex);
-		return randomCard.getName();
+		return randomCard;
 	}
 
 	// GETTERS AND SETTERS
