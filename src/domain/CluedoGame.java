@@ -1,7 +1,6 @@
 package domain;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.Collections;
 import java.util.Scanner;
 import domain.dto.*;
@@ -133,7 +132,7 @@ public class CluedoGame {
 	 * @param newPosition
 	 */
 	public ActionResult goToCell(Cell newPosition) {
-		return currentPlayer.moveTo(newPosition);
+		return this.state.moveTo(newPosition);
 	}
 
 	public void endTurn() {
