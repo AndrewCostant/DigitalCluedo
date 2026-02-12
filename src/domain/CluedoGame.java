@@ -142,7 +142,7 @@ public class CluedoGame {
 	public String endGame() {
 		return "Correct guess! You win!";
 	}
-	
+
 	/**
 	 * Verifies a player's guess. if the guess is correct, ends the game. 
 	 * Otherwise, asks other players to show a card then, if one of them shows a card, adds it to the current player's known cards otherwise, some of these cards are in the winning solution.
@@ -150,7 +150,7 @@ public class CluedoGame {
 	 * @param newGuess
 	 */
 	public DoActionResult verifyGuess(Triplet newGuess) {
-		
+		return this.state.makeAssumption(newGuess);
 	}
 
 	// GETTERS AND SETTERS
