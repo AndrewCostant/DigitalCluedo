@@ -113,7 +113,7 @@ public class CluedoGame {
 	}
 
 	public Card getWinningCard(){
-		return suspectW;
+		return winningTriplet.suspectPerson();
 	}
 
 	public void addKnownCardPlayers(Card card){
