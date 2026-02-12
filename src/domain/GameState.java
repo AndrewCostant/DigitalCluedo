@@ -12,7 +12,7 @@ public interface GameState {
     //metodi gioco
     RollResult rollDice();
     ActionResult moveTo(Cell destination);
-    DoActionResult makeAssumption(Guess guess);
+    DoActionResult makeAssumption(Triplet guess);
 
     //gestion fine turno
     void endTurn();

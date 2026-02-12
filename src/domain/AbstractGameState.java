@@ -17,7 +17,7 @@ public abstract class AbstractGameState implements GameState{
     }
 
     @Override
-    public DoActionResult makeAssumption(Guess guess) {
+    public DoActionResult makeAssumption(Triplet guess) {
         throw new IllegalStateException("You can't make an assumption now");
     }
 

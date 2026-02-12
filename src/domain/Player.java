@@ -8,7 +8,7 @@ public class Player {
 	private String username;
 	private String pawnSkin;
 	private Cell position;
-	private ArrayList<Guess> guesses;
+	private ArrayList<Triplet> guesses;
 	private Map<Card, String> knownCards; /***************** */
 	private ArrayList<Card> handCards;
 	private ChanceC chanceCard; /*********************** */
@@ -18,7 +18,7 @@ public class Player {
 		this.username = username;
 		this.pawnSkin = pawnSkin;
 		this.position = position;
-		this.guesses = new ArrayList<Guess>();
+		this.guesses = new ArrayList<Triplet>();
 		this.knownCards = new HashMap<Card, String>();
 		this.handCards = new ArrayList<Card>();
 		this.chanceCard = null;
@@ -27,7 +27,7 @@ public class Player {
 	public Player(String username, Cell position) {
 		this.username = username;
 		this.position = position;
-		this.guesses = new ArrayList<Guess>();
+		this.guesses = new ArrayList<Triplet>();
 		this.knownCards = new HashMap<Card, String>();
 		this.handCards = new ArrayList<Card>();
 	}
@@ -48,9 +48,8 @@ public class Player {
 	 * @param weapon
 	 * @param room
 	 */
-	/***************************************************** */
 	public DoActionResult makeAGuess(SuspectC sus, WeaponC weapon, RoomC room) {
-		Guess newGuess = new Guess(sus, weapon, room);
+		Triplet newGuess = new Triplet(sus, weapon, room);
 		this.guesses.add(newGuess);
 		return CluedoGame.getInstance().verifyGuess(newGuess);
 	}
@@ -59,7 +58,7 @@ public class Player {
 	 * 
 	 * @param guess
 	 */
-	public Card showACard(Guess guess) {
+	public Card showACard(Triplet guess) {
 		for (Card card: handCards) {
 			if (guess.isInHand(card)) {
 				return card;
@@ -123,11 +122,11 @@ public class Player {
 	 * verifica se nella guess del giocare ci sono carte di cui è in possesso
 	 * quelle di cui non è in possesso le aggiunge alle known card
 	 */
-	public ArrayList<Card> addSuspectCards(Guess guess) {
+	public ArrayList<Card> addSuspectCards(Triplet guess) {
 		ArrayList<Card> result = new ArrayList<Card>();
-		SuspectC suspect = guess.getSuspect();
-		WeaponC weapon = guess.getWeapon();
-		RoomC room = guess.getRoom();
+		SuspectC suspect = guess.suspectPerson();
+		WeaponC weapon = guess.weapon();
+		RoomC room = guess.room();
 		ArrayList<Card> controlList = new ArrayList<Card>();
 		controlList.add(suspect);
 		controlList.add(weapon);
