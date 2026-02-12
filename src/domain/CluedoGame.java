@@ -46,14 +46,15 @@ public class CluedoGame {
 
 	public void createGameDeck() {
 		ArrayList<Card> deck = createSpecificDecks("suspect");
-		this.suspectW = (SuspectC) deck.remove( (int)(Math.random() * deck.size()) );
+		SuspectC suspectW = (SuspectC) deck.remove( (int)(Math.random() * deck.size()) );
 		gameDeck.addAll(deck);
 		deck = createSpecificDecks("room");
-		this.roomW = (RoomC) deck.remove( (int)(Math.random() * deck.size()) );
+		RoomC roomW = (RoomC) deck.remove( (int)(Math.random() * deck.size()) );
 		gameDeck.addAll(deck);
 		deck = createSpecificDecks("weapon");
-		this.weaponW = (WeaponC) deck.remove( (int)(Math.random() * deck.size()) );
+		WeaponC weaponW = (WeaponC) deck.remove( (int)(Math.random() * deck.size()) );
 		gameDeck.addAll(deck);
+		this.winningTriplet = new Triplet(suspectW, weaponW, roomW);
 		Collections.shuffle(gameDeck);
 	}
 
