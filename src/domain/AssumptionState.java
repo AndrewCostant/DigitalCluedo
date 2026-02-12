@@ -2,12 +2,11 @@ package domain;
 
 import java.util.ArrayList;
 
-import domain.dto.DoActionResult;
-import domain.dto.RoomCellDoAction;
+import domain.dto.*;
 
 public class AssumptionState extends AbstractGameState{
     @Override
-    public DoActionResult makeAssumption(Guess guess) {
+    public DoActionResult makeAssumption(Triplet guess) {
         CluedoGame c = CluedoGame.getInstance();
         Cell cell = c.getCurrentPlayer().getPosition();
 		ArrayList<Card> result = new ArrayList<Card>();
