@@ -19,9 +19,7 @@ public class CluedoGame {
 	//game deck
 	private ArrayList<Card> gameDeck;
 	//winning solution
-	private SuspectC suspectW;
-	private RoomC roomW;
-	private WeaponC weaponW;
+	private Triplet winningTriplet;
 	private GameState state;
 
 	private CluedoGame() {
@@ -186,8 +184,8 @@ public class CluedoGame {
 		return players.get(nextIndex);
 	}
 
-	public String getWinningTriplet() {
-		return this.suspectW.getName() + this.weaponW.getName() + this.roomW.getName();
+	public Triplet getWinningTriplet() {
+		return winningTriplet;
 	}
 
 	public ArrayList<Card> getGameDeck() {
