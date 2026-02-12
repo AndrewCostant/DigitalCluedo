@@ -10,9 +10,7 @@ public class AssumptionState extends AbstractGameState{
         CluedoGame c = CluedoGame.getInstance();
         Cell cell = c.getCurrentPlayer().getPosition();
 		ArrayList<Card> result = new ArrayList<Card>();
-		if(  guess.getSuspect().getName().equals(c.getSuspectW().getName()) &&
-				guess.getRoom().getName().equals(roomW.getName()) &&
-				guess.getWeapon().getName().equals(weaponW.getName()) ) {
+		if(  c.getWinningTriplet().equals(guess) ) {
 			return new RoomCellDoAction(cell, true, null);
 		} else {
 			int i = players.indexOf(currentPlayer);
