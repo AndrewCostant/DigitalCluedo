@@ -1,5 +1,6 @@
 package ui;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,11 +12,42 @@ import domain.Board;
 import domain.Player;
 
 public class IO {
+    
+    private static volatile IO instance;
 
-    ArrayList<StringBuilder> output;
+    StringBuilder[] output;
+    ArrayList<String> welcome;
 
-    public IO() {
-        output = new ArrayList<>();
+    private IO() throws FileNotFoundException {
+        this.initializeMap();
+        this.initializeWelcome();
+    }
+
+    public static IO getInstance() throws FileNotFoundException {
+        if (instance == null) {
+            instance = new IO();
+        }
+        return instance;
+    }
+
+    private void initializeWelcome() throws FileNotFoundException{
+        String path = "utility/intestazione.txt";
+
+        InputStream is = Board.class.getClassLoader().getResourceAsStream(path);
+        if (is == null) {
+            throw new RuntimeException("File not found: " + path);
+        }
+		try (Scanner sc = new Scanner(is)) {
+            while (sc.hasNextLine()) {
+                welcome.add(sc.nextLine());
+            }
+        }
+        catch (Exception e) {
+            throw new FileNotFoundException("File intestazione.txt not found");
+        }
+    }
+
+    private void initializeMap() {
         String path = "utility/map.txt";
         InputStream is = Board.class.getClassLoader().getResourceAsStream(path);
         if (is == null) {
@@ -31,26 +63,10 @@ public class IO {
                 }
             }
         }
-        StringBuilder[] output = new StringBuilder[map.length];
+        output = new StringBuilder[map.length];
         for (int i = 0; i < map.length; i++) {
             output[i] = new StringBuilder(map[i]);
         }
-    }
-
-    public static String printDigitalCluedo(){
-        return 
-        "==================================================================================================\n" +
-        "██████╗ ██╗ ██████╗ ██╗████████╗ █████╗ ██╗      ██████╗██╗     ██╗   ██╗███████╗██████╗  ██████╗ \n" +
-        "██╔══██╗██║██╔════╝ ██║╚══██╔══╝██╔══██╗██║     ██╔════╝██║     ██║   ██║██╔════╝██╔══██╗██╔═══██╗\n" +
-        "██║  ██║██║██║  ███╗██║   ██║   ███████║██║     ██║     ██║     ██║   ██║█████╗  ██║  ██║██║   ██║\n" +
-        "██║  ██║██║██║   ██║██║   ██║   ██╔══██║██║     ██║     ██║     ██║   ██║██╔══╝  ██║  ██║██║   ██║\n" +
-        "██████╔╝██║╚██████╔╝██║   ██║   ██║  ██║███████╗╚██████╗███████╗╚██████╔╝███████╗██████╔╝╚██████╔╝\n" +
-        "╚═════╝ ╚═╝ ╚═════╝ ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝ ╚═════╝╚══════╝ ╚═════╝ ╚══════╝╚═════╝  ╚═════╝\n" +
-        "==================================================================================================\n" +
-        "Hi, this is the first demo of Digital Cluedo.\n" +
-        "At the beginning, they are in the Hall.\n" +
-        "Each player will take turns to roll the dice and move on the board.\n" +
-        "Enjoy the demo!\n";
     }
 
     /**
@@ -58,27 +74,7 @@ public class IO {
      * 
      * @param players Lista dei giocatori da stampare sulla mappa.
      */
-    public static void printBoardWithPlayers(ArrayList<Player> players) {
-
-        String path = "utility/map.txt";
-        InputStream is = Board.class.getClassLoader().getResourceAsStream(path);
-        if (is == null) {
-            throw new RuntimeException("File not found: " + path);
-        }
-        String[] map = new String[30];
-		try (Scanner sc = new Scanner(is)) {
-            for (int i = 0; i < map.length; i++) {
-                if (sc.hasNextLine()) {
-                    map[i] = sc.nextLine();
-                } else {
-                    throw new RuntimeException("File has fewer lines than expected: " + path);
-                }
-            }
-        }
-        StringBuilder[] output = new StringBuilder[map.length];
-        for (int i = 0; i < map.length; i++) {
-            output[i] = new StringBuilder(map[i]);
-        }
+    public void printBoardWithPlayers(ArrayList<Player> players) {
 
         // raggruppa player per cella
         Map<String, List<String>> playersPerCell = new HashMap<>();
@@ -110,6 +106,12 @@ public class IO {
         }
         for (StringBuilder line : output) {
             System.out.println(line);
+        }
+    }
+
+    public void printWelcome() {
+        for (String line : welcome) {
+            System.out.print(line);
         }
     }
 

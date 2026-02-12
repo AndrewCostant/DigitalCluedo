@@ -23,6 +23,7 @@ public class CluedoGame {
 	private SuspectC suspectW;
 	private RoomC roomW;
 	private WeaponC weaponW;
+	private GameState state;
 
 	private CluedoGame() {
 		this.dice = new Dice(3);
@@ -30,6 +31,7 @@ public class CluedoGame {
 		this.gameDeck = new ArrayList<Card>();
 		this.currentPlayerIndex = 0;
 		this.numberOfPlayers = 0;
+		this.state = new SetUpState();
 	}
 
 	public static CluedoGame getInstance() {
@@ -39,27 +41,8 @@ public class CluedoGame {
 		return instance;
 	}
 	
-	public boolean startGame(ArrayList<Player> players){
-		setPlayers(players);
-		createGameDeck();
-		int cardsPerPlayer = gameDeck.size() / numberOfPlayers;
-		for ( Player player : this.players ) {
-			for ( int i = 0; i < cardsPerPlayer; i++ ) {
-				player.addCardToHand( gameDeck.remove(0) );
-			}
-		}
-		while(!gameDeck.isEmpty()) {
-			for ( Player player : this.players ) {
-				player.addKnownCard(gameDeck.get(0), "Everyone");
-			}
-			gameDeck.remove(0);
-		}
-		// set startPosition
-		for ( Player player : this.players ) {
-			player.setPosition(Board.getInstance().getCellXY(3,3));
-		}
-		setCurrentPlayer();
-		return true;
+	public void startGame(){
+		this.state.setUpGame();
 	}
 
 	public void createGameDeck() {
@@ -101,7 +84,7 @@ public class CluedoGame {
 		return deck;
 	}
 
-	public String printSpecificDeckByType(String className) throws Exception {
+	public String specificDeckByTypeToString(String className) throws Exception {
 		String path = "utility/" + className.toLowerCase() + "Card.txt";
 		InputStream is = getClass().getClassLoader().getResourceAsStream(path);
 		if (is == null) {
@@ -124,10 +107,7 @@ public class CluedoGame {
 	 * Rolls the dice and returns all the possible moves.
 	 */
 	public RollResult rollDices() {
-		int rollResult = dice.roll() + dice.roll();
-		Cell currentPosition = currentPlayer.getPosition();
-		Set<Cell> possibleMoves = Board.getInstance().possibleDestinations(currentPosition, rollResult);
-		return new RollResult(rollResult, possibleMoves);
+		return this.state.rollDice();
 	}
 
 	public int gamble(){
@@ -222,7 +202,11 @@ public class CluedoGame {
 		this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.numberOfPlayers;
 	}
 
-	public void setPlayers(ArrayList<Player> players) {
+	public void setPlayers(ArrayList<String> players) {
+		this.state.setPlayers(players);
+	}
+
+	public void addPlayers(ArrayList<Player> players) {
 		this.players = players;
 		this.numberOfPlayers = players.size();
 	}
@@ -240,7 +224,9 @@ public class CluedoGame {
 		return this.suspectW.getName() + this.weaponW.getName() + this.roomW.getName();
 	}
 
-
+	public ArrayList<Card> getGameDeck() {
+		return this.gameDeck;
+	}
 
 
 
