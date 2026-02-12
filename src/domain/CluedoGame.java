@@ -132,7 +132,7 @@ public class CluedoGame {
 	 * @param newPosition
 	 */
 	public ActionResult goToCell(Cell newPosition) {
-		return currentPlayer.moveTo(newPosition);
+		return this.state.moveTo(newPosition);
 	}
 
 	public void endTurn() {
