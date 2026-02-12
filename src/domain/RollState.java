@@ -11,6 +11,9 @@ public class RollState extends AbstractGameState {
         int rollResult = c.gamble();
 		Cell currentPosition = c.getCurrentPlayer().getPosition();
 		Set<Cell> possibleMoves = Board.getInstance().possibleDestinations(currentPosition, rollResult);
+
+        c.setState(new MoveState());
+        
 		return new RollResult(rollResult, possibleMoves);
     }
 }

@@ -135,12 +135,7 @@ public class CluedoGame {
 	}
 
 	public void endTurn() {
-		setCurrentPlayer();
-	}
-
-	//***************************************************************************************************************************************** */
-	public String endGame() {
-		return "Correct guess! You win!";
+		this.state.endTurn();
 	}
 
 	/**
@@ -190,6 +185,10 @@ public class CluedoGame {
 
 	public ArrayList<Card> getGameDeck() {
 		return this.gameDeck;
+	}
+
+	public void setState(GameState state) {
+		this.state = state;
 	}
 
 

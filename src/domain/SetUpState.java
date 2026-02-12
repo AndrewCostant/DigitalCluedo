@@ -24,6 +24,7 @@ public class SetUpState extends AbstractGameState{
 			player.setPosition(Board.getInstance().getCellXY(3,3));
 		}
 		c.setCurrentPlayer(); 
+		c.setState(new RollState());
     }
 
     @Override

@@ -8,19 +8,26 @@ public class AssumptionState extends AbstractGameState{
     @Override
     public DoActionResult makeAssumption(Triplet guess) {
         CluedoGame c = CluedoGame.getInstance();
-        Cell cell = c.getCurrentPlayer().getPosition();
+
+        Player currentPlayer = c.getCurrentPlayer();
+        int numberOfPlayers = c.getNumberOfPlayers();
+
+        Cell cell = currentPlayer.getPosition();
 		ArrayList<Card> result = new ArrayList<Card>();
+
+        
 		if(  c.getWinningTriplet().equals(guess) ) {
+            c.setState(new EndGameState());
 			return new RoomCellDoAction(cell, true, null);
 		} else {
-			int i = players.indexOf(currentPlayer);
+			int i = c.getPlayers().indexOf(currentPlayer);
 			boolean t = true;
 			while ( t ) {
 				i++;
 				if (i == numberOfPlayers) {
 					i = 0;
 				}
-				Player player = players.get(i);
+				Player player = c.getPlayers().get(i);
 				//se nessuno ha mostrato una carta esce dal loop e bisogna aggiungere le carte dell'assunzione che il player corrente non ha nel mazzo known card del player stesso con il valore "scoperto"
 				if (player != currentPlayer) {
 					Card shownCard = player.showACard(guess);
@@ -40,5 +47,12 @@ public class AssumptionState extends AbstractGameState{
 			}
 			return new RoomCellDoAction(cell, false, result);
 		}
+    }
+
+    @Override
+    public void endTurn() {
+        CluedoGame c = CluedoGame.getInstance();
+        c.setCurrentPlayer();
+        c.setState(new RollState());
     }
 }
