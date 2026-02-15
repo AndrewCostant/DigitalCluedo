@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Scanner;
 
 
 import domain.*;
@@ -12,27 +11,15 @@ import domain.dto.RollResult;
 public class App {
 
     public static void main(String[] args) throws Exception {
-        System.out.println();
         TerminalUI.getInstance().printWelcome();
-        System.out.println();
-
-        ArrayList<String> players = new ArrayList<>();
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Number of players: ");
-        int numPlayers = scanner.nextInt();
-        scanner.nextLine(); 
-        for (int i = 0; i < numPlayers; i++) {
-            System.out.print("Player's name: ");
-            String name = scanner.nextLine();
-            players.add(name);
-        }
-
+        
+        ArrayList<String> players = TerminalUI.getInstance().initializePlayers();
         boolean gameOver = false;
         CluedoGame.getInstance().setPlayers(players);
         CluedoGame.getInstance().startGame();
         System.out.println();
         TerminalUI.getInstance().printBoardWithPlayers(CluedoGame.getInstance().getPlayers());
-        // loop dei turni
+    
         while (!gameOver) {
             TerminalUI.getInstance().startTurn(CluedoGame.getInstance().getCurrentPlayer());
             RollResult rollResult = CluedoGame.getInstance().rollDices();

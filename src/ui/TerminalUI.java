@@ -2,7 +2,6 @@ package ui;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -72,6 +71,21 @@ public class TerminalUI {
         for (int i = 0; i < map.length; i++) {
             output[i] = new StringBuilder(map[i]);
         }
+    }
+
+    public ArrayList<String> initializePlayers(){
+        ArrayList<String> players = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Number of players: ");
+        int numPlayers = scanner.nextInt();
+        scanner.nextLine(); 
+        for (int i = 0; i < numPlayers; i++) {
+            System.out.print("Player's name: ");
+            String name = scanner.nextLine();
+            players.add(name);
+        }
+        scanner.close();
+        return players;
     }
 
     /**
