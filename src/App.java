@@ -1,8 +1,7 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
+
 
 import domain.*;
 import ui.*;
@@ -38,7 +37,6 @@ public class App {
             TerminalUI.getInstance().startTurn(CluedoGame.getInstance().getCurrentPlayer());
             RollResult rollResult = CluedoGame.getInstance().rollDices();
             TerminalUI.getInstance().rollResult(rollResult);
-            boolean validChoice = false;
             int choice = -1;
             int choice2 = -1;
 
@@ -82,7 +80,9 @@ public class App {
 
                     System.out.println(CluedoGame.getInstance().getWinningTriplet()); // debug
 
-                    TerminalUI.getInstance().displayRoomAction(handCards, knownCards, suspectCards, weaponCards);
+                    ArrayList<Card> assumption = TerminalUI.getInstance().displayRoomAction(handCards, knownCards, suspectCards, weaponCards);
+                    suspectedPerson = (SuspectC) assumption.get(0);
+                    suspectedWeapon = (WeaponC) assumption.get(1);
             }
 
             DoActionResult result = Board.getInstance().doAction(suspectedPerson, suspectedWeapon);
@@ -112,8 +112,6 @@ public class App {
             }
             CluedoGame.getInstance().endTurn();
         }
-
-        scanner.close();
         
 
         /*
