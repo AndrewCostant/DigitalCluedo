@@ -19,4 +19,9 @@ public class PeekCard implements EffectStrategy {
 		return new ChanceDoAction(player.getPosition(), false, cardsShown, this);
 	}
 
+	@Override
+	public String getDescription() {
+		return "You have peeked at a random card from the next player's hand!";
+	}
+
 }

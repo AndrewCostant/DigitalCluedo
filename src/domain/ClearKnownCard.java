@@ -10,4 +10,9 @@ public class ClearKnownCard implements EffectStrategy {
         player.clearKnownCards();
         return new ChanceDoAction(player.getPosition(), false, null, this);
     }
+
+    @Override
+    public String getDescription() {
+        return "You have cleared all your known cards!";
+    }
 }

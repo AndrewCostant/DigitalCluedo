@@ -1,9 +1,11 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
 import domain.*;
-import ui.IO;
+import ui.*;
 import domain.dto.ActionResult;
 import domain.dto.DoActionResult;
 import domain.dto.RollResult;
@@ -12,11 +14,10 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         System.out.println();
-        System.out.println(IO.printDigitalCluedo());
+        TerminalUI.getInstance().printWelcome();
         System.out.println();
 
-        RoomCell startPosition = (RoomCell) Board.getInstance().getCellXY(3, 3);
-        ArrayList<Player> players = new ArrayList<>();
+        ArrayList<String> players = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         System.out.print("Number of players: ");
         int numPlayers = scanner.nextInt();
@@ -24,112 +25,96 @@ public class App {
         for (int i = 0; i < numPlayers; i++) {
             System.out.print("Player's name: ");
             String name = scanner.nextLine();
-            Player player = new Player(name, startPosition);
-            players.add(player);
+            players.add(name);
         }
 
         boolean gameOver = false;
-        CluedoGame.getInstance().startGame(players);
+        CluedoGame.getInstance().setPlayers(players);
+        CluedoGame.getInstance().startGame();
         System.out.println();
-        IO.printBoardWithPlayers(CluedoGame.getInstance().getPlayers());
+        TerminalUI.getInstance().printBoardWithPlayers(CluedoGame.getInstance().getPlayers());
         // loop dei turni
         while (!gameOver) {
-            System.out.println(
-                    "================================" + CluedoGame.getInstance().getCurrentPlayer().getUsername()
-                            + "'s turn===========================================");
-            System.out.print("Press enter to roll the dices... \n");
-            scanner.nextLine();
-            System.out.println("This is your hand ");
-            System.out.println(CluedoGame.getInstance().getCurrentPlayer().printHandCards());
-
-            System.out.println("\nThese are your known cards ");
-            System.out.println(CluedoGame.getInstance().getCurrentPlayer().printKnownCards());
-
+            TerminalUI.getInstance().startTurn(CluedoGame.getInstance().getCurrentPlayer());
             RollResult rollResult = CluedoGame.getInstance().rollDices();
-            Set<Cell> possibleDestinations = rollResult.cells();
-            System.out.println("You rolled a: " + rollResult.value());
-            System.out.print("\nYou have " + possibleDestinations.size() + " possible destinations: \n");
-            int number = 1;
-            for (Cell destination : possibleDestinations) {
-                System.out.println(number + ": " + destination);
-                number++;
-            }
+            TerminalUI.getInstance().rollResult(rollResult);
             boolean validChoice = false;
             int choice = -1;
             int choice2 = -1;
 
-            System.out.println(CluedoGame.getInstance().getWinningTriplet());
+            System.out.println(CluedoGame.getInstance().getWinningTriplet()); // debug
 
-            while (!validChoice) {
-                System.out.print("\nInsert x coordinate ");
-                choice = scanner.nextInt();
-                System.out.print("Insert y coordinate ");
-                choice2 = scanner.nextInt();
-                scanner.nextLine(); // consume newline
-                if (checkCoordinates(choice, choice2, possibleDestinations)) {
-                    validChoice = true;
-                } else {
-                    System.out.println("Invalid coordinates. Please choose again.");
-                }
-            }
+            ArrayList<Integer> destination = TerminalUI.getInstance().askDestination(rollResult);
+            choice = destination.get(0);
+            choice2 = destination.get(1);
 
             ActionResult typeOfAction = CluedoGame.getInstance().goToCell(Board.getInstance().getCellXY(choice, choice2));
-            IO.printBoardWithPlayers(CluedoGame.getInstance().getPlayers());
-            System.out.println(typeOfAction);
+            TerminalUI.getInstance().printBoardWithPlayers(CluedoGame.getInstance().getPlayers());
+
+            String actionResultString = typeOfAction.getType();
+
+
             /**
-             * Versione demo di gestione delle azioni della stanza :)
+             * Versione demo di gestione delle azioni della stanza :)(
              */
+
+
+
             SuspectC suspectedPerson = null;
             WeaponC suspectedWeapon = null;
 
-            switch (typeOfAction) {
-                case "Normal_Cell":
-                    System.out.println("Press Enter to end your turn");
-                    scanner.nextLine();
+            switch (actionResultString) {
+                case "NORMAL_CELL":
+                    TerminalUI.getInstance().displayNormalCellAction();
                     break;
-                case "Chance_Cell":
-                    /**
-                     * Leggi l'effetto della carta e chiede eventuali input
-                     */
-                    System.out.println("You are on a chance cell, press Enter to draw a chanceCard");
-                    scanner.nextLine();
+                case "CHANCE_CELL":
+                    TerminalUI.getInstance().displayChanceCellAction(typeOfAction.getCard());
+                    break;
+                case "GAMBLING_ROOM_CELL":
+                    TerminalUI.getInstance().displayGamblingRoomAction(typeOfAction);
                     break;
                 default:
-                    System.out.println(
-                            "You entered a room, make your assumption. Please, note that the suspected room is the room you are into.");
+                    TerminalUI.getInstance().printBoardWithPlayers(CluedoGame.getInstance().getPlayers());
+                    ArrayList<Card> handCards = CluedoGame.getInstance().getCurrentPlayer().getHandCards();
+                    Map<Card,String> knownCards = CluedoGame.getInstance().getCurrentPlayer().getKnownCards();
+                    String suspectCards = CluedoGame.getInstance().specificDeckByTypeToString("suspect");
+                    String weaponCards = CluedoGame.getInstance().specificDeckByTypeToString("weapon");
 
-                    System.out.println("Suspects:");
-                    System.out.println(CluedoGame.getInstance().printSpecificDeckByType("suspect"));
-                    System.out.println("Weapons:");
-                    System.out.println(CluedoGame.getInstance().printSpecificDeckByType("weapon"));
+                    System.out.println(CluedoGame.getInstance().getWinningTriplet()); // debug
 
-                    System.out.println("This is your hand ");
-                    System.out.println(CluedoGame.getInstance().getCurrentPlayer().printHandCards());
-                    System.out.println("\nThese are your known cards ");
-                    System.out.println(CluedoGame.getInstance().getCurrentPlayer().printKnownCards());
-
-                    System.out.println(CluedoGame.getInstance().getWinningTriplet());
-
-                    System.out.print("\nEnter your suspected person:");
-                    String person = scanner.nextLine().trim();
-                    suspectedPerson = new SuspectC(person);
-
-                    System.out.print("\nEnter your suspected weapon:");
-                    String weapon = scanner.nextLine().trim();
-                    suspectedWeapon = new WeaponC(weapon);
+                    TerminalUI.getInstance().displayRoomAction(handCards, knownCards, suspectCards, weaponCards);
             }
 
             DoActionResult result = Board.getInstance().doAction(suspectedPerson, suspectedWeapon);
-            System.out.println(result);
-
-            if (result == "Correct guess! You win!") {
+            if (result.isGameEnded()) {
                 gameOver = true;
+                TerminalUI.getInstance().printWinner(CluedoGame.getInstance().getCurrentPlayer());
+            } else {
+                Cell cell = result.getCell();
+                if (cell instanceof RoomCell) {
+                    ArrayList<Card> cardsShown = result.getCardsShown();
+                    if (cardsShown.isEmpty()) {
+                        TerminalUI.getInstance().printNoCardsShown();
+                    } else {
+                        TerminalUI.getInstance().printCardsShown(cardsShown);
+                    }
+                }
+                if (result.getEffect() != null) {
+                    if (result.getEffect() instanceof PeekCard) {
+                        TerminalUI.getInstance().showPeekedCard(result);
+                    } else {
+                        TerminalUI.getInstance().printEffect(result);
+                    }
+                }
+                if (cell instanceof NormalCell) {
+                    TerminalUI.getInstance().displayEndTurn();
+                }
             }
-
-            System.out.println("================================================================================================");
+            CluedoGame.getInstance().endTurn();
         }
 
         scanner.close();
+        
 
         /*
          * NormalCell cell1 = new NormalCell(5,2);
@@ -141,12 +126,5 @@ public class App {
          */
     }
 
-    public static boolean checkCoordinates(int x, int y, Set<Cell> possibleDestinations) {
-        for (Cell cell : possibleDestinations) {
-            if (cell.getX() == x && cell.getY() == y) {
-                return true;
-            }
-        }
-        return false;
-    }
+    
 }

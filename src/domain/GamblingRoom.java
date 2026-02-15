@@ -4,11 +4,13 @@ import domain.dto.*;
 
 public class GamblingRoom extends RoomCell {
 
+	
+	private int condition = 6;
+	
 	public GamblingRoom(int x, int y, String name) {
-		super(x, y, name);
+		super(x, y, name, "GAMBLING_ROOM_CELL");
 	}
 
-	private int condition = 6;
 
 	@Override
 	public ActionResult action() {

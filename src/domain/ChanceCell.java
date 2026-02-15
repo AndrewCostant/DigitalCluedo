@@ -7,7 +7,7 @@ import domain.dto.*;
 public class ChanceCell implements Cell {
 	private final int x;
 	private final int y;
-	private final String type = "CHANCECELL";
+	private final String type = "CHANCE_CELL";
 
 	public ChanceCell(int x, int y) {
 		this.x = x;

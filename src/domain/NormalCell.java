@@ -8,7 +8,7 @@ public class NormalCell implements Cell {
 
     private final int x;
 	private final int y;
-    private final String type = "NormalCell";
+    private final String type = "NORMAL_CELL";
 
     public NormalCell(int x, int y) {
         this.x = x;

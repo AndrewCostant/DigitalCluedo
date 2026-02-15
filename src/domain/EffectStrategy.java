@@ -10,4 +10,5 @@ public interface EffectStrategy {
 	 */
 	public DoActionResult effect(Player player);
 
+	public String getDescription();
 }
