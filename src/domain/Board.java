@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import domain.dto.DoActionResult;
+import domain.dto.*;
 
 public class Board {
 
@@ -49,10 +49,8 @@ public class Board {
 		try (Scanner sc = new Scanner(is)) {
 			while (sc.hasNextLine()) {
 				String name = sc.nextLine();
-				switch (name) {
-					case "peekCard" -> deck.add(new ChanceC(new PeekCard()));
-					case "clearKnownCard" -> deck.add(new ChanceC(new ClearKnownCard()));
-				}
+				ChanceC card = (ChanceC) CardFactory.createCard("chance", name);
+				deck.add(card);
 			}
 		}
 		return deck;
@@ -145,18 +143,20 @@ public class Board {
 			// Crea celle (VERTICI)
 			for (JsonNode c : root.get("cells")) {
 				String type = c.get("type").asText();
+				String name = c.get("name").asText();
 				int x = c.get("x").asInt();
 				int y = c.get("y").asInt();
 
-				Cell cell;
-				switch (type) {
-					case "NORMAL" -> cell = new NormalCell(x, y);
-					case "CHANCE" -> cell = new ChanceCell(x, y);
-					case "ROOM" -> cell = new NormalRoom(x, y, c.get("name").asText());
-					case "SECRET_ROOM" -> cell = new SecretPassageRoom(x, y, c.get("name").asText());
-					case "GAMBLING" -> cell = new GamblingRoom(x, y, c.get("name").asText());
-					default -> throw new IllegalArgumentException("Unknown type");
-				}
+				Cell cell = CellFactory.createCell(x, y, type, name);
+
+				// switch (type) {
+				// 	case "NORMAL" -> cell = new NormalCell(x, y);
+				// 	case "CHANCE" -> cell = new ChanceCell(x, y);
+				// 	case "ROOM" -> cell = new NormalRoom(x, y, c.get("name").asText());
+				// 	case "SECRET_ROOM" -> cell = new SecretPassageRoom(x, y, c.get("name").asText());
+				// 	case "GAMBLING" -> cell = new GamblingRoom(x, y, c.get("name").asText());
+				// 	default -> throw new IllegalArgumentException("Unknown type");
+				// }
 
 				graph.addVertex(cell);
 				cells.put(x + "," + y, cell);

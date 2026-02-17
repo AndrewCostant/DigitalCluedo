@@ -4,10 +4,11 @@ import domain.dto.*;
 
 public class ChanceC extends Card {
 
+    private String name;
     private EffectStrategy effectStrategy;
 
-    public ChanceC(EffectStrategy effectStrategy) {
-        super("Unnamed Chance");
+    public ChanceC(String name, EffectStrategy effectStrategy) {
+        super(name);
         this.effectStrategy = effectStrategy;
     }
 
@@ -15,6 +16,10 @@ public class ChanceC extends Card {
         return effectStrategy.effect(player);
     }
     
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String toString() {
         return "Chance[" + this.getName() + "]";

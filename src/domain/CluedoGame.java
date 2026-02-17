@@ -71,11 +71,8 @@ public class CluedoGame {
 		try (Scanner sc = new Scanner(is)) {
 			while (sc.hasNextLine()) {
 				String name = sc.nextLine();
-				switch (className) {
-					case "suspect" -> deck.add(new SuspectC(name));
-					case "room" -> deck.add(new RoomC(name));
-					case "weapon" -> deck.add(new WeaponC(name));
-				}
+				Card c = CardFactory.createCard(className.toLowerCase(), name);
+				deck.add(c);
 			}
 		}
 

@@ -1,2 +1,2 @@
-peekCard
-clearKnownCard
+PeekCard
+ClearKnownCard
