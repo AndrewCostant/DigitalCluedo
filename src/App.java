@@ -27,7 +27,7 @@ public class App {
             int choice = -1;
             int choice2 = -1;
 
-            System.out.println(CluedoGame.getInstance().getWinningTriplet()); // debug
+            System.out.println("Soluzione " + CluedoGame.getInstance().getWinningTriplet()); // debug
 
             ArrayList<Integer> destination = TerminalUI.getInstance().askDestination(rollResult);
             choice = destination.get(0);
@@ -59,7 +59,6 @@ public class App {
                     TerminalUI.getInstance().displayGamblingRoomAction(typeOfAction);
                     break;
                 default:
-                    TerminalUI.getInstance().printBoardWithPlayers(CluedoGame.getInstance().getPlayers());
                     ArrayList<Card> handCards = CluedoGame.getInstance().getCurrentPlayer().getHandCards();
                     Map<Card,String> knownCards = CluedoGame.getInstance().getCurrentPlayer().getKnownCards();
                     String suspectCards = CluedoGame.getInstance().specificDeckByTypeToString("suspect");

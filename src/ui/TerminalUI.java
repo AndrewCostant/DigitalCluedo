@@ -190,6 +190,7 @@ public class TerminalUI {
                 System.out.println("Invalid coordinates. Please try again.");
             }
         }
+        scanner.nextLine(); // consume the newline character after nextInt()
         ArrayList<Integer> result = new ArrayList<>();
         result.add(choice);
         result.add(choice2);
