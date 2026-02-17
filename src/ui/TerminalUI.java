@@ -17,11 +17,13 @@ import domain.dto.RollResult;
 public class TerminalUI {
     
     private static volatile TerminalUI instance;
+    private Scanner scanner;
 
     StringBuilder[] output;
     ArrayList<String> welcome = new ArrayList<>();
 
     private TerminalUI() throws FileNotFoundException {
+        scanner = new Scanner(System.in);
         this.initializeMap();
         this.initializeWelcome();
     }
@@ -75,7 +77,6 @@ public class TerminalUI {
 
     public ArrayList<String> initializePlayers(){
         ArrayList<String> players = new ArrayList<>();
-        Scanner scanner = new Scanner(System.in);
         System.out.print("Number of players: ");
         int numPlayers = scanner.nextInt();
         scanner.nextLine(); 
@@ -84,7 +85,6 @@ public class TerminalUI {
             String name = scanner.nextLine();
             players.add(name);
         }
-        scanner.close();
         return players;
     }
 
@@ -130,7 +130,7 @@ public class TerminalUI {
 
     public void printWelcome() {
         for (String line : welcome) {
-            System.out.print(line);
+            System.out.println(line);
         }
     }
 
@@ -151,9 +151,7 @@ public class TerminalUI {
         System.out.println("\nThese are your known cards ");
         System.out.println(player.printKnownCards());
         System.out.print("Press enter to roll the dices... \n");
-        Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
-        scanner.close();
     } 
 
     public void rollResult(RollResult  rollResult){
@@ -177,7 +175,6 @@ public class TerminalUI {
     }
 
     public ArrayList<Integer> askDestination(RollResult rollResult){
-        Scanner scanner = new Scanner(System.in);
         boolean validChoice = false;
         int choice = -1;
         int choice2 = -1;
@@ -196,28 +193,22 @@ public class TerminalUI {
         ArrayList<Integer> result = new ArrayList<>();
         result.add(choice);
         result.add(choice2);
-        scanner.close();
         return result;
     }
 
     public void displayNormalCellAction(){
         System.out.println("You entered a normal cell, press Enter to end your turn");
-        Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
-        scanner.close();
     }
 
     public void displayChanceCellAction(Card card){
         System.out.println("You are on a chance cell, press Enter to draw a chanceCard");
-        Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
         System.out.println("You drew the card: " + card.getName());
-        scanner.close();
     }
 
     public void displayGamblingRoomAction(ActionResult actionResult){
         System.out.println("You are on a gambling room cell, press Enter to gamble");
-        Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
         int number = actionResult.getValue();
         int condition = ((GamblingRoom) actionResult.getCell()).getCondition();
@@ -228,11 +219,9 @@ public class TerminalUI {
             System.out.println("You rolled a " + number + " and lost the gamble.");
             System.out.println("The card you showed is: " + actionResult.getCard().getName());
         }
-        scanner.close();
     }
 
     public ArrayList<Card> displayRoomAction(ArrayList<Card> handCards, Map<Card,String> knownCards, String suspectCards, String weaponCards){
-        Scanner scanner = new Scanner(System.in);
         ArrayList<Card> assumption = new ArrayList<>();
         System.out.println("You entered a room, make your assumption. Please, note that the suspected room is the room you are into.");
         System.out.println("This is your hand ");
@@ -253,7 +242,6 @@ public class TerminalUI {
         System.out.print("\nEnter your suspected weapon:");
         String weapon = scanner.nextLine().trim();
         Card suspectedWeapon = new WeaponC(weapon);
-        scanner.close();
         assumption.add(suspectedPerson);
         assumption.add(suspectedWeapon);
         return assumption;
@@ -285,9 +273,7 @@ public class TerminalUI {
 
     public void displayEndTurn(){
         System.out.println("Press Enter to end your turn");
-        Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
-        scanner.close();
     }
 
 }
