@@ -94,7 +94,11 @@ public class TerminalUI {
      * @param players Lista dei giocatori da stampare sulla mappa.
      */
     public void printBoardWithPlayers(ArrayList<Player> players) {
-
+        StringBuilder[] outputCopy = new StringBuilder[output.length];
+        for (int i = 0; i < output.length; i++) {
+            outputCopy[i] = new StringBuilder(output[i].toString());
+        }
+        
         // raggruppa player per cella
         Map<String, List<String>> playersPerCell = new HashMap<>();
         for (Player p : players) {
@@ -118,12 +122,12 @@ public class TerminalUI {
             String text = String.join(" ", entry.getValue());
 
             for (int i = 0; i < text.length(); i++) {
-                if (col + i < output[row].length()) {
-                    output[row].setCharAt(col + i, text.charAt(i));
+                if (col + i < outputCopy[row].length()) {
+                    outputCopy[row].setCharAt(col + i, text.charAt(i));
                 }
             }
         }
-        for (StringBuilder line : output) {
+        for (StringBuilder line : outputCopy) {
             System.out.println(line);
         }
     }
