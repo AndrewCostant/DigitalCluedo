@@ -130,7 +130,7 @@ public class TerminalUI {
 
     public void printWelcome() {
         for (String line : welcome) {
-            System.out.print(line);
+            System.out.println(line);
         }
     }
 
