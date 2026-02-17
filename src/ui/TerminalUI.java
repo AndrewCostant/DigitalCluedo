@@ -19,7 +19,7 @@ public class TerminalUI {
     private static volatile TerminalUI instance;
 
     StringBuilder[] output;
-    ArrayList<String> welcome;
+    ArrayList<String> welcome = new ArrayList<>();
 
     private TerminalUI() throws FileNotFoundException {
         this.initializeMap();
@@ -37,7 +37,7 @@ public class TerminalUI {
     private void initializeWelcome() throws FileNotFoundException{
         String path = "utility/intestazione.txt";
 
-        InputStream is = Board.class.getClassLoader().getResourceAsStream(path);
+        InputStream is = getClass().getClassLoader().getResourceAsStream(path);
         if (is == null) {
             throw new RuntimeException("File not found: " + path);
         }
@@ -53,7 +53,7 @@ public class TerminalUI {
 
     private void initializeMap() {
         String path = "utility/map.txt";
-        InputStream is = Board.class.getClassLoader().getResourceAsStream(path);
+        InputStream is = getClass().getClassLoader().getResourceAsStream(path);
         if (is == null) {
             throw new RuntimeException("File not found: " + path);
         }
