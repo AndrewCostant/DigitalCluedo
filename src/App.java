@@ -92,10 +92,8 @@ public class App {
                         TerminalUI.getInstance().printEffect(result);
                     }
                 }
-                if (cell instanceof NormalCell) {
-                    TerminalUI.getInstance().displayEndTurn();
-                }
             }
+            TerminalUI.getInstance().displayEndTurn();
             CluedoGame.getInstance().endTurn();
         }
         

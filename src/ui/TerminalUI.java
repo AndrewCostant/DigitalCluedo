@@ -186,7 +186,7 @@ public class TerminalUI {
         while (!validChoice) {
             System.out.print("\nInsert x coordinate ");
             choice = scanner.nextInt();
-            System.out.print("\nInsert y coordinate ");
+            System.out.print("Insert y coordinate ");
             choice2 = scanner.nextInt();
             if (checkCoordinates(choice, choice2, rollResult.cells())) {
                 validChoice = true;
@@ -194,6 +194,7 @@ public class TerminalUI {
                 System.out.println("Invalid coordinates. Please try again.");
             }
         }
+        System.out.println();
         scanner.nextLine(); // consume the newline character after nextInt()
         ArrayList<Integer> result = new ArrayList<>();
         result.add(choice);
@@ -202,8 +203,7 @@ public class TerminalUI {
     }
 
     public void displayNormalCellAction(){
-        System.out.println("You entered a normal cell, press Enter to end your turn");
-        scanner.nextLine();
+        System.out.println("You entered a normal cell, you can't do any action...");
     }
 
     public void displayChanceCellAction(Card card){
@@ -228,27 +228,27 @@ public class TerminalUI {
 
     public ArrayList<Card> displayRoomAction(ArrayList<Card> handCards, Map<Card,String> knownCards, String suspectCards, String weaponCards){
         ArrayList<Card> assumption = new ArrayList<>();
+        System.out.println();
         System.out.println("You entered a room, make your assumption. Please, note that the suspected room is the room you are into.");
         System.out.println("This is your hand ");
         System.out.println(handCards);
         System.out.println();
-        System.out.println("\nThese are your known cards ");
+        System.out.println("These are your known cards ");
         System.out.println(knownCards);
         System.out.println();
-        System.out.println("\nThese are the suspect cards: ");
+        System.out.println("These are the suspect cards: ");
         System.out.println(suspectCards);
-        System.out.println();
-        System.out.println("\nThese are the weapon cards: ");
+        System.out.println("These are the weapon cards: ");
         System.out.println(weaponCards);
-        System.out.println();
-        System.out.print("\nEnter your suspected person:");
+        System.out.print("Enter your suspected person:");
         String person = scanner.nextLine().trim();
         Card suspectedPerson = new SuspectC(person);
-        System.out.print("\nEnter your suspected weapon:");
+        System.out.print("Enter your suspected weapon:");
         String weapon = scanner.nextLine().trim();
         Card suspectedWeapon = new WeaponC(weapon);
         assumption.add(suspectedPerson);
         assumption.add(suspectedWeapon);
+        System.out.println();
         return assumption;
     }
 
