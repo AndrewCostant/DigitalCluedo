@@ -4,7 +4,7 @@ import domain.dto.*;
 
 public class ChanceC extends Card {
 
-    private String name;
+    //private String name;
     private EffectStrategy effectStrategy;
 
     public ChanceC(String name, EffectStrategy effectStrategy) {
@@ -16,9 +16,9 @@ public class ChanceC extends Card {
         return effectStrategy.effect(player);
     }
     
-    public String getName() {
-        return name;
-    }
+    // public String getName() {
+    //     return name;
+    // }
 
     @Override
     public String toString() {
