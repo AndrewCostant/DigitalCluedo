@@ -34,7 +34,8 @@ public class Player {
 
 	/**
 	 * Updates the player's position.
-	 * @param newPosition
+	 * @param newPosition The new cell to move to.
+	 * @return The result of the action performed upon entering the new cell.
 	 */
 	public ActionResult moveTo(Cell newPosition) {
 		setPosition(newPosition);

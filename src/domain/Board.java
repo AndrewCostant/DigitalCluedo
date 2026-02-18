@@ -35,7 +35,10 @@ public class Board {
 		return instance;
 	}
 
-
+	/**
+	 * Initializes the chance card deck by reading card names from a text file and creating ChanceC objects using a CardFactory.
+	 * @return An ArrayList of ChanceC objects representing the chance card deck.
+	 */
 	private ArrayList<ChanceC> initializeChanceDeck() {
 		String filePath = "utility/chanceCard.txt";
 		ArrayList<ChanceC> deck = new ArrayList<>();
@@ -90,6 +93,12 @@ public class Board {
         return visited;
 	}
 
+	/**
+	 * Returns the cell at the given coordinates (x, y).
+	 * @param x The x-coordinate.
+	 * @param y The y-coordinate.
+	 * @return The cell at (x, y) or null if not found.
+	 */
 	public Cell getCellXY(int x, int y) {
 		for (Cell cell : graph.vertexSet()) {
 			if (cell.getX() == x && cell.getY() == y) {
@@ -101,8 +110,8 @@ public class Board {
 
 	/**
 	 * Performs an action with a suspect and a weapon.
-	 * @param sus
-	 * @param weapon
+	 * @param sus The suspect to perform the action with.
+	 * @param weapon The weapon to perform the action with.
 	 */
 	public DoActionResult doAction(SuspectC sus, WeaponC weapon) {
 		Player player = CluedoGame.getInstance().getCurrentPlayer();
