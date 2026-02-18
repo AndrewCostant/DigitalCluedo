@@ -17,7 +17,5 @@ public class App {
          * System.out.println("Possible destination: (" + cell + ")");
          * }
          */
-    }
-
-    
+    } 
 }
