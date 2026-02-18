@@ -229,7 +229,7 @@ public class TerminalUI {
     public ArrayList<Card> displayRoomAction(ArrayList<Card> handCards, Map<Card,String> knownCards, String suspectCards, String weaponCards){
         ArrayList<Card> assumption = new ArrayList<>();
         System.out.println();
-        System.out.println("You entered a room, make your assumption. Please, note that the suspected room is the room you are into.");
+        System.out.println("You entered a room, make your assumption. \nPlease, note that the suspected room is the room you are into.");
         System.out.println("This is your hand ");
         System.out.println(handCards);
         System.out.println();
