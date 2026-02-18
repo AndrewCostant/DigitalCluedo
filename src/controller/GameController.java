@@ -29,14 +29,16 @@ public class GameController {
         ui.printBoardWithPlayers(cluedoGame.getPlayers());
     
         while (!gameOver) {
+            // prima interazione: roll dice
             ui.startTurn(cluedoGame.getCurrentPlayer());
             RollResult rollResult = cluedoGame.rollDices();
             ui.rollResult(rollResult);
-            int choice = -1;
-            int choice2 = -1;
 
             System.out.println("Soluzione " + cluedoGame.getWinningTriplet()); // debug
 
+            // seconda interazione: scegliere dove muoversi
+            int choice = -1;
+            int choice2 = -1;
             ArrayList<Integer> destination = ui.askDestination(rollResult);
             choice = destination.get(0);
             choice2 = destination.get(1);
@@ -45,10 +47,10 @@ public class GameController {
             ui.printBoardWithPlayers(cluedoGame.getPlayers());
 
             String actionResultString = typeOfAction.getType();
-
-            /**
+            /*
              * Versione demo di gestione delle azioni della stanza :)(
              */
+            // terza interazione: azione da eseguire in base alla cella in cui si è entrati
             SuspectC suspectedPerson = null;
             WeaponC suspectedWeapon = null;
 
