@@ -86,9 +86,15 @@ public class TerminalUI {
 
     public ArrayList<String> initializePlayers(){
         ArrayList<String> players = new ArrayList<>();
-        System.out.print("Number of players: ");
-        int numPlayers = scanner.nextInt();
-        scanner.nextLine(); 
+        int numPlayers = -1;
+        while (numPlayers < GameConfig.MIN_PLAYERS || numPlayers > GameConfig.MAX_PLAYERS) {
+            System.out.print("Enter number of players (" + GameConfig.MIN_PLAYERS + "-" + GameConfig.MAX_PLAYERS + "): ");
+            numPlayers = scanner.nextInt();
+            scanner.nextLine(); // consume newline
+            if (numPlayers < GameConfig.MIN_PLAYERS || numPlayers > GameConfig.MAX_PLAYERS) {
+                System.out.println("Invalid number of players. Please try again.");
+            }
+        }
         for (int i = 0; i < numPlayers; i++) {
             System.out.print("Player's name: ");
             String name = scanner.nextLine();
