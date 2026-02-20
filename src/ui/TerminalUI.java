@@ -1,7 +1,10 @@
 package ui;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +12,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import config.GameConfig;
 import domain.*;
 import domain.dto.ActionResult;
 import domain.dto.DoActionResult;
@@ -24,7 +28,6 @@ public class TerminalUI {
 
     private TerminalUI() throws FileNotFoundException {
         scanner = new Scanner(System.in);
-        this.initializeMap();
         this.initializeWelcome();
     }
 
@@ -37,7 +40,7 @@ public class TerminalUI {
 
     /*************************************************************PRINT SETUP GAME*************************************************************/
     private void initializeWelcome() throws FileNotFoundException{
-        String path = "utility/intestazione.txt";
+        String path = GameConfig.INTESTAZIONE;;
 
         InputStream is = getClass().getClassLoader().getResourceAsStream(path);
         if (is == null) {
@@ -49,29 +52,35 @@ public class TerminalUI {
             }
         }
         catch (Exception e) {
-            throw new FileNotFoundException("File intestazione.txt not found");
+            throw new FileNotFoundException("File " + path + " not found");
         }
     }
 
-    private void initializeMap() {
-        String path = "utility/map.txt";
-        InputStream is = getClass().getClassLoader().getResourceAsStream(path);
+    public void initializeMap() throws IOException {
+        String path = CluedoGame.getInstance()
+                .getGameModeFactory()
+                .getUiMapPath();
+
+        InputStream is = getClass()
+                .getClassLoader()
+                .getResourceAsStream(path);
+
         if (is == null) {
             throw new RuntimeException("File not found: " + path);
         }
-        String[] map = new String[30];
-		try (Scanner sc = new Scanner(is)) {
-            for (int i = 0; i < map.length; i++) {
-                if (sc.hasNextLine()) {
-                    map[i] = sc.nextLine();
-                } else {
-                    throw new RuntimeException("File has fewer lines than expected: " + path);
-                }
+
+        List<String> lines = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                lines.add(line);
             }
         }
-        output = new StringBuilder[map.length];
-        for (int i = 0; i < map.length; i++) {
-            output[i] = new StringBuilder(map[i]);
+
+        output = new StringBuilder[lines.size()];
+        for (int i = 0; i < lines.size(); i++) {
+            output[i] = new StringBuilder(lines.get(i));
         }
     }
 
@@ -242,10 +251,10 @@ public class TerminalUI {
         System.out.println(weaponCards);
         System.out.print("Enter your suspected person:");
         String person = scanner.nextLine().trim();
-        Card suspectedPerson = new SuspectC(person);
+        Card suspectedPerson = (Card) CardFactory.createCard("suspect", person);
         System.out.print("Enter your suspected weapon:");
         String weapon = scanner.nextLine().trim();
-        Card suspectedWeapon = new WeaponC(weapon);
+        Card suspectedWeapon = (Card) CardFactory.createCard("weapon", weapon);
         assumption.add(suspectedPerson);
         assumption.add(suspectedWeapon);
         System.out.println();
@@ -278,6 +287,36 @@ public class TerminalUI {
 
     public void displayEndTurn(){
         System.out.println("Press Enter to end your turn");
+        scanner.nextLine();
+    }
+
+    /*************** GAME MODE ****************/
+
+    public int askGameMode() {
+        System.out.println("Choose game mode:");
+        System.out.println("1. Classic");
+        System.out.println("2. Speed");
+        // in futuro, altre modalità
+        int choice = -1;
+        while (choice < 1 || choice > 2) {
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+            scanner.nextLine(); // consume newline
+            if (choice < 1 || choice > 2) {
+                System.out.println("Invalid choice. Please try again.");
+            }
+        }
+        System.out.println();
+        if (choice == 1) {
+            System.out.println("You chose Classic mode.");
+        } else {
+            System.out.println("You chose Speed mode.");
+        }
+        return choice;
+    }  
+    
+    public void displaySpeedDestination(RollResult rollResult) {
+        System.out.println("Press enter to move to " + rollResult.cells().iterator().next() + " .");
         scanner.nextLine();
     }
 

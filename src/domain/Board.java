@@ -16,16 +16,16 @@ public class Board {
 
 	private static volatile Board instance;
 	private final Graph<Cell, DefaultEdge> graph; // Graph to represent the board layout
-	private ArrayList<ArrayList<Cell>> boardCells; // Matrix of cells representing the board
+	private ArrayList<Cell> boardCells; // List of all cells on the board
 	private ArrayList<ChanceC> chanceDeck;
 	private int dimension; // Default dimension, can be modified
 
 	private Board() {
 		this.graph = new SimpleGraph<>(DefaultEdge.class);
 		this.boardCells = new ArrayList<>();
-		loadBoardFromJson("src/utility/config.json");
+		loadBoardFromJson(CluedoGame.getInstance().getGameModeFactory().mapPath());
 		this.chanceDeck = initializeChanceDeck();
-		this.dimension = this.boardCells.size();
+		this.dimension = (int) Math.sqrt((double) boardCells.size());
 	}
 
 	public static Board getInstance() {
@@ -40,7 +40,7 @@ public class Board {
 	 * @return An ArrayList of ChanceC objects representing the chance card deck.
 	 */
 	private ArrayList<ChanceC> initializeChanceDeck() {
-		String filePath = "utility/chanceCard.txt";
+		String filePath = CluedoGame.getInstance().getGameModeFactory().chanceCardPath();
 		ArrayList<ChanceC> deck = new ArrayList<>();
 
 		InputStream is = getClass().getClassLoader().getResourceAsStream(filePath);
@@ -58,41 +58,7 @@ public class Board {
 		}
 		return deck;
 	}
-
-	/**
-	 * Returns all possible destination cells from a starting position given a number of steps.
-	 * @param startPosition
-	 * @param steps
-	 */
-	public Set<Cell> possibleDestinations(Cell startPosition, int steps) {
-		Set<Cell> visited = new HashSet<>();
-        Queue<Cell> queue = new ArrayDeque<>();
-        Map<Cell, Integer> depth = new HashMap<>();
-
-        visited.add(startPosition);
-        queue.add(startPosition);
-        depth.put(startPosition, 0);
-
-        while (!queue.isEmpty()) {
-            Cell current = queue.poll();
-            int d = depth.get(current);
-
-            if (d == steps) continue;
-
-            for (DefaultEdge edge : graph.edgesOf(current)) {
-                Cell neighbor =
-                        Graphs.getOppositeVertex(graph, edge, current);
-
-                if (visited.add(neighbor)) {
-                    depth.put(neighbor, d + 1);
-                    queue.add(neighbor);
-                }
-            }
-        }
-		visited.remove(startPosition); // Exclude the starting position
-        return visited;
-	}
-
+	
 	/**
 	 * Returns the cell at the given coordinates (x, y).
 	 * @param x The x-coordinate.
@@ -158,16 +124,8 @@ public class Board {
 
 				Cell cell = CellFactory.createCell(x, y, type, name);
 
-				// switch (type) {
-				// 	case "NORMAL" -> cell = new NormalCell(x, y);
-				// 	case "CHANCE" -> cell = new ChanceCell(x, y);
-				// 	case "ROOM" -> cell = new NormalRoom(x, y, c.get("name").asText());
-				// 	case "SECRET_ROOM" -> cell = new SecretPassageRoom(x, y, c.get("name").asText());
-				// 	case "GAMBLING" -> cell = new GamblingRoom(x, y, c.get("name").asText());
-				// 	default -> throw new IllegalArgumentException("Unknown type");
-				// }
-
 				graph.addVertex(cell);
+				this.boardCells.add(cell);
 				cells.put(x + "," + y, cell);
 			}
 
@@ -195,6 +153,21 @@ public class Board {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public Set<DefaultEdge> edgesOf(Cell cell) {
+		return graph.edgesOf(cell);
+	}
+
+	public Cell getOppositeVertex(Cell cell, DefaultEdge edge) {
+		return Graphs.getOppositeVertex(graph, edge, cell);
+	}
+
+	public Cell getCellByIndex(int index) {
+		if (index < 0 || index >= boardCells.size()) {
+			throw new IndexOutOfBoundsException("Invalid cell index: " + index);
+		}
+		return boardCells.get(index);
 	}
 
 

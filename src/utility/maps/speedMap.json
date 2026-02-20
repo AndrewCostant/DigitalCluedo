@@ -1,0 +1,26 @@
+{
+  "cells": [
+    { "type": "SECRET_ROOM", "x": 0, "y": 0, "name": "Library" },
+    { "type": "ROOM", "x": 0, "y": 1, "name": "Lounge"},
+    { "type": "ROOM", "x": 0, "y": 2, "name": "Bathroom"},
+    { "type": "ROOM", "x": 0, "y": 3, "name": "Home Gym" },
+
+    { "type": "ROOM", "x": 1, "y": 0, "name": "Kitchen" },
+    { "type": "ROOM", "x": 1, "y": 1, "name": "Secret Lab"},
+    { "type": "ROOM", "x": 1, "y": 2, "name": "Pool"},
+    { "type": "ROOM", "x": 1, "y": 3, "name": "Balcony"},
+
+    { "type": "ROOM", "x": 2, "y": 0 , "name": "Wine Cellar"},
+    { "type": "ROOM", "x": 2, "y": 1, "name": "Garden"},
+    { "type": "ROOM", "x": 2, "y": 2, "name": "Greenhouse"},
+    { "type": "ROOM", "x": 2, "y": 3, "name": "Gaming Room"},
+
+    { "type": "ROOM", "x": 3, "y": 0, "name": "Dining Room" },
+    { "type": "ROOM", "x": 3, "y": 1, "name": "BedRoom"},
+    { "type": "ROOM", "x": 3, "y": 2, "name": "Study"},
+    { "type": "ROOM", "x": 3, "y": 3, "name": "Hall" }
+  ],
+  "edges": [
+    [ [0,0],[0,1] ], [ [0,1],[0,2] ], [ [0,1],[1,1] ]
+  ]
+}

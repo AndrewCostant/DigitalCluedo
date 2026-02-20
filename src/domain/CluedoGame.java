@@ -3,6 +3,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+
 import domain.dto.*;
 
 
@@ -15,15 +16,14 @@ public class CluedoGame {
 	private Player currentPlayer;
 	private int currentPlayerIndex;
 	private ArrayList<Player> players;
-	private Dice dice;
 	//game deck
 	private ArrayList<Card> gameDeck;
 	//winning solution
 	private Triplet winningTriplet;
 	private GameState state;
+	private AbstractGameModeFactory gameModeFactory;
 
 	private CluedoGame() {
-		this.dice = new Dice(3);
 		this.players = new ArrayList<Player>();
 		this.gameDeck = new ArrayList<Card>();
 		this.currentPlayerIndex = 0;
@@ -38,18 +38,22 @@ public class CluedoGame {
 		return instance;
 	}
 	
-	public void startGame(){
+	public void setGameMode(AbstractGameModeFactory gameModeFactory) {
+		this.gameModeFactory = gameModeFactory;
+	}
+
+	public void startGame() {
 		this.state.setUpGame();
 	}
 
 	public void createGameDeck() {
-		ArrayList<Card> deck = createSpecificDecks("suspect");
+		ArrayList<Card> deck = createSpecificDecks(gameModeFactory.suspectCardPath());
 		SuspectC suspectW = (SuspectC) deck.remove( (int)(Math.random() * deck.size()) );
 		gameDeck.addAll(deck);
-		deck = createSpecificDecks("room");
+		deck = createSpecificDecks(gameModeFactory.roomCardPath());
 		RoomC roomW = (RoomC) deck.remove( (int)(Math.random() * deck.size()) );
 		gameDeck.addAll(deck);
-		deck = createSpecificDecks("weapon");
+		deck = createSpecificDecks(gameModeFactory.weaponCardPath());
 		WeaponC weaponW = (WeaponC) deck.remove( (int)(Math.random() * deck.size()) );
 		gameDeck.addAll(deck);
 		this.winningTriplet = new Triplet(suspectW, weaponW, roomW);
@@ -58,8 +62,8 @@ public class CluedoGame {
 
 	
 
-	public ArrayList<Card> createSpecificDecks(String className) {
-		String filePath = "utility/" + className.toLowerCase() + "Card.txt";
+	public ArrayList<Card> createSpecificDecks(String filePath) {
+		
 		ArrayList<Card> deck = new ArrayList<>();
 
 		InputStream is = getClass().getClassLoader().getResourceAsStream(filePath);
@@ -67,11 +71,14 @@ public class CluedoGame {
 		if (is == null) {
 			throw new RuntimeException("File not found in classpath: " + filePath);
 		}
-
+		String type = filePath.toLowerCase();
+		String[] parts = type.split("/");
+		type = parts[parts.length - 1];
+		type = type.split("_")[1];
 		try (Scanner sc = new Scanner(is)) {
 			while (sc.hasNextLine()) {
 				String name = sc.nextLine();
-				Card c = CardFactory.createCard(className.toLowerCase(), name);
+				Card c = CardFactory.createCard(type, name);
 				deck.add(c);
 			}
 		}
@@ -79,8 +86,7 @@ public class CluedoGame {
 		return deck;
 	}
 
-	public String specificDeckByTypeToString(String className) throws Exception {
-		String path = "utility/" + className.toLowerCase() + "Card.txt";
+	public String specificDeckByTypeToString(String path) throws Exception {
 		InputStream is = getClass().getClassLoader().getResourceAsStream(path);
 		if (is == null) {
 			return "File not found in classpath: " + path;	
@@ -106,7 +112,7 @@ public class CluedoGame {
 	}
 
 	public int gamble(){
-		return dice.roll() + dice.roll();
+		return gameModeFactory.getDice().roll() + gameModeFactory.getDice().roll();
 	}
 
 	public Card getWinningCard(){
@@ -186,6 +192,10 @@ public class CluedoGame {
 
 	public void setState(GameState state) {
 		this.state = state;
+	}
+
+	public AbstractGameModeFactory getGameModeFactory() {
+		return gameModeFactory;
 	}
 
 

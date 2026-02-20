@@ -1,19 +1,16 @@
 package domain;
 
-import java.util.Set;
-
 import domain.dto.RollResult;
 
 public class RollState extends AbstractGameState {
     @Override
     public RollResult rollDice() {
         CluedoGame c = CluedoGame.getInstance();
-        int rollResult = c.gamble();
-		Cell currentPosition = c.getCurrentPlayer().getPosition();
-		Set<Cell> possibleMoves = Board.getInstance().possibleDestinations(currentPosition, rollResult);
-
+        AbstractGameModeFactory facto = c.getGameModeFactory();
+        RollDiceStrategy strategy = c.getGameModeFactory().getRollDiceStrategy();
+        RollResult rollResult = strategy.possibleDestinations(facto.getDice(), c.getCurrentPlayer().getPosition());
         c.setState(new MoveState());
         
-		return new RollResult(rollResult, possibleMoves);
+		return rollResult;
     }
 }
