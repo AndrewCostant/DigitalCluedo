@@ -21,6 +21,8 @@ import ui.TerminalUI;
 public class GameController {
     
     public void Game(CluedoGame cluedoGame, TerminalUI ui) throws Exception {
+        
+        // presentation and game mode selection
         ui.printWelcome();
         int gameModeChoice = ui.askGameMode();
         switch (gameModeChoice) {
@@ -33,29 +35,32 @@ public class GameController {
             default:
                 throw new IllegalArgumentException("Invalid game mode choice");
         }
+        
+        // initialization of players and game
         ArrayList<String> players = ui.initializePlayers();
         boolean gameOver = false;
         cluedoGame.setPlayers(players);
         cluedoGame.startGame();
         ui.initializeMap();
-        System.out.println();
         ui.printBoardWithPlayers(cluedoGame.getPlayers());
-    
+        
+        // main game loop
         while (!gameOver) {
-            // prima interazione: roll dice
+            
+            // first interaction: roll the dice
             ui.startTurn(cluedoGame.getCurrentPlayer());
             RollResult rollResult = cluedoGame.rollDices();
             ui.printBoardWithPlayers(cluedoGame.getPlayers());
             ui.rollResult(rollResult);
 
-            System.out.println("Soluzione " + cluedoGame.getWinningTriplet()); // debug
+            // System.out.println("Soluzione " + cluedoGame.getWinningTriplet()); // debug
 
+            // second interaction: choose destination cell based on the roll result and game mode
             int choice = -1;
             int choice2 = -1;
-            // seconda interazione: scegliere dove muoversi
             switch (gameModeChoice) {
             case 1:
-                ArrayList<Integer> destination = classicDestinationRoom(ui, rollResult);
+                ArrayList<Integer> destination = ui.askDestination(rollResult);
                 choice = destination.get(0);
                 choice2 = destination.get(1);
                 break;
@@ -75,7 +80,7 @@ public class GameController {
             /*
              * Versione demo di gestione delle azioni della stanza :)(
              */
-            // terza interazione: azione da eseguire in base alla cella in cui si è entrati
+            // third interaction: do a specific action based on the type of cell the player has moved to
             SuspectC suspectedPerson = null;
             WeaponC suspectedWeapon = null;
 
@@ -88,14 +93,13 @@ public class GameController {
                     break;
                 case "GAMBLING_ROOM_CELL":
                     ui.displayGamblingRoomAction(typeOfAction);
-                    break;
                 default:
                     ArrayList<Card> handCards = cluedoGame.getCurrentPlayer().getHandCards();
                     Map<Card,String> knownCards = cluedoGame.getCurrentPlayer().getKnownCards();
                     String suspectCards = cluedoGame.specificDeckByTypeToString(cluedoGame.getGameModeFactory().suspectCardPath());
                     String weaponCards = cluedoGame.specificDeckByTypeToString(cluedoGame.getGameModeFactory().weaponCardPath());
 
-                    System.out.println(cluedoGame.getWinningTriplet()); // debug
+                    //System.out.println(cluedoGame.getWinningTriplet()); // debug
 
                     ArrayList<Card> assumption = ui.displayRoomAction(handCards, knownCards, suspectCards, weaponCards);
                     suspectedPerson = (SuspectC) assumption.get(0);
@@ -103,6 +107,7 @@ public class GameController {
             }
 
             DoActionResult result = Board.getInstance().doAction(suspectedPerson, suspectedWeapon);
+            // end turn logic
             if (result.isGameEnded()) {
                 gameOver = true;
                 ui.printWinner(cluedoGame.getCurrentPlayer());
@@ -128,9 +133,4 @@ public class GameController {
             cluedoGame.endTurn();
         }
     }
-
-    public ArrayList<Integer> classicDestinationRoom(TerminalUI ui, RollResult rollResult) {
-        ArrayList<Integer> destination = ui.askDestination(rollResult);
-        return destination;
-    } 
 }

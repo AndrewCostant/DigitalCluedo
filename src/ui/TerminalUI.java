@@ -38,7 +38,11 @@ public class TerminalUI {
         return instance;
     }
 
-    /*************************************************************PRINT SETUP GAME*************************************************************/
+    /*************************************************************SETUP INSTANCE*************************************************************/
+    /**
+     * Initialize the welcome message by reading it from a file specified in GameConfig. The file is expected to be in the resources folder of the project.
+     * @throws FileNotFoundException if the file specified in GameConfig.INTESTAZIONE is not found in the resources folder.
+     */
     private void initializeWelcome() throws FileNotFoundException{
         String path = GameConfig.INTESTAZIONE;;
 
@@ -56,6 +60,10 @@ public class TerminalUI {
         }
     }
 
+    /**
+     * Initialize the ASCII map by reading it from a file specified by the current game mode's factory. The file is expected to be in the resources folder of the project.
+     * @throws IOException
+     */
     public void initializeMap() throws IOException {
         String path = CluedoGame.getInstance()
                 .getGameModeFactory()
@@ -84,6 +92,55 @@ public class TerminalUI {
         }
     }
 
+    /*************************************************************PRINT SETUP GAME*************************************************************/
+    /**
+     * Print the welcome message to the console. The welcome message is stored in the 'welcome' ArrayList, which is initialized by reading from a file in the resources folder. Each line of the welcome message is printed on a new line in the console.
+     */
+    public void printWelcome() {
+        for (String line : welcome) {
+            System.out.println(line);
+        }
+    }
+
+    /*************** GAME MODE ****************/
+
+    public int askGameMode() {
+        System.out.println("Choose game mode:");
+        System.out.println("1. Classic");
+        System.out.println("2. Speed");
+        // in futuro, altre modalità
+        int choice = -1;
+        while (choice < 1 || choice > 2) {
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+            scanner.nextLine(); // consume newline
+            if (choice < 1 || choice > 2) {
+                    System.out.println("Invalid choice. Please try again.");
+                }
+            }
+            System.out.println();
+            if (choice == 1) {
+                System.out.println("You chose Classic mode.");
+            } else {
+                System.out.println("You chose Speed mode.");
+            }
+        return choice;
+    }  
+        
+    /**
+     * Display the destination cell for the Speed game mode. 
+     * This method takes a RollResult object as input, which contains the value rolled and the set of possible destination cells.
+     * @param rollResult
+     */
+    public void displaySpeedDestination(RollResult rollResult) {
+        System.out.println("Press enter to move to " + rollResult.cells().iterator().next() + " .");
+        scanner.nextLine();
+    }
+
+    /**
+     * Ask the user to input the number of players and their names, ensuring that the number of players is within the limits defined in GameConfig. The method returns a list of player names.
+     * @return a list of player names input by the user.
+     */
     public ArrayList<String> initializePlayers(){
         ArrayList<String> players = new ArrayList<>();
         int numPlayers = -1;
@@ -103,8 +160,11 @@ public class TerminalUI {
         return players;
     }
 
+
     /**
-     * Stampa la mappa ASCII con i nomi dei player nelle loro posizioni attuali.
+     * Print the ASCII map of the game board, including the players' names in their respective positions. 
+     * The method takes a list of Player objects as input, where each Player object contains information about the player's name and current position on the board. 
+     * The players' names are printed in the lower row of the cell they are currently occupying. If multiple players occupy the same cell, their names are printed separated by spaces.
      * 
      * @param players Lista dei giocatori da stampare sulla mappa.
      */
@@ -147,12 +207,6 @@ public class TerminalUI {
         }
     }
 
-    public void printWelcome() {
-        for (String line : welcome) {
-            System.out.println(line);
-        }
-    }
-
     private static int asciiBottomRowForCell(int x) {
         // riga bassa della cella
         return 4 + x * 4;
@@ -163,6 +217,11 @@ public class TerminalUI {
     }
 
     /**********************************************TURN*****************************************************/
+    /**
+     * Start the turn for the given player. This method prints the player's name, their hand cards, and their known cards. 
+     * It then prompts the player to press enter to roll the dice. The method is called at the beginning of each player's turn in the game loop.
+     * @param player
+     */
     public void startTurn(Player player){
         System.out.println("================================" + player.getUsername() + "'s turn===========================================");
         System.out.println("This is your hand ");
@@ -173,6 +232,12 @@ public class TerminalUI {
         scanner.nextLine();
     } 
 
+    /**
+     * Print the result of rolling the dice, including the value rolled and the possible destination cells based on the roll result. 
+     * The method takes a RollResult object as input, which contains the value rolled and the set of possible destination cells. 
+     * Each possible destination cell is printed with a corresponding number for selection in the next step of the game.
+     * @param rollResult
+     */
     public void rollResult(RollResult  rollResult){
         System.out.println("You rolled a: " + rollResult.value());
         System.out.print("\nYou have " + rollResult.cells().size() + " possible destinations: \n");
@@ -184,6 +249,13 @@ public class TerminalUI {
         }
     }
 
+    /**
+     * Check if the given coordinates (x, y) are present in the set of possible destination cells. 
+     * @param x
+     * @param y
+     * @param possibleDestinations
+     * @return
+     */
     private boolean checkCoordinates(int x, int y, Set<Cell> possibleDestinations) {
         for (Cell cell : possibleDestinations) {
             if (cell.getX() == x && cell.getY() == y) {
@@ -193,6 +265,11 @@ public class TerminalUI {
         return false;
     }
 
+    /**
+     * Ask the user to input the coordinates (x, y) of their chosen destination cell based on the possible destinations provided in the RollResult.
+     * @param rollResult
+     * @return
+     */
     public ArrayList<Integer> askDestination(RollResult rollResult){
         boolean validChoice = false;
         int choice = -1;
@@ -217,16 +294,26 @@ public class TerminalUI {
         return result;
     }
 
+    /***************ACTIONS IN CELLS****************/
+
     public void displayNormalCellAction(){
         System.out.println("You entered a normal cell, you can't do any action...");
     }
 
+    /**
+     * Display the action for a chance cell. 
+     * @param card
+     */
     public void displayChanceCellAction(Card card){
         System.out.println("You are on a chance cell, press Enter to draw a chanceCard");
         scanner.nextLine();
         System.out.println("You drew the card: " + card.getName());
     }
 
+    /**
+     * Display the action for a gambling room cell. 
+     * @param actionResult
+     */
     public void displayGamblingRoomAction(ActionResult actionResult){
         System.out.println("You are on a gambling room cell, press Enter to gamble");
         scanner.nextLine();
@@ -241,6 +328,14 @@ public class TerminalUI {
         }
     }
 
+    /**
+     * Display the action for a room cell, which allows the player to make an assumption. 
+     * @param handCards
+     * @param knownCards
+     * @param suspectCards
+     * @param weaponCards
+     * @return
+     */
     public ArrayList<Card> displayRoomAction(ArrayList<Card> handCards, Map<Card,String> knownCards, String suspectCards, String weaponCards){
         ArrayList<Card> assumption = new ArrayList<>();
         System.out.println();
@@ -267,6 +362,11 @@ public class TerminalUI {
         return assumption;
     }
 
+    /**
+     * Print the winner of the game. This method is called when the game ends and a player has won. 
+     * It takes a Player object as input and prints a congratulatory message with the player's name.
+     * @param player
+     */
     public void printWinner(Player player){
         System.out.println("Congratulations " + player.getUsername() + "! You won the game!");
     }
@@ -275,6 +375,11 @@ public class TerminalUI {
         System.out.println("No one could show you a card that matches your assumption.");
     }
 
+    /**
+     * Print the cards that were shown to the player as a result of their assumption. 
+     * This method takes a list of Card objects as input and prints the name of each card shown to the player.
+     * @param cardsShown
+     */
     public void printCardsShown(ArrayList<Card> cardsShown){
         System.out.println("You have discovered the following cards: ");
         for (Card card : cardsShown) {
@@ -283,10 +388,19 @@ public class TerminalUI {
         System.out.println("In the next turns, try to find out if these cards are in the winning solution or if they are in someone's hand.");
     }
 
+    /**
+     * Print the effect of a chance card that was drawn by the player. 
+     * This method takes a DoActionResult object as input, which contains information about the effect of the chance card.
+     * @param doActionResult
+     */
     public void printEffect(DoActionResult doActionResult){
         System.out.println("You have discovered the following effect: " + doActionResult.getEffect().getDescription());
     }
 
+    /**
+     * Show the card that was peeked at by the player as a result of their action in a room cell.
+     * @param doActionResult
+     */
     public void showPeekedCard(DoActionResult doActionResult){ 
         System.out.println("You peeked at the card: " + doActionResult.getCardsShown().get(0).getName());
     }
@@ -295,35 +409,4 @@ public class TerminalUI {
         System.out.println("Press Enter to end your turn");
         scanner.nextLine();
     }
-
-    /*************** GAME MODE ****************/
-
-    public int askGameMode() {
-        System.out.println("Choose game mode:");
-        System.out.println("1. Classic");
-        System.out.println("2. Speed");
-        // in futuro, altre modalità
-        int choice = -1;
-        while (choice < 1 || choice > 2) {
-            System.out.print("Enter your choice: ");
-            choice = scanner.nextInt();
-            scanner.nextLine(); // consume newline
-            if (choice < 1 || choice > 2) {
-                System.out.println("Invalid choice. Please try again.");
-            }
-        }
-        System.out.println();
-        if (choice == 1) {
-            System.out.println("You chose Classic mode.");
-        } else {
-            System.out.println("You chose Speed mode.");
-        }
-        return choice;
-    }  
-    
-    public void displaySpeedDestination(RollResult rollResult) {
-        System.out.println("Press enter to move to " + rollResult.cells().iterator().next() + " .");
-        scanner.nextLine();
-    }
-
 }
