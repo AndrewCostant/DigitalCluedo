@@ -158,6 +158,19 @@ public class CluedoGame {
 		return result.toString();
 	}
 
+
+	public boolean checkIfACardExist(String name){
+		ArrayList<Card> allCards = new ArrayList<Card>();
+		allCards.addAll(createSpecificDecks(gameModeFactory.suspectCardPath()));
+		allCards.addAll(createSpecificDecks(gameModeFactory.weaponCardPath()));
+		for (Card c : allCards) {
+			if (c.getName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/*******************************GAME DICE***********************************/
 
 	public int gamble(){

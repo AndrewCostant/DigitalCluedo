@@ -13,6 +13,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 import config.GameConfig;
+import controller.GameController;
 import domain.*;
 import domain.dto.ActionResult;
 import domain.dto.DoActionResult;
@@ -350,14 +351,40 @@ public class TerminalUI {
         System.out.println(suspectCards);
         System.out.println("These are the weapon cards: ");
         System.out.println(weaponCards);
-        System.out.print("Enter your suspected person:");
-        String person = scanner.nextLine().trim();
-        Card suspectedPerson = (Card) CardFactory.createCard("suspect", person);
-        System.out.print("Enter your suspected weapon:");
-        String weapon = scanner.nextLine().trim();
-        Card suspectedWeapon = (Card) CardFactory.createCard("weapon", weapon);
-        assumption.add(suspectedPerson);
-        assumption.add(suspectedWeapon);
+        Boolean validInput = true;
+        while (validInput) {
+            System.out.print("Enter your suspected person:");
+            String person = scanner.nextLine().trim();
+            if (!GameController.checkIfExist(person)) {
+                System.out.println("Invalid person name.");
+                continue;
+            } else {
+                Card suspectedPerson = (Card) CardFactory.createCard("suspect", person);
+                 if (suspectedPerson != null) {
+                    assumption.add(suspectedPerson);
+                    validInput = false;
+                } else {
+                    System.out.println("Invalid person. Please try again.");
+                }
+            }
+        }
+        validInput = true;
+        while (validInput) {
+            System.out.print("Enter your suspected weapon:");
+            String weapon = scanner.nextLine().trim();
+            if (!GameController.checkIfExist(weapon)) {
+                System.out.println("Invalid weapon name.");
+                continue;
+            } else {
+                Card suspectedWeapon = (Card) CardFactory.createCard("weapon", weapon);
+                 if (suspectedWeapon != null) {
+                    assumption.add(suspectedWeapon);
+                    validInput = false;
+                } else {
+                    System.out.println("Invalid weapon. Please try again.");
+                }
+            }
+        }
         System.out.println();
         return assumption;
     }

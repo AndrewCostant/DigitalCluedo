@@ -133,4 +133,8 @@ public class GameController {
             cluedoGame.endTurn();
         }
     }
+
+    public static boolean checkIfExist(String name) {
+        return CluedoGame.getInstance().checkIfACardExist(name);
+    }
 }
