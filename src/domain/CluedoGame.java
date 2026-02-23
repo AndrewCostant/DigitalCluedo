@@ -38,14 +38,55 @@ public class CluedoGame {
 		return instance;
 	}
 	
+	/*******************************GAME STATE***********************************/
+
+	/**
+	 * Sets the game mode factory to be used for creating the game deck and rolling the dice.
+	 * @param gameModeFactory
+	 */
 	public void setGameMode(AbstractGameModeFactory gameModeFactory) {
 		this.gameModeFactory = gameModeFactory;
 	}
 
+	/**
+	 * Starts the game by setting up the game state, creating the game deck and selecting the winning solution.
+	 */
 	public void startGame() {
 		this.state.setUpGame();
 	}
 
+	/**
+	 * Rolls the dice and returns all the possible moves.
+	 */
+	public RollResult rollDices() {
+		return this.state.rollDice();
+	}
+
+	/**
+	 * Moves the current player to a new cell.	
+	 * @param newPosition
+	 */
+	public ActionResult goToCell(Cell newPosition) {
+		return this.state.moveTo(newPosition);
+	}
+
+	/**
+	 * Return the result of the assumption
+	 * @param newGuess
+	 */
+	public DoActionResult verifyGuess(Triplet newGuess) {
+		return this.state.makeAssumption(newGuess);
+	}
+
+	public void endTurn() {
+		this.state.endTurn();
+	}
+
+	/*******************************GAME DECK***********************************/
+
+	/**
+	 * Creates the game deck by reading the card names from the files specified by the game mode factory, selecting one card of each type for the winning solution and shuffling the remaining cards.
+	 */
 	public void createGameDeck() {
 		ArrayList<Card> deck = createSpecificDecks(gameModeFactory.suspectCardPath());
 		SuspectC suspectW = (SuspectC) deck.remove( (int)(Math.random() * deck.size()) );
@@ -61,7 +102,11 @@ public class CluedoGame {
 	}
 
 	
-
+	/**
+	 * Creates a specific deck of cards by reading the card names from the specified file path and creating card objects using the CardFactory. The type of card is determined by the file name.
+	 * @param filePath
+	 * @return
+	 */
 	public ArrayList<Card> createSpecificDecks(String filePath) {
 		
 		ArrayList<Card> deck = new ArrayList<>();
@@ -81,11 +126,18 @@ public class CluedoGame {
 				Card c = CardFactory.createCard(type, name);
 				deck.add(c);
 			}
+		} catch (Exception e) {
+			throw new RuntimeException("An error occurred while reading the file: " + e.getMessage());
 		}
-
 		return deck;
 	}
 
+	/**
+	 * Reads the card names from the specified file path and returns them as a string. 
+	 * @param path
+	 * @return
+	 * @throws Exception
+	 */
 	public String specificDeckByTypeToString(String path) throws Exception {
 		InputStream is = getClass().getClassLoader().getResourceAsStream(path);
 		if (is == null) {
@@ -104,21 +156,18 @@ public class CluedoGame {
 		return result.toString();
 	}
 
-	/**
-	 * Rolls the dice and returns all the possible moves.
-	 */
-	public RollResult rollDices() {
-		return this.state.rollDice();
-	}
+	/*******************************GAME DICE***********************************/
 
 	public int gamble(){
 		return gameModeFactory.getDice().roll() + gameModeFactory.getDice().roll();
 	}
 
-	public Card getWinningCard(){
-		return winningTriplet.suspectPerson();
-	}
+	/*******************************GAME LOGIC***********************************/
 
+	/**
+	 * Adds a card to the current player's known cards and adds it to the known cards of all other players with the name of the current player as the source of information.
+	 * @param card
+	 */
 	public void addKnownCardPlayers(Card card){
 		for (Player p: players){
 			if (p.equals(currentPlayer)){
@@ -129,29 +178,8 @@ public class CluedoGame {
 		}
 	}
 
-	/**
-	 * Moves the current player to a new cell.	
-	 * @param newPosition
-	 */
-	public ActionResult goToCell(Cell newPosition) {
-		return this.state.moveTo(newPosition);
-	}
+	/*******************************GETTERS AND SETTERS***********************************/ 
 
-	public void endTurn() {
-		this.state.endTurn();
-	}
-
-	/**
-	 * Verifies a player's guess. if the guess is correct, ends the game. 
-	 * Otherwise, asks other players to show a card then, if one of them shows a card, adds it to the current player's known cards otherwise, some of these cards are in the winning solution.
-	 * Then ends the current player's turn.
-	 * @param newGuess
-	 */
-	public DoActionResult verifyGuess(Triplet newGuess) {
-		return this.state.makeAssumption(newGuess);
-	}
-
-	// GETTERS AND SETTERS
 	public int getNumberOfPlayers() {
 		return this.numberOfPlayers;
 	}	
@@ -186,6 +214,10 @@ public class CluedoGame {
 		return winningTriplet;
 	}
 
+	public Card getWinningCard(){
+		return winningTriplet.suspectPerson();
+	}
+
 	public ArrayList<Card> getGameDeck() {
 		return this.gameDeck;
 	}
@@ -197,52 +229,4 @@ public class CluedoGame {
 	public AbstractGameModeFactory getGameModeFactory() {
 		return gameModeFactory;
 	}
-
-
-
-	/* public ArrayList<Card> createSpecificDecks(String className) {
-		ArrayList<Card> deck = new ArrayList<Card>();
-		switch (className) {
-			case "SuspectC":
-				try {
-					Scanner sc = new Scanner(new File("/utility/suspectCard.txt"));
-					while (sc.hasNextLine()) {
-						String name = sc.nextLine();
-						SuspectC suspect = new SuspectC(name);
-						deck.add(suspect);
-					}
-					sc.close();
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
-				break;
-			case "RoomC":
-				try {
-					Scanner sc = new Scanner(new File("/utility/roomCard.txt"));
-					while (sc.hasNextLine()) {
-						String name = sc.nextLine();
-						RoomC room = new RoomC(name);
-						deck.add(room);
-					}
-					sc.close();
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
-				break;
-			case "WeaponC":
-				try {
-					Scanner sc = new Scanner(new File("/utility/weaponCard.txt"));
-					while (sc.hasNextLine()) {
-						String name = sc.nextLine();
-						WeaponC weapon = new WeaponC(name);
-						deck.add(weapon);
-					}
-					sc.close();
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
-				break;
-		}
-		return deck;
-	} */
 }
