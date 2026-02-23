@@ -6,10 +6,7 @@ import domain.dto.*;
 
 public class PeekCard implements EffectStrategy {
 
-	/**
-	 * 
-	 * @param player
-	 */
+	@Override
 	public DoActionResult effect(Player player) {
 		ArrayList<Card> cardsShown = new ArrayList<>();
 		Player nextPlayer = CluedoGame.getInstance().getNextPlayer();
