@@ -18,7 +18,6 @@ public class CellFactory {
             case "gambling":
                 return new GamblingRoom(x, y, name);
  
-
             default:
                 throw new IllegalArgumentException("Illegal card type");
         }
