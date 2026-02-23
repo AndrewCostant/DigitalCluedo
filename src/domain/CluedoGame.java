@@ -12,14 +12,16 @@ public class CluedoGame {
 
 	private static volatile CluedoGame instance;
 
-	private int numberOfPlayers;
+	private ArrayList<Player> players;
 	private Player currentPlayer;
 	private int currentPlayerIndex;
-	private ArrayList<Player> players;
+	private int numberOfPlayers;
+
 	//game deck
 	private ArrayList<Card> gameDeck;
 	//winning solution
 	private Triplet winningTriplet;
+	//game state
 	private GameState state;
 	private AbstractGameModeFactory gameModeFactory;
 
