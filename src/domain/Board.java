@@ -10,6 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import config.GameConfig;
 import domain.dto.*;
 
 public class Board {
@@ -17,8 +18,10 @@ public class Board {
 	private static volatile Board instance;
 	private final Graph<Cell, DefaultEdge> graph; // Graph to represent the board layout
 	private ArrayList<Cell> boardCells; // List of all cells on the board
+	private Cell startPosition; // Starting position for players
 	private ArrayList<ChanceC> chanceDeck;
 	private int dimension; // Default dimension, can be modified
+	
 
 	private Board() {
 		this.graph = new SimpleGraph<>(DefaultEdge.class);
@@ -57,7 +60,9 @@ public class Board {
 				int y = c.get("y").asInt();
 
 				Cell cell = CellFactory.createCell(x, y, type, name);
-
+				if( name.toUpperCase().equals(GameConfig.START_POSITION) ) {
+					this.startPosition = cell;
+				}
 				graph.addVertex(cell);
 				this.boardCells.add(cell);
 				cells.put(x + "," + y, cell);
@@ -198,5 +203,13 @@ public class Board {
 
 	public int getDimension() {
 		return this.dimension;
+	}
+
+	public Cell getStartPosition() {
+		return this.startPosition;
+	}
+
+	public int getNumCells() {
+		return boardCells.size();
 	}
 }

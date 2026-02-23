@@ -10,7 +10,6 @@ public class RollState extends AbstractGameState {
         RollDiceStrategy strategy = c.getGameModeFactory().getRollDiceStrategy();
         RollResult rollResult = strategy.possibleDestinations(facto.getDice(), c.getCurrentPlayer().getPosition());
         c.setState(new MoveState());
-        
 		return rollResult;
     }
 }

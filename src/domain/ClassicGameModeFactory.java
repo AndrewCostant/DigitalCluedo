@@ -31,7 +31,7 @@ public class ClassicGameModeFactory implements AbstractGameModeFactory {
 
     @Override
     public Dice getDice() {
-        return new Dice(3);
+        return new Dice(GameConfig.CLASSIC_DICE_VALUE);
     }
 
     @Override

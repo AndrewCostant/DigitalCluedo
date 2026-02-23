@@ -31,7 +31,7 @@ public class SpeedGameModeFactory implements AbstractGameModeFactory {
 
     @Override
     public Dice getDice() {
-        return new Dice(3);
+        return new Dice(Board.getInstance().getNumCells());
     }
 
     @Override

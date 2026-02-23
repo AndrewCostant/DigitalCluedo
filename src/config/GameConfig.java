@@ -15,4 +15,7 @@ public final class GameConfig {
     public static final int MAX_PLAYERS = 7;
     public static final int MIN_PLAYERS = 2;    
     
+    // Altre costanti di gioco (es. numero di carte, posizioni iniziali, ecc.)
+    public static final String START_POSITION = "HALL";
+    public static final int CLASSIC_DICE_VALUE = 3;
 }
