@@ -26,7 +26,7 @@ public class ChanceCell implements Cell {
 	
 	@Override
 	public ActionResult action() {
-		ChanceC card = Board.getInstance().DrawChanceC();
+		ChanceC card = Board.getInstance().drawChanceC();
 		CluedoGame.getInstance().getCurrentPlayer().setChanceCard(card);
 		return new ChanceAction(this.type, this, card);
 	}

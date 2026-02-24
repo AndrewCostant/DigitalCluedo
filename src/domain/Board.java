@@ -181,7 +181,7 @@ public class Board {
 	/**
 	 * Draws a chance card for a player.
 	 */
-	public ChanceC DrawChanceC() {
+	public ChanceC drawChanceC() {
 		return chanceDeck.get(ThreadLocalRandom.current().nextInt(chanceDeck.size()));
 	}
 	
