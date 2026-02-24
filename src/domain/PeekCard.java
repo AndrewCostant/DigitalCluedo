@@ -18,7 +18,7 @@ public class PeekCard implements EffectStrategy {
 
 	@Override
 	public String getDescription() {
-		return "You have peeked at a random card from the next player's hand!";
+		return "You have peeked a random card from the next player's hand!";
 	}
 
 }
