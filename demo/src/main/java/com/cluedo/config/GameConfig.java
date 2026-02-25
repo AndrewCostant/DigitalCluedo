@@ -10,6 +10,7 @@ public final class GameConfig {
     public static final String CARDS_BASE_PATH = "cards/";
     public static final String UI_MAPS_BASE_PATH = "setup/";
     public static final String INTESTAZIONE = "intestazione.txt";
+    public static final String GAME_MODE_FILE = "gameMode.txt";
 
     // Regole del gioco
     public static final int MAX_PLAYERS = 7;

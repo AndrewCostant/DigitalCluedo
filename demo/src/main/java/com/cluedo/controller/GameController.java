@@ -3,16 +3,15 @@ package com.cluedo.controller;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.cluedo.domain.AbstractGameModeFactory;
 import com.cluedo.domain.Board;
 import com.cluedo.domain.CluedoGame;
 import com.cluedo.domain.PeekCard;
 import com.cluedo.domain.RoomCell;
-import com.cluedo.domain.SpeedGameModeFactory;
 import com.cluedo.domain.SuspectC;
 import com.cluedo.domain.WeaponC;
 import com.cluedo.domain.Card;
 import com.cluedo.domain.Cell;
-import com.cluedo.domain.ClassicGameModeFactory;
 import com.cluedo.domain.dto.ActionResult;
 import com.cluedo.domain.dto.DoActionResult;
 import com.cluedo.domain.dto.RollResult;
@@ -24,17 +23,9 @@ public class GameController {
         
         // presentation and game mode selection
         ui.printWelcome();
-        int gameModeChoice = ui.askGameMode();
-        switch (gameModeChoice) {
-            case 1:
-                cluedoGame.setGameMode(new ClassicGameModeFactory());
-                break;
-            case 2:
-                cluedoGame.setGameMode(new SpeedGameModeFactory());
-                break;   
-            default:
-                throw new IllegalArgumentException("Invalid game mode choice");
-        }
+        AbstractGameModeFactory gameMode = ui.askGameMode();
+        cluedoGame.setGameMode(gameMode);
+        String gameModeChoice = gameMode.getGameModeName();
         
         // initialization of players and game
         ArrayList<String> players = ui.initializePlayers();
@@ -59,12 +50,12 @@ public class GameController {
             int choice = -1;
             int choice2 = -1;
             switch (gameModeChoice) {
-            case 1:
+            case "Classic":
                 ArrayList<Integer> destination = ui.askDestination(rollResult);
                 choice = destination.get(0);
                 choice2 = destination.get(1);
                 break;
-            case 2:
+            case "Speed":
                 ui.displaySpeedDestination(rollResult);
                 choice = rollResult.cells().iterator().next().getX();
                 choice2 = rollResult.cells().iterator().next().getY();

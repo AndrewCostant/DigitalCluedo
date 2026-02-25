@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-import com.cluedo.config.GameConfig;
+import com.cluedo.config.*;
 import com.cluedo.controller.GameController;
 import com.cluedo.domain.*;
 import com.cluedo.domain.dto.ActionResult;
@@ -105,27 +105,28 @@ public class TerminalUI {
 
     /*************** GAME MODE ****************/
 
-    public int askGameMode() {
+    public AbstractGameModeFactory askGameMode() throws FileNotFoundException {
+        String[] gameMode = GameModeRegistry.getAvailableModes().toArray(new String[0]);
+        
         System.out.println("Choose game mode:");
-        System.out.println("1. Classic");
-        System.out.println("2. Speed");
-        // in futuro, altre modalità
+        int i = 1;
+        for (String mode : gameMode) {
+            System.out.println(i + ". " + mode);
+            i++;
+        }
         int choice = -1;
-        while (choice < 1 || choice > 2) {
+        while (choice < 1 || choice > gameMode.length) {
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
             scanner.nextLine(); // consume newline
-            if (choice < 1 || choice > 2) {
+            if (choice < 1 || choice > gameMode.length) {
                     System.out.println("Invalid choice. Please try again.");
                 }
             }
-            System.out.println();
-            if (choice == 1) {
-                System.out.println("You chose Classic mode.");
-            } else {
-                System.out.println("You chose Speed mode.");
-            }
-        return choice;
+        System.out.println();
+        System.out.println("You chose: " + gameMode[choice - 1]);
+
+        return GameModeRegistry.getMode(gameMode[choice - 1].toString());
     }  
         
     /**
