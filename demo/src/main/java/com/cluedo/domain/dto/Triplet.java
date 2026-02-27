@@ -17,7 +17,10 @@ public record Triplet(SuspectC suspectPerson, WeaponC weapon, RoomC room) {
     }
 
     public boolean equals(Triplet other) {
-        return this.suspectPerson.getName().equals(other.suspectPerson.getName()) && this.weapon.getName().equals(other.weapon.getName()) && this.room.getName().equals(other.room.getName());
+        if (this.suspectPerson.getName().equals(other.suspectPerson.getName()) && this.weapon.getName().equals(other.weapon.getName()) && this.room.getName().equals(other.room.getName())){
+            return true;
+        }
+        return false;
     }
     
 }

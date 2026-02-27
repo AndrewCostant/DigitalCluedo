@@ -27,6 +27,5 @@ public class Main {
         board.registerObserver(turnView, GameEvent.END_TURN);
 
         cluedoGame.notifyObservers(GameEvent.WELCOME);
-        
     }
 }

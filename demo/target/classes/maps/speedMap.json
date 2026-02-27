@@ -16,7 +16,7 @@
     { "type": "ROOM", "x": 2, "y": 3, "name": "Gaming Room"},
 
     { "type": "ROOM", "x": 3, "y": 0, "name": "Dining Room" },
-    { "type": "ROOM", "x": 3, "y": 1, "name": "BedRoom"},
+    { "type": "ROOM", "x": 3, "y": 1, "name": "Bedroom"},
     { "type": "ROOM", "x": 3, "y": 2, "name": "Study"},
     { "type": "ROOM", "x": 3, "y": 3, "name": "Hall" }
   ],

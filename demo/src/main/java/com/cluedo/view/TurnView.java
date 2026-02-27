@@ -67,9 +67,17 @@ public class TurnView implements GameObserver {
         if (event == GameEvent.END_TURN) {
             DoActionResult doActionResult = this.currentTurn.getDoActionResult();
             displayDoActionResult(doActionResult);
-            displayEndTurn();
+            displayEndTurn(doActionResult);
             controller.endTurn(doActionResult);
         }
+    }
+
+    public static void printSeparator() {
+        System.out.println("-.".repeat(49));
+    }
+
+    public static void printSeparatorTurn() {
+        System.out.print("=".repeat(70));
     }
 
     // ROLL_DICES
@@ -83,7 +91,11 @@ public class TurnView implements GameObserver {
     public void startTurn(){
         Player player = CluedoGame.getInstance().getCurrentPlayer();
         System.out.println();
-        System.out.println("================================" + player.getUsername() + "'s turn===========================================");
+        printSeparatorTurn();
+        System.out.print(" " + player.getUsername().toUpperCase() + "'s turn ");
+        printSeparatorTurn();
+        System.out.println();
+        System.out.println();
         System.out.println("This is your hand ");
         System.out.println(player.printHandCards());
         System.out.println("\nThese are your known cards ");
@@ -161,6 +173,7 @@ public class TurnView implements GameObserver {
      */
     public void displaySpeedDestination() {
         RollResult rollResult = this.currentTurn.getRollResult();
+        printSeparator();
         System.out.println("Press enter to move to " + rollResult.cells().iterator().next() + " .");
         input.pressButton();
     }
@@ -185,7 +198,12 @@ public class TurnView implements GameObserver {
     }
 
     public void displayNormalCellAction(){
-        System.out.println("You entered a normal cell, you can't do any action...");
+        printSeparator();
+        System.out.println();
+        System.out.println("You are on a Normal Cell, you can't do any action...");
+        System.out.println();
+        printSeparator();
+        
     }
 
     /**
@@ -193,8 +211,12 @@ public class TurnView implements GameObserver {
      * @param card
      */
     public void displayChanceCellAction(Card card){
-        System.out.println("You are on a chance cell, press Enter to draw a chanceCard");
+        printSeparator();
+        System.out.println();
+        System.out.println("You are on a Chance Cell, press Enter to draw a chanceCard");
         input.pressButton();
+        printSeparator();
+        System.out.println();
         System.out.println("You drew the card: " + card.getName());
     }
 
@@ -203,16 +225,21 @@ public class TurnView implements GameObserver {
      * @param actionResult
      */
     public void displayGamblingRoomAction(ActionResult actionResult){
-        System.out.println("You are on a gambling room cell, press Enter to gamble");
+        System.out.println();
+        System.out.println("You are on a Gambling Room called " + actionResult.getCell().getType() + ", press Enter to gamble");
         input.pressButton();
         int number = actionResult.getValue();
         int condition = ((GamblingRoom) actionResult.getCell()).getCondition();
         if (number == condition) {
+            printSeparator();
             System.out.println("Congratulations! You rolled a " + number + " and won the gamble!");
             System.out.println("The winning card is: " + actionResult.getCard().getName());
+            printSeparator();
         } else {
+            printSeparator();
             System.out.println("You rolled a " + number + " and lost the gamble.");
             System.out.println("The card you showed is: " + actionResult.getCard().getName());
+            printSeparator();
         }
     }
 
@@ -232,23 +259,31 @@ public class TurnView implements GameObserver {
         String suspectCards = cluedoGame.specificDeckByTypeToString(cluedoGame.getGameModeFactory().suspectCardPath());
         String weaponCards = cluedoGame.specificDeckByTypeToString(cluedoGame.getGameModeFactory().weaponCardPath());
         ArrayList<Card> assumption = new ArrayList<>();
+        printSeparator();
         System.out.println();
-        System.out.println("You entered a room, make your assumption. \nPlease, note that the suspected room is the room you are into.");
+        System.out.println("You are in the " + cluedoGame.getCurrentPlayer().getPosition().getType() + ", make your assumption. \nPlease, note that the suspected room is the room you are into.");
+        System.out.println();
+        printSeparator();
+        System.out.println();
         System.out.println("This is your hand ");
         System.out.println(handCards);
         System.out.println();
         System.out.println("These are your known cards ");
         System.out.println(knownCards);
         System.out.println();
+        printSeparator();
+        System.out.println();
         System.out.println("These are the suspect cards: ");
         System.out.println(suspectCards);
         System.out.println("These are the weapon cards: ");
         System.out.println(weaponCards);
+        printSeparator();
         Boolean validInput = true;
         while (validInput) {
+            System.out.println();
             System.out.print("Enter your suspected person:");
             String person = input.askString().trim();
-            if (!GameController.checkIfExist(person)) {
+            if (!GameController.checkIfSuspectCardExist(person)) {
                 System.out.println("Invalid person name.");
                 continue;
             } else {
@@ -265,7 +300,7 @@ public class TurnView implements GameObserver {
         while (validInput) {
             System.out.print("Enter your suspected weapon:");
             String weapon = input.askString().trim();
-            if (!GameController.checkIfExist(weapon)) {
+            if (!GameController.checkIfWeaponCardExist(weapon)) {
                 System.out.println("Invalid weapon name.");
                 continue;
             } else {
@@ -284,7 +319,7 @@ public class TurnView implements GameObserver {
 
     //END_TURN
 
-    public void displayDoActionResult(DoActionResult doActionResult){
+    public void displayDoActionResult(DoActionResult doActionResult) throws InterruptedException{
         if (doActionResult.isGameEnded()) {
             printWinner(CluedoGame.getInstance().getCurrentPlayer());
         } else {
@@ -311,9 +346,15 @@ public class TurnView implements GameObserver {
      * Print the winner of the game. This method is called when the game ends and a player has won. 
      * It takes a Player object as input and prints a congratulatory message with the player's name.
      * @param player
+     * @throws InterruptedException 
      */
-    public void printWinner(Player player){
-        System.out.println("Congratulations " + player.getUsername() + "! You won the game!");
+    public void printWinner(Player player) throws InterruptedException{
+        printSeparator();
+        System.out.println();
+        LoadingBar.dramaticLoading(player.getUsername());
+        VictoryScreen.show();
+        System.out.println();
+        printSeparator();
     }
 
     public void printNoCardsShown(){
@@ -326,11 +367,18 @@ public class TurnView implements GameObserver {
      * @param cardsShown
      */
     public void printCardsShown(ArrayList<Card> cardsShown){
+        printSeparator();
+        System.out.println();
         System.out.println("You have discovered the following cards: ");
         for (Card card : cardsShown) {
             System.out.println("- " + card.getName());
         }
+        System.out.println();
+        printSeparator();
+        System.out.println();
         System.out.println("In the next turns, try to find out if these cards are in the winning solution or if they are in someone's hand.");
+        System.out.println();
+        printSeparator();
     }
 
     /**
@@ -340,6 +388,8 @@ public class TurnView implements GameObserver {
      */
     public void printEffect(DoActionResult doActionResult){
         System.out.println("You have discovered the following effect: " + doActionResult.getEffect().getDescription());
+        System.out.println();
+        printSeparator();
     }
 
     /**
@@ -347,11 +397,17 @@ public class TurnView implements GameObserver {
      * @param doActionResult
      */
     public void showPeekedCard(DoActionResult doActionResult){ 
-        System.out.println("You peeked at the card: " + doActionResult.getCardsShown().get(0).getName());
+        System.out.println("You peeked at the card: " + doActionResult.getCardsShown().get(0).getName() + " from " + CluedoGame.getInstance().getNextPlayer().getUsername() + "'s hand.");
+        System.out.println();
+        printSeparator();
     }
 
-    public void displayEndTurn(){
-        System.out.println("Press Enter to end your turn");
+    public void displayEndTurn(DoActionResult doActionResult){
+        if (doActionResult.isGameEnded()) {
+            System.out.println("\nPress Enter to start a new game");
+        } else {
+            System.out.println("\nPress Enter to end your turn");
+        }
         input.pressButton();
     }
 

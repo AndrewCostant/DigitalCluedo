@@ -17,7 +17,7 @@ public class AssumptionState extends AbstractGameState{
 		ArrayList<Card> result = new ArrayList<Card>();
 
         
-		if(  c.getWinningTriplet().equals(guess) ) {
+		if(c.getWinningTriplet().equals(guess)) {
             c.setState(new EndGameState());
 			return new RoomCellDoAction(cell, true, null);
 		} else {

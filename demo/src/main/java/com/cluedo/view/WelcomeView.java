@@ -49,7 +49,7 @@ public class WelcomeView implements GameObserver {
     }
     
     @Override
-    public void update(GameEvent event) throws FileNotFoundException {
+    public void update(GameEvent event) throws FileNotFoundException, InterruptedException {
         if (event == GameEvent.WELCOME) {
             printWelcome();
             askGameMode();
@@ -57,6 +57,10 @@ public class WelcomeView implements GameObserver {
         if (event == GameEvent.SET_PLAYERS) {
             initializePlayers();
         }
+    }
+
+    public static void printSeparator() {
+        System.out.println("-.".repeat(49));
     }
 
     /**
@@ -70,13 +74,15 @@ public class WelcomeView implements GameObserver {
 
     public void askGameMode() throws FileNotFoundException {
         String[] gameMode = GameModeRegistry.getAvailableModes().toArray(new String[0]);
-        
+        printSeparator();
+        System.out.println();
         System.out.println("Choose game mode:");
         int i = 1;
         for (String mode : gameMode) {
             System.out.println(i + ". " + mode);
             i++;
         }
+        System.out.println();
         int choice = -1;
         while (choice < 1 || choice > gameMode.length) {
             System.out.print("Enter your choice: ");
@@ -86,18 +92,24 @@ public class WelcomeView implements GameObserver {
                 }
             }
         System.out.println();
+        printSeparator();
+        System.out.println();
         System.out.println("You chose: " + gameMode[choice - 1]);
+        System.out.println();
+        printSeparator();
         controller.setGameMode(gameMode[choice - 1]);
     } 
 
 
     /**
      * Ask the user to input the number of players and their names, ensuring that the number of players is within the limits defined in GameConfig. The method returns a list of player names.
+     * @throws InterruptedException 
      */
-    public void initializePlayers(){
+    public void initializePlayers() throws InterruptedException{
         ArrayList<String> players = new ArrayList<>();
         int numPlayers = -1;
         while (numPlayers < GameConfig.MIN_PLAYERS || numPlayers > GameConfig.MAX_PLAYERS) {
+            System.out.println();
             System.out.print("Enter number of players (" + GameConfig.MIN_PLAYERS + "-" + GameConfig.MAX_PLAYERS + "): ");
             numPlayers = input.askInt();
             if (numPlayers < GameConfig.MIN_PLAYERS || numPlayers > GameConfig.MAX_PLAYERS) {
@@ -109,9 +121,8 @@ public class WelcomeView implements GameObserver {
             String name = input.askString();
             players.add(name);
         }
+        System.out.println();
+        LoadingBar.showLoadingBar(30);
         controller.setPlayers(players);
-    }
-
-
-    
+    }    
 }

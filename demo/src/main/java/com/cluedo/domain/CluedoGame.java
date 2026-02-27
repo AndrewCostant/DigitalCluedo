@@ -182,10 +182,24 @@ public class CluedoGame implements Subject {
 		return result.toString();
 	}
 
-
-	public boolean checkIfACardExist(String name){
+	/**
+	 * Checks if a card with the specified name exists
+	 * @param name
+	 * @return
+	 */
+	public boolean checkIfASuspectCardExist(String name){
 		ArrayList<Card> allCards = new ArrayList<Card>();
 		allCards.addAll(createSpecificDecks(gameModeFactory.suspectCardPath()));
+		for (Card c : allCards) {
+			if (c.getName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean checkIfAWeaponCardExist(String name){
+		ArrayList<Card> allCards = new ArrayList<Card>();
 		allCards.addAll(createSpecificDecks(gameModeFactory.weaponCardPath()));
 		for (Card c : allCards) {
 			if (c.getName().equals(name)) {
@@ -315,6 +329,4 @@ public class CluedoGame implements Subject {
 			}
 		}
 	}
-
-    
 }

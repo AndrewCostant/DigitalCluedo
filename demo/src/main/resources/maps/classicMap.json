@@ -40,7 +40,7 @@
     { "type": "NORMAL", "x": 4, "y": 5, "name": ""},
     { "type": "NORMAL", "x": 4, "y": 6, "name": ""},
 
-    { "type": "ROOM", "x": 5, "y": 0, "name": "BedRoom" },
+    { "type": "ROOM", "x": 5, "y": 0, "name": "Bedroom" },
     { "type": "ROOM", "x": 5, "y": 1, "name": "Study" },
     { "type": "NORMAL", "x": 5, "y": 2, "name": ""},
     { "type": "CHANCE", "x": 5, "y": 3, "name": ""},

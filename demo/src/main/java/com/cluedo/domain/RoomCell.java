@@ -53,6 +53,10 @@ public class RoomCell implements Cell {
 		return x == other.getX() && y == other.getY();
 	}
 
+	public String getType() {
+		return name;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(x, y);

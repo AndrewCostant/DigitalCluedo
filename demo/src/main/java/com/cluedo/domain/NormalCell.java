@@ -44,6 +44,10 @@ public class NormalCell implements Cell {
         return x == other.x && y == other.y;
     }
 
+    public String getType() {
+        return type;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
