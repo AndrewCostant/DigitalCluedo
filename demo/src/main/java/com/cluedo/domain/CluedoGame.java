@@ -2,12 +2,18 @@ package com.cluedo.domain;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.Map;
 
+import com.cluedo.config.GameEvent;
 import com.cluedo.domain.dto.*;
+import com.cluedo.view.GameObserver;
 
 
-public class CluedoGame {
+public class CluedoGame implements Subject {
 
 
 	private static volatile CluedoGame instance;
@@ -16,7 +22,6 @@ public class CluedoGame {
 	private Player currentPlayer;
 	private int currentPlayerIndex;
 	private int numberOfPlayers;
-
 	//game deck
 	private ArrayList<Card> gameDeck;
 	//winning solution
@@ -24,6 +29,9 @@ public class CluedoGame {
 	//game state
 	private GameState state;
 	private AbstractGameModeFactory gameModeFactory;
+	private Turn currentTurn;
+	//observers
+	private Map<GameEvent, Set<GameObserver>> observers;
 
 	private CluedoGame() {
 		this.players = new ArrayList<Player>();
@@ -31,6 +39,8 @@ public class CluedoGame {
 		this.currentPlayerIndex = 0;
 		this.numberOfPlayers = 0;
 		this.state = new SetUpState();
+		this.observers = new HashMap<>();
+		this.currentTurn = new Turn();
 	}
 
 	public static CluedoGame getInstance() {
@@ -48,6 +58,8 @@ public class CluedoGame {
 	 */
 	public void setGameMode(AbstractGameModeFactory gameModeFactory) {
 		this.gameModeFactory = gameModeFactory;
+		Board.getInstance().initializeBoard();
+		notifyObservers(GameEvent.SET_PLAYERS);
 	}
 
 	/**
@@ -55,13 +67,17 @@ public class CluedoGame {
 	 */
 	public void startGame() {
 		this.state.setUpGame();
+		notifyObservers(GameEvent.ROLL_DICES);	
 	}
 
 	/**
 	 * Rolls the dice and returns all the possible moves.
 	 */
 	public RollResult rollDices() {
-		return this.state.rollDice();
+		RollResult result = this.state.rollDice();
+		this.currentTurn.setRollResult(result);
+		notifyObservers(GameEvent.SELECT_DESTINATION);
+		return result;
 	}
 
 	/**
@@ -69,7 +85,10 @@ public class CluedoGame {
 	 * @param newPosition
 	 */
 	public ActionResult goToCell(Cell newPosition) {
-		return this.state.moveTo(newPosition);
+		ActionResult result = this.state.moveTo(newPosition);
+		this.currentTurn.setActionResult(result);
+		notifyObservers(GameEvent.DO_ACTION);
+		return result;
 	}
 
 	/**
@@ -80,8 +99,13 @@ public class CluedoGame {
 		return this.state.makeAssumption(newGuess);
 	}
 
-	public void endTurn() {
+	public void endTurn(boolean isGameEnded) {
 		this.state.endTurn();
+		if(!isGameEnded) {
+			notifyObservers(GameEvent.ROLL_DICES);
+		} else {
+			notifyObservers(GameEvent.WELCOME);
+		}
 	}
 
 	/*******************************GAME DECK***********************************/
@@ -244,4 +268,53 @@ public class CluedoGame {
 	public AbstractGameModeFactory getGameModeFactory() {
 		return gameModeFactory;
 	}
+
+	public Turn getCurrentTurn() {
+		return currentTurn;
+	}
+
+	public void addDoActionResult(DoActionResult result) {
+        this.currentTurn.setDoActionResult(result);
+    }
+
+	public void resetCurrentTurn() {
+		this.currentTurn.reset();
+	}
+
+	/*******************************OBSERVER PATTERN METHODS***********************************/
+
+	@Override
+	public void registerObserver(GameObserver observer, GameEvent event) {
+		observers.computeIfAbsent(event, k -> new HashSet<>()).add(observer);
+	}
+
+	@Override
+	public void registerObserver(GameObserver observer, Set<GameEvent> events) {
+		for (GameEvent event : events) {
+			registerObserver(observer, event);
+		}
+	}
+
+	@Override
+	public void removeObserver(GameObserver observer) {
+		for (Set<GameObserver> observersForEvent : observers.values()) {
+			observersForEvent.remove(observer);
+		}
+	}
+
+	@Override
+	public void notifyObservers(GameEvent event) {
+		Set<GameObserver> observersForEvent = observers.get(event);
+		if (observersForEvent != null) {
+			for (GameObserver observer : observersForEvent) {
+				try {
+					observer.update(event);
+				} catch (Exception e) {
+					throw new RuntimeException("Error notifying observer", e);
+				}
+			}
+		}
+	}
+
+    
 }

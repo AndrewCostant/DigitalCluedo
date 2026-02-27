@@ -2,6 +2,7 @@ package com.cluedo.domain;
 
 import java.util.ArrayList;
 
+import com.cluedo.config.GameEvent;
 import com.cluedo.domain.dto.*;
 
 public class AssumptionState extends AbstractGameState{
@@ -53,6 +54,8 @@ public class AssumptionState extends AbstractGameState{
     public void endTurn() {
         CluedoGame c = CluedoGame.getInstance();
         c.setCurrentPlayer();
+		c.resetCurrentTurn();
         c.setState(new RollState());
+		c.notifyObservers(GameEvent.ROLL_DICES);
     }
 }

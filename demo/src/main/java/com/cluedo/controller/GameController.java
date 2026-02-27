@@ -1,25 +1,21 @@
 package com.cluedo.controller;
 
 import java.util.ArrayList;
-import java.util.Map;
 
-import com.cluedo.domain.AbstractGameModeFactory;
+
+import com.cluedo.config.GameModeRegistry;
 import com.cluedo.domain.Board;
-import com.cluedo.domain.CluedoGame;
-import com.cluedo.domain.PeekCard;
-import com.cluedo.domain.RoomCell;
-import com.cluedo.domain.SuspectC;
-import com.cluedo.domain.WeaponC;
 import com.cluedo.domain.Card;
 import com.cluedo.domain.Cell;
-import com.cluedo.domain.dto.ActionResult;
+import com.cluedo.domain.CluedoGame;
+import com.cluedo.domain.SuspectC;
+import com.cluedo.domain.WeaponC;
 import com.cluedo.domain.dto.DoActionResult;
-import com.cluedo.domain.dto.RollResult;
-import com.cluedo.ui.TerminalUI;
+
 
 public class GameController {
     
-    public void Game(CluedoGame cluedoGame, TerminalUI ui) throws Exception {
+    /* public void Game(CluedoGame cluedoGame, TerminalUI ui) throws Exception {
         
         // presentation and game mode selection
         ui.printWelcome();
@@ -47,7 +43,7 @@ public class GameController {
             // System.out.println("Soluzione " + cluedoGame.getWinningTriplet()); // debug
 
             // second interaction: choose destination cell based on the roll result and game mode
-            int choice = -1;
+            int choice = -1;    
             int choice2 = -1;
             switch (gameModeChoice) {
             case "Classic":
@@ -68,9 +64,7 @@ public class GameController {
             ui.printBoardWithPlayers(cluedoGame.getPlayers());
 
             String actionResultString = typeOfAction.getType();
-            /*
-             * Versione demo di gestione delle azioni della stanza :)(
-             */
+
             // third interaction: do a specific action based on the type of cell the player has moved to
             SuspectC suspectedPerson = null;
             WeaponC suspectedWeapon = null;
@@ -123,9 +117,41 @@ public class GameController {
             ui.displayEndTurn();
             cluedoGame.endTurn();
         }
-    }
+    } */
 
     public static boolean checkIfExist(String name) {
         return CluedoGame.getInstance().checkIfACardExist(name);
+    }
+
+    public void setGameMode(String string) {
+        CluedoGame.getInstance().setGameMode(GameModeRegistry.getMode(string));
+    }
+
+    public void setPlayers(ArrayList<String> players) {
+        CluedoGame.getInstance().setPlayers(players);
+        CluedoGame.getInstance().startGame();
+    }
+
+    public void rollDices() {
+        CluedoGame.getInstance().rollDices();
+    }
+
+    public void goToCell(Cell destination) {
+        CluedoGame.getInstance().goToCell(destination);
+    }
+
+    public void doAction(ArrayList<Card> assumption) {
+        if (assumption.isEmpty()) {
+            Board.getInstance().doAction(null, null);
+        } 
+        else {
+            SuspectC suspectedPerson = (SuspectC) assumption.get(0);
+            WeaponC suspectedWeapon = (WeaponC) assumption.get(1);
+            Board.getInstance().doAction(suspectedPerson, suspectedWeapon);
+        }
+    }
+
+    public void endTurn(DoActionResult doActionResult) {
+        CluedoGame.getInstance().endTurn(doActionResult.isGameEnded());
     }
 }

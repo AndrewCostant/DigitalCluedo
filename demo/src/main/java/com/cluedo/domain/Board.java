@@ -10,9 +10,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.cluedo.config.GameConfig;
+import com.cluedo.config.GameEvent;
 import com.cluedo.domain.dto.*;
+import com.cluedo.view.GameObserver;
 
-public class Board {
+public class Board implements Subject {
 
 	private static volatile Board instance;
 	private final Graph<Cell, DefaultEdge> graph; // Graph to represent the board layout
@@ -20,14 +22,13 @@ public class Board {
 	private Cell startPosition; // Starting position for players
 	private ArrayList<ChanceC> chanceDeck;
 	private int dimension; // Default dimension, can be modified
+	private Map<GameEvent, Set<GameObserver>> observers; // Map to manage observers for different game events
 	
 
 	private Board() {
 		this.graph = new SimpleGraph<>(DefaultEdge.class);
 		this.boardCells = new ArrayList<>();
-		loadBoardFromJson(CluedoGame.getInstance().getGameModeFactory().mapPath());
-		this.chanceDeck = initializeChanceDeck();
-		this.dimension = (int) Math.sqrt((double) boardCells.size());
+		this.observers = new HashMap<>();
 	}
 
 	public static Board getInstance() {
@@ -38,6 +39,12 @@ public class Board {
 	}
 
 	/*******************************BOARD MANAGEMENT***********************************/
+
+	public void initializeBoard(){
+		loadBoardFromJson(CluedoGame.getInstance().getGameModeFactory().mapPath());
+		this.chanceDeck = initializeChanceDeck();
+		this.dimension = (int) Math.sqrt((double) boardCells.size());
+	}
 
 	/**
 	 * Creates the boards and the graph by reading the related JSON
@@ -194,7 +201,10 @@ public class Board {
 	public DoActionResult doAction(SuspectC sus, WeaponC weapon) {
 		Player player = CluedoGame.getInstance().getCurrentPlayer();
 		Cell playerPos = player.getPosition();
-		return playerPos.doAction(sus, weapon, player);
+		DoActionResult result = playerPos.doAction(sus, weapon, player);
+		CluedoGame.getInstance().addDoActionResult(result);
+		notifyObservers(GameEvent.END_TURN);
+		return result;
 	}
 
 	
@@ -210,5 +220,40 @@ public class Board {
 
 	public int getNumCells() {
 		return boardCells.size();
+	}
+
+	/*******************************OBSERVER PATTERN METHODS***********************************/
+
+	@Override
+	public void registerObserver(GameObserver observer, GameEvent event) {
+		observers.computeIfAbsent(event, k -> new HashSet<>()).add(observer);
+	}
+
+	@Override
+	public void registerObserver(GameObserver observer, Set<GameEvent> events) {
+		for (GameEvent event : events) {
+			registerObserver(observer, event);
+		}
+	}
+
+	@Override
+	public void removeObserver(GameObserver observer) {
+		for (Set<GameObserver> observersForEvent : observers.values()) {
+			observersForEvent.remove(observer);
+		}
+	}
+
+	@Override
+	public void notifyObservers(GameEvent event) {
+		Set<GameObserver> observersForEvent = observers.get(event);
+		if (observersForEvent != null) {
+			for (GameObserver observer : observersForEvent) {
+				try {
+					observer.update(event);
+				} catch (Exception e) {
+					throw new RuntimeException("Error notifying observer", e);
+				}
+			}
+		}
 	}
 }
