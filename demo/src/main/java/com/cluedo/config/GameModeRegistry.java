@@ -1,10 +1,8 @@
 package com.cluedo.config;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import com.cluedo.domain.AbstractGameModeFactory;
 import com.cluedo.domain.ClassicGameModeFactory;
