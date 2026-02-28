@@ -73,7 +73,7 @@ public class WelcomeView implements GameObserver {
     }
 
     public void askGameMode() throws FileNotFoundException {
-        String[] gameMode = GameModeRegistry.getAvailableModes().toArray(new String[0]);
+        ArrayList<String> gameMode = GameModeRegistry.getAvailableModes();
         printSeparator();
         System.out.println();
         System.out.println("Which game mode do you want to play?");
@@ -84,20 +84,20 @@ public class WelcomeView implements GameObserver {
         }
         System.out.println();
         int choice = -1;
-        while (choice < 1 || choice > gameMode.length) {
+        while (choice < 1 || choice > gameMode.size()) {
             System.out.print("Enter your choice (1 or 2): ");
             choice = input.askInt();
-            if (choice < 1 || choice > gameMode.length) {
+            if (choice < 1 || choice > gameMode.size()) {
                     System.out.println("Invalid choice. Please try again.");
                 }
             }
         System.out.println();
         printSeparator();
         System.out.println();
-        System.out.println("You chose: " + gameMode[choice - 1]);
+        System.out.println("You chose: " + gameMode.get(choice - 1));
         System.out.println();
         printSeparator();
-        controller.setGameMode(gameMode[choice - 1]);
+        controller.setGameMode(gameMode.get(choice - 1));
     } 
 
 

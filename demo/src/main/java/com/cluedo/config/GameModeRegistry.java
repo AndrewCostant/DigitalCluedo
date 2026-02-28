@@ -1,5 +1,7 @@
 package com.cluedo.config;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -20,7 +22,12 @@ public class GameModeRegistry {
         return modes.get(key);
     }
 
-    public static Set<String> getAvailableModes() {
-        return modes.keySet();
+    public static ArrayList<String> getAvailableModes() {
+        ArrayList<String> availableModes = new ArrayList<String>();
+        for (String mode : modes.keySet()) {
+            availableModes.add(mode);
+        }
+        availableModes.sort(String::compareTo);
+        return availableModes;
     }
 }
