@@ -222,6 +222,11 @@ public class Board implements Subject {
 		return boardCells.size();
 	}
 
+	public void resetBoard() {
+		this.boardCells.clear();
+		this.graph.removeAllVertices(new HashSet<>(graph.vertexSet()));
+		this.chanceDeck.clear();
+	}
 	/*******************************OBSERVER PATTERN METHODS***********************************/
 
 	@Override

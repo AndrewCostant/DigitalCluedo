@@ -404,6 +404,7 @@ public class TurnView implements GameObserver {
 
     public void displayEndTurn(DoActionResult doActionResult){
         if (doActionResult.isGameEnded()) {
+            this.boardView.setInitialized(false);
             System.out.println("\nPress Enter to start a new game");
         } else {
             System.out.println("\nPress Enter to end your turn");

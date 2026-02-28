@@ -114,4 +114,8 @@ public class BoardView {
         return 5 + y * 10;
     }
 
+    public void setInitialized(Boolean initialized) {
+        this.initialized = initialized;
+    }
+
 }

@@ -104,6 +104,7 @@ public class CluedoGame implements Subject {
 		if(!isGameEnded) {
 			notifyObservers(GameEvent.ROLL_DICES);
 		} else {
+			Board.getInstance().resetBoard();
 			notifyObservers(GameEvent.WELCOME);
 		}
 	}
