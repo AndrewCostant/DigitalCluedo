@@ -12,8 +12,8 @@ public class GameModeRegistry {
     private static Map<String, AbstractGameModeFactory> modes = new HashMap<>();
     
     static {
-        modes.put("classic", new ClassicGameModeFactory());
-        modes.put("speed", new SpeedGameModeFactory());
+        modes.put("Classic", new ClassicGameModeFactory());
+        modes.put("Speed", new SpeedGameModeFactory());
     }
 
     public static AbstractGameModeFactory getMode(String key) {

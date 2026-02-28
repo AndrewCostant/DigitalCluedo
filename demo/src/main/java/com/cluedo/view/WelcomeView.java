@@ -76,7 +76,7 @@ public class WelcomeView implements GameObserver {
         String[] gameMode = GameModeRegistry.getAvailableModes().toArray(new String[0]);
         printSeparator();
         System.out.println();
-        System.out.println("Choose game mode:");
+        System.out.println("Which game mode do you want to play?");
         int i = 1;
         for (String mode : gameMode) {
             System.out.println(i + ". " + mode);
@@ -85,7 +85,7 @@ public class WelcomeView implements GameObserver {
         System.out.println();
         int choice = -1;
         while (choice < 1 || choice > gameMode.length) {
-            System.out.print("Enter your choice: ");
+            System.out.print("Enter your choice (1 or 2): ");
             choice = input.askInt();
             if (choice < 1 || choice > gameMode.length) {
                     System.out.println("Invalid choice. Please try again.");
