@@ -115,8 +115,10 @@ public class Player {
 	 * @param kCard
 	 */
 	public Boolean addKnownCard(Card card , String player) {
-		if (knownCards.containsKey(card)) {
-			return false; // Card already known
+		for (Card knownCard : knownCards.keySet()) {
+			if (knownCard.equals(card)) {
+				return false; // Card already known
+			}
 		}
 		knownCards.put(card, player);
 		return true;
