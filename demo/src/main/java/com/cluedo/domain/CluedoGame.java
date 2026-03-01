@@ -105,6 +105,7 @@ public class CluedoGame implements Subject {
 			notifyObservers(GameEvent.ROLL_DICES);
 		} else {
 			Board.getInstance().resetBoard();
+			currentPlayerIndex = 0;
 			notifyObservers(GameEvent.WELCOME);
 		}
 	}
