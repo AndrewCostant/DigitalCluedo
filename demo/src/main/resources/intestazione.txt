@@ -14,7 +14,7 @@ Cluedo (called Clue in North America) is a classic murder-mystery board game.
 Players take on the roles of different characters and try to solve a crime by 
 discovering who committed the murder, with which weapon, and in which room of the mansion.
 
-During the game, players move around the board, make suggestions, and gather clues 
+Starting from the HALL, players move around the board, make suggestions, and gather clues 
 by logically eliminating possibilities based on the cards shown by other players. 
 The first player to correctly deduce the suspect, the weapon, and the location wins the game. 
 
