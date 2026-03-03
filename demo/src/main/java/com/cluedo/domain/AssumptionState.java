@@ -2,6 +2,7 @@ package com.cluedo.domain;
 
 import java.util.ArrayList;
 
+import com.cluedo.config.GameConfig;
 import com.cluedo.config.GameEvent;
 import com.cluedo.domain.dto.*;
 
@@ -34,7 +35,7 @@ public class AssumptionState extends AbstractGameState{
 					Card shownCard = player.showACard(guess);
 					// mostra username del player che mostra la carta e la carta mostrata
 					if (shownCard != null) {
-						currentPlayer.addKnownCard(shownCard, player.getUsername());
+						currentPlayer.addKnownCard(shownCard, player.getPawnSkin() + player.getUsername() + GameConfig.RESET);
 						result.add(shownCard);
 						t = false;
 					}

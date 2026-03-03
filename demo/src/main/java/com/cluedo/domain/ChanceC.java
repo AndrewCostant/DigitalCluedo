@@ -1,5 +1,6 @@
 package com.cluedo.domain;
 
+import com.cluedo.config.GameConfig;
 import com.cluedo.domain.dto.*;
 
 public class ChanceC extends Card {
@@ -22,6 +23,6 @@ public class ChanceC extends Card {
 
     @Override
     public String toString() {
-        return "Chance[" + this.getName() + "]";
+        return GameConfig.YELLOW + "Chance[" + this.getName() + "]" + GameConfig.RESET;
     }
 }

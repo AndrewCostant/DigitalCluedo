@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.cluedo.config.GameConfig;
 import com.cluedo.domain.CluedoGame;
 import com.cluedo.domain.Player;
 
@@ -101,7 +102,16 @@ public class BoardView {
             }
         }
         for (StringBuilder line : outputCopy) {
-            System.out.println(line);
+            String printedLine = line.toString();
+
+            for (Player p : players) {
+                printedLine = printedLine.replace(
+                        p.getUsername(),
+                        p.getPawnSkin() + p.getUsername() + GameConfig.RESET
+                );
+            }
+
+            System.out.println(printedLine);
         }
     }
 

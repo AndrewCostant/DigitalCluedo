@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
+import com.cluedo.config.GameConfig;
 import com.cluedo.config.GameEvent;
 import com.cluedo.controller.GameController;
 import com.cluedo.domain.Board;
@@ -92,13 +93,13 @@ public class TurnView implements GameObserver {
         Player player = CluedoGame.getInstance().getCurrentPlayer();
         System.out.println();
         printSeparatorTurn();
-        System.out.print(" " + player.getUsername().toUpperCase() + "'s turn ");
+        System.out.print(" " + player.getPawnSkin() +player.getUsername().toUpperCase() + GameConfig.RESET + "'s turn ");
         printSeparatorTurn();
         System.out.println();
         System.out.println();
-        System.out.println("This is your hand ");
+        System.out.println("This is your "+ GameConfig.GREEN + "hand " + GameConfig.RESET);
         System.out.println(player.printHandCards());
-        System.out.println("\nThese are your known cards ");
+        System.out.println("\nThese are your" + GameConfig.PURPLE + " known cards " + GameConfig.RESET);
         System.out.println(player.printKnownCards());
         System.out.print("Press enter to roll the dices... \n");
         input.pressButton();

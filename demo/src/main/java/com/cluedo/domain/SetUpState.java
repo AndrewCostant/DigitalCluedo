@@ -2,14 +2,19 @@ package com.cluedo.domain;
 
 import java.util.*;
 
+import com.cluedo.config.GameConfig;
+
 public class SetUpState extends AbstractGameState{
 
 	@Override
     public void setPlayers(ArrayList<String> names) {
         ArrayList<Player> players = new ArrayList<Player>();
+		String[] pawnSkin = {GameConfig.RED, GameConfig.BLUE, GameConfig.YELLOW, GameConfig.GREEN, GameConfig.PURPLE, GameConfig.CYAN, GameConfig.RESET};
+		int i = 0;
         for (String name : names) {
-            Player player = new Player(name, Board.getInstance().getStartPosition());
+            Player player = new Player(name, pawnSkin[i % pawnSkin.length], Board.getInstance().getStartPosition());
             players.add(player);
+			i++;
         }
         CluedoGame.getInstance().addPlayers(players);
     }

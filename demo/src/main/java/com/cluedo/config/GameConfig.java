@@ -19,4 +19,13 @@ public final class GameConfig {
     // Altre costanti di gioco (es. numero di carte, posizioni iniziali, ecc.)
     public static final String START_POSITION = "HALL";
     public static final int CLASSIC_DICE_VALUE = 3;
+
+    //colori ANSI per la console
+    public static final String RESET = "\u001B[0m";
+    public static final String RED = "\u001B[31m";
+    public static final String GREEN = "\u001B[32m";
+    public static final String YELLOW = "\u001B[33m";
+    public static final String BLUE = "\u001B[34m";
+    public static final String PURPLE = "\u001B[35m";
+    public static final String CYAN = "\u001B[36m";
 }
