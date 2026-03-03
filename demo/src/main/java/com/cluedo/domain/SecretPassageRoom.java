@@ -1,6 +1,8 @@
 package com.cluedo.domain;
 
 import java.util.Objects;
+
+import com.cluedo.config.GameConfig;
 import com.cluedo.domain.dto.*;
 public class SecretPassageRoom extends RoomCell {
 
@@ -39,6 +41,6 @@ public class SecretPassageRoom extends RoomCell {
     }
     @Override
 	public String toString() {
-		return "SecretPassageRoom [" + name + ", x= " + x + ", y= " + y + "]";
+		return GameConfig.BLUE + name + GameConfig.RESET + " [SecretPassageRoom, x= " + x + ", y= " + y + "]";
 	}
 }

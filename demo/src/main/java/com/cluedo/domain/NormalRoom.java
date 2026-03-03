@@ -1,6 +1,8 @@
 package com.cluedo.domain;
 
 import java.util.Objects;
+
+import com.cluedo.config.GameConfig;
 import com.cluedo.domain.dto.*;
 
 public class NormalRoom extends RoomCell {
@@ -31,6 +33,6 @@ public class NormalRoom extends RoomCell {
 	}
 	@Override
 	public String toString() {
-		return name + " [x= " + x + ", y= " + y + "]";
+		return GameConfig.BLUE + name + GameConfig.RESET + " [x= " + x + ", y= " + y + "]";
 	}
 }

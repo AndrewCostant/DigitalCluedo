@@ -1,7 +1,6 @@
 package com.cluedo.domain;
 import java.util.*;
 
-import com.cluedo.config.GameConfig;
 import com.cluedo.domain.dto.*;
 
 public class Player {

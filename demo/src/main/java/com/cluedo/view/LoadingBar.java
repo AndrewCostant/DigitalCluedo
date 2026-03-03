@@ -1,11 +1,13 @@
 package com.cluedo.view;
 
+import com.cluedo.config.GameConfig;
+
 public class LoadingBar {
 
     public static void showLoadingBar(int totalSteps) throws InterruptedException {
         for (int i = 0; i <= totalSteps; i++) {
             int percent = (i * 100) / totalSteps;
-            String bar = "#".repeat(i) + " ".repeat(totalSteps - i);
+            String bar = GameConfig.GREEN + "#".repeat(i) + " ".repeat(totalSteps - i) + GameConfig.RESET;
             System.out.print("\r[" + bar + "] " + percent + "%");
             Thread.sleep(100);
         }

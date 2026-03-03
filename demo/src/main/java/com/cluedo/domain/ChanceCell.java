@@ -2,6 +2,7 @@ package com.cluedo.domain;
 
 import java.util.Objects;
 
+import com.cluedo.config.GameConfig;
 import com.cluedo.domain.dto.*;
 
 public class ChanceCell implements Cell {
@@ -58,6 +59,6 @@ public class ChanceCell implements Cell {
 
 	@Override
 	public String toString() {
-		return "ChanceCell [x= " + x + ", y= " + y + "]";
+		return GameConfig.YELLOW + "ChanceCell"+ GameConfig.RESET + " [x= " + x + ", y= " + y + "]" ;
 	}
 }

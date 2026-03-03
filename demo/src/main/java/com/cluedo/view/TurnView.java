@@ -120,7 +120,7 @@ public class TurnView implements GameObserver {
         int number = 1;
         Set<Cell> possibleDestinations = rollResult.cells();
         for (Cell destination : possibleDestinations) {
-            System.out.println(number + ": " + destination);
+            System.out.println(number + ": " + destination.toString());
             number++;
         }
     }
@@ -214,7 +214,7 @@ public class TurnView implements GameObserver {
     public void displayChanceCellAction(Card card){
         printSeparator();
         System.out.println();
-        System.out.println("You are on a Chance Cell, press Enter to draw a chanceCard");
+        System.out.println("You are on a Chance Cell, press Enter to draw a chance Card");
         input.pressButton();
         printSeparator();
         System.out.println();
@@ -266,10 +266,10 @@ public class TurnView implements GameObserver {
         System.out.println();
         printSeparator();
         System.out.println();
-        System.out.println("This is your hand ");
+        System.out.println("This is your "+ GameConfig.GREEN + "hand " + GameConfig.RESET );
         System.out.println(handCards);
         System.out.println();
-        System.out.println("These are your known cards ");
+        System.out.println("These are your" + GameConfig.PURPLE + " known cards " + GameConfig.RESET);
         System.out.println(knownCards);
         System.out.println();
         printSeparator();
