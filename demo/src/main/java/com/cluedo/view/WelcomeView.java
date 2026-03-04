@@ -10,21 +10,43 @@ import com.cluedo.config.GameEvent;
 import com.cluedo.config.GameModeRegistry;
 import com.cluedo.controller.GameController;
 
-public class WelcomeView implements GameObserver {
+public class WelcomeView {
 
     private ArrayList<String> welcome = new ArrayList<>();
     private InputView input;
     private GameController controller;
+    private EventHandler eventHandler;
     
 
     public WelcomeView(GameController controller) throws FileNotFoundException {
         this.controller = controller;
         input = new InputView();
+        eventHandler = new EventHandler();
+        
+        // Register event-specific handlers
+        eventHandler.on(GameEvent.WELCOME, event -> {
+            printWelcome();
+            askGameMode();
+        });
+        
+        eventHandler.on(GameEvent.SET_PLAYERS, event -> {
+            initializePlayers();
+        });
+        
         try {
             initializeWelcome();
         } catch (FileNotFoundException e) {
             System.err.println("Error initializing welcome message: " + e.getMessage());
         }
+    }
+    
+    /**
+     * Returns the event handler for this view.
+     * Use this to register the view as an observer to the game.
+     * @return the event handler
+     */
+    public EventHandler getEventHandler() {
+        return eventHandler;
     }
 
     /**
@@ -45,17 +67,6 @@ public class WelcomeView implements GameObserver {
         }
         catch (Exception e) {
             throw new FileNotFoundException("File " + path + " not found");
-        }
-    }
-    
-    @Override
-    public void update(GameEvent event) throws FileNotFoundException, InterruptedException {
-        if (event == GameEvent.WELCOME) {
-            printWelcome();
-            askGameMode();
-        }
-        if (event == GameEvent.SET_PLAYERS) {
-            initializePlayers();
         }
     }
 

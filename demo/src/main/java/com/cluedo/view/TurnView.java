@@ -23,54 +23,90 @@ import com.cluedo.domain.dto.ActionResult;
 import com.cluedo.domain.dto.DoActionResult;
 import com.cluedo.domain.dto.RollResult;
 
-public class TurnView implements GameObserver {
+public class TurnView {
     
     private GameController controller;
     private BoardView boardView;
     private InputView input;
     private Turn currentTurn;
+    private EventHandler eventHandler;
 
     public TurnView(GameController controller, InputView input) {
         this.boardView = new BoardView();
         this.controller = controller;
         this.input = input;
-    }
-
-    @Override
-    public void update(GameEvent event) throws Exception {
-        if(!boardView.isInitialized()) {
-            boardView.initializeMap();
-        }
-        if (event == GameEvent.ROLL_DICES) {
+        this.eventHandler = new EventHandler();
+        
+        // Register event-specific handlers
+        eventHandler.on(GameEvent.ROLL_DICES, event -> {
+            if(!boardView.isInitialized()) {
+                boardView.initializeMap();
+            }
             startTurn();
-        }
-        if (event == GameEvent.SELECT_DESTINATION) {
-            this.currentTurn = CluedoGame.getInstance().getCurrentTurn();
-            boardView.printBoardWithPlayers(CluedoGame.getInstance().getPlayers());
-            rollResult();
-            Cell destination = null;
-            //depending on the game mode, ask the player to choose the destination cell in different ways
-            if (CluedoGame.getInstance().getGameModeFactory() instanceof ClassicGameModeFactory) {
-                destination = askDestination();  
-                
+        });
+        
+        eventHandler.on(GameEvent.SELECT_DESTINATION, event -> {
+            if(!boardView.isInitialized()) {
+                boardView.initializeMap();
             }
-            else if (CluedoGame.getInstance().getGameModeFactory() instanceof SpeedGameModeFactory) {
-                displaySpeedDestination();
-                destination = this.currentTurn.getRollResult().cells().iterator().next();
-            }
-            controller.goToCell(destination);
+            handleSelectDestination();
+        });
+        
+        eventHandler.on(GameEvent.DO_ACTION, event -> {
+            handleDoAction();
+        });
+        
+        eventHandler.on(GameEvent.END_TURN, event -> {
+            handleEndTurn();
+        });
+    }
+    
+    /**
+     * Returns the event handler for this view.
+     * Use this to register the view as an observer to the game.
+     * @return the event handler
+     */
+    public EventHandler getEventHandler() {
+        return eventHandler;
+    }
+    
+    /**
+     * Handles the SELECT_DESTINATION event.
+     */
+    private void handleSelectDestination() {
+        this.currentTurn = CluedoGame.getInstance().getCurrentTurn();
+        boardView.printBoardWithPlayers(CluedoGame.getInstance().getPlayers());
+        rollResult();
+        Cell destination = null;
+        //depending on the game mode, ask the player to choose the destination cell in different ways
+        if (CluedoGame.getInstance().getGameModeFactory() instanceof ClassicGameModeFactory) {
+            destination = askDestination();  
+            
         }
-        if (event == GameEvent.DO_ACTION) {
-            ActionResult actionResult = this.currentTurn.getActionResult();
-            ArrayList<Card> assumption = displayAction(actionResult);
-            controller.doAction(assumption);
+        else if (CluedoGame.getInstance().getGameModeFactory() instanceof SpeedGameModeFactory) {
+            displaySpeedDestination();
+            destination = this.currentTurn.getRollResult().cells().iterator().next();
         }
-        if (event == GameEvent.END_TURN) {
-            DoActionResult doActionResult = this.currentTurn.getDoActionResult();
-            displayDoActionResult(doActionResult);
-            displayEndTurn(doActionResult);
-            controller.endTurn(doActionResult);
-        }
+        controller.goToCell(destination);
+    }
+    
+    /**
+     * Handles the DO_ACTION event.
+     */
+    private void handleDoAction() throws Exception {
+        ActionResult actionResult = this.currentTurn.getActionResult();
+        ArrayList<Card> assumption = displayAction(actionResult);
+        controller.doAction(assumption);
+    }
+    
+    /**
+     * Handles the END_TURN event.
+     */
+    private void handleEndTurn() throws Exception {
+        DoActionResult doActionResult = this.currentTurn.getDoActionResult();
+        displayDoActionResult(doActionResult);
+        displayEndTurn(doActionResult);
+        controller.endTurn(doActionResult);
     }
 
     public static void printSeparator() {

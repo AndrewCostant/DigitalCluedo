@@ -2,18 +2,14 @@ package com.cluedo.domain;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
-import java.util.Map;
 
+import com.cluedo.config.EventDispatcher;
 import com.cluedo.config.GameEvent;
 import com.cluedo.domain.dto.*;
-import com.cluedo.view.GameObserver;
 
 
-public class CluedoGame implements Subject {
+public class CluedoGame {
 
 
 	private static volatile CluedoGame instance;
@@ -30,8 +26,6 @@ public class CluedoGame implements Subject {
 	private GameState state;
 	private AbstractGameModeFactory gameModeFactory;
 	private Turn currentTurn;
-	//observers
-	private Map<GameEvent, Set<GameObserver>> observers;
 
 	private CluedoGame() {
 		this.players = new ArrayList<Player>();
@@ -39,7 +33,6 @@ public class CluedoGame implements Subject {
 		this.currentPlayerIndex = 0;
 		this.numberOfPlayers = 0;
 		this.state = new SetUpState();
-		this.observers = new HashMap<>();
 		this.currentTurn = new Turn();
 	}
 
@@ -59,7 +52,7 @@ public class CluedoGame implements Subject {
 	public void setGameMode(AbstractGameModeFactory gameModeFactory) {
 		this.gameModeFactory = gameModeFactory;
 		Board.getInstance().initializeBoard();
-		notifyObservers(GameEvent.SET_PLAYERS);
+		EventDispatcher.getInstance().dispatch(GameEvent.SET_PLAYERS);
 	}
 
 	/**
@@ -67,7 +60,7 @@ public class CluedoGame implements Subject {
 	 */
 	public void startGame() {
 		this.state.setUpGame();
-		notifyObservers(GameEvent.ROLL_DICES);	
+		EventDispatcher.getInstance().dispatch(GameEvent.ROLL_DICES);	
 	}
 
 	/**
@@ -76,7 +69,7 @@ public class CluedoGame implements Subject {
 	public RollResult rollDices() {
 		RollResult result = this.state.rollDice();
 		this.currentTurn.setRollResult(result);
-		notifyObservers(GameEvent.SELECT_DESTINATION);
+		EventDispatcher.getInstance().dispatch(GameEvent.SELECT_DESTINATION);
 		return result;
 	}
 
@@ -87,7 +80,7 @@ public class CluedoGame implements Subject {
 	public ActionResult goToCell(Cell newPosition) {
 		ActionResult result = this.state.moveTo(newPosition);
 		this.currentTurn.setActionResult(result);
-		notifyObservers(GameEvent.DO_ACTION);
+		EventDispatcher.getInstance().dispatch(GameEvent.DO_ACTION);
 		return result;
 	}
 
@@ -102,11 +95,11 @@ public class CluedoGame implements Subject {
 	public void endTurn(boolean isGameEnded) {
 		this.state.endTurn();
 		if(!isGameEnded) {
-			notifyObservers(GameEvent.ROLL_DICES);
+			EventDispatcher.getInstance().dispatch(GameEvent.ROLL_DICES);
 		} else {
 			Board.getInstance().resetBoard();
 			currentPlayerIndex = 0;
-			notifyObservers(GameEvent.WELCOME);
+			EventDispatcher.getInstance().dispatch(GameEvent.WELCOME);
 		}
 	}
 
@@ -297,38 +290,4 @@ public class CluedoGame implements Subject {
 		this.currentTurn.reset();
 	}
 
-	/*******************************OBSERVER PATTERN METHODS***********************************/
-
-	@Override
-	public void registerObserver(GameObserver observer, GameEvent event) {
-		observers.computeIfAbsent(event, k -> new HashSet<>()).add(observer);
-	}
-
-	@Override
-	public void registerObserver(GameObserver observer, Set<GameEvent> events) {
-		for (GameEvent event : events) {
-			registerObserver(observer, event);
-		}
-	}
-
-	@Override
-	public void removeObserver(GameObserver observer) {
-		for (Set<GameObserver> observersForEvent : observers.values()) {
-			observersForEvent.remove(observer);
-		}
-	}
-
-	@Override
-	public void notifyObservers(GameEvent event) {
-		Set<GameObserver> observersForEvent = observers.get(event);
-		if (observersForEvent != null) {
-			for (GameObserver observer : observersForEvent) {
-				try {
-					observer.update(event);
-				} catch (Exception e) {
-					throw new RuntimeException("Error notifying observer", e);
-				}
-			}
-		}
-	}
 }
