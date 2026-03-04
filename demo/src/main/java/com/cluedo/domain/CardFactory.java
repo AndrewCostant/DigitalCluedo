@@ -21,7 +21,6 @@ public class CardFactory {
                 } catch (Exception e) {
                     throw new RuntimeException("Invalid effect class: " + name, e);
                 }
-                
             default:
                 throw new IllegalArgumentException("Illegal card type");
         }

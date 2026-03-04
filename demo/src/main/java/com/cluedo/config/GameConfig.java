@@ -17,7 +17,7 @@ public final class GameConfig {
     public static final int MIN_PLAYERS = 2;    
     
     // Altre costanti di gioco (es. numero di carte, posizioni iniziali, ecc.)
-    public static final String START_POSITION = "HALL";
+    public static final String START_POSITION = "3,3";
     public static final int CLASSIC_DICE_VALUE = 3;
 
     //colori ANSI per la console

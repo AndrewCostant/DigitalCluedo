@@ -66,7 +66,8 @@ public class Board implements Subject {
 				int y = c.get("y").asInt();
 
 				Cell cell = CellFactory.createCell(x, y, type, name);
-				if( name.toUpperCase().equals(GameConfig.START_POSITION) ) {
+				String cellKey = x + "," + y;
+				if( cellKey.equals(GameConfig.START_POSITION) ) {
 					this.startPosition = cell;
 				}
 				graph.addVertex(cell);
