@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.cluedo.view.GameObserver;
+import com.cluedo.events.GameObserver;
 
 /**
  * Centralized event dispatcher that manages all event registration and dispatching.

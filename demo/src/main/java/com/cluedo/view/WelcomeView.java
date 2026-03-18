@@ -86,7 +86,7 @@ public class WelcomeView {
     public void askGameMode() throws FileNotFoundException {
         ArrayList<String> gameMode = GameModeRegistry.getAvailableModes();
         printSeparator();
-        System.out.println();
+        System.out.println();   
         System.out.println("Which game mode do you want to play?");
         int i = 1;
         for (String mode : gameMode) {
@@ -108,7 +108,7 @@ public class WelcomeView {
         System.out.println("You chose: " + gameMode.get(choice - 1));
         System.out.println();
         printSeparator();
-        controller.setGameMode(gameMode.get(choice - 1));
+        controller.setGameMode(GameModeRegistry.getMode(choice - 1));
     } 
 
 

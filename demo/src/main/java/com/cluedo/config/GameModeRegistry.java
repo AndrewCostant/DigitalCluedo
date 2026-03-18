@@ -1,29 +1,23 @@
 package com.cluedo.config;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import com.cluedo.domain.AbstractGameModeFactory;
-import com.cluedo.domain.ClassicGameModeFactory;
-import com.cluedo.domain.SpeedGameModeFactory;
 
 public class GameModeRegistry {
-    private static Map<String, AbstractGameModeFactory> modes = new HashMap<>();
+    private static ArrayList<GameMode> modes = new ArrayList<>();
     
     static {
-        modes.put("Classic", new ClassicGameModeFactory());
-        modes.put("Speed", new SpeedGameModeFactory());
+        modes.add(GameMode.CLASSIC);
+        modes.add(GameMode.SPEED);
     }
 
-    public static AbstractGameModeFactory getMode(String key) {
+    public static GameMode getMode(int key) {
         return modes.get(key);
     }
 
     public static ArrayList<String> getAvailableModes() {
         ArrayList<String> availableModes = new ArrayList<String>();
-        for (String mode : modes.keySet()) {
-            availableModes.add(mode);
+        for (GameMode mode : modes) {
+            availableModes.add(mode.toString());
         }
         availableModes.sort(String::compareTo);
         return availableModes;

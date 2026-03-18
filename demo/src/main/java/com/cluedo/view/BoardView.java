@@ -10,16 +10,18 @@ import java.util.List;
 import java.util.Map;
 
 import com.cluedo.config.GameConfig;
-import com.cluedo.domain.CluedoGame;
+import com.cluedo.controller.GameController;
 import com.cluedo.domain.Player;
 
 public class BoardView {
     
     private StringBuilder[] output;
     private Boolean initialized;
+    private GameController controller;
 
-    public BoardView() {
+    public BoardView(GameController controller) {
         this.initialized = false;
+        this.controller = controller;
     }
 
     public boolean isInitialized() {
@@ -31,8 +33,8 @@ public class BoardView {
      * @throws IOException
      */
     public void initializeMap() throws IOException {
-        String path = CluedoGame.getInstance()
-                .getGameModeFactory()
+        String path = controller
+                .getGameMode()
                 .getUiMapPath();
 
         InputStream is = getClass()

@@ -1,4 +1,4 @@
-package com.cluedo.view;
+package com.cluedo.events;
 
 import com.cluedo.config.GameEvent;
 

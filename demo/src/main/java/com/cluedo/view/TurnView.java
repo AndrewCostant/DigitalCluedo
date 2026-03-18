@@ -7,12 +7,9 @@ import java.util.Set;
 import com.cluedo.config.GameConfig;
 import com.cluedo.config.GameEvent;
 import com.cluedo.controller.GameController;
-import com.cluedo.domain.Board;
 import com.cluedo.domain.Card;
-import com.cluedo.domain.CardFactory;
 import com.cluedo.domain.Cell;
 import com.cluedo.domain.ClassicGameModeFactory;
-import com.cluedo.domain.CluedoGame;
 import com.cluedo.domain.GamblingRoom;
 import com.cluedo.domain.PeekCard;
 import com.cluedo.domain.Player;
@@ -32,7 +29,7 @@ public class TurnView {
     private EventHandler eventHandler;
 
     public TurnView(GameController controller, InputView input) {
-        this.boardView = new BoardView();
+        this.boardView = new BoardView(controller);
         this.controller = controller;
         this.input = input;
         this.eventHandler = new EventHandler();
@@ -74,16 +71,16 @@ public class TurnView {
      * Handles the SELECT_DESTINATION event.
      */
     private void handleSelectDestination() {
-        this.currentTurn = CluedoGame.getInstance().getCurrentTurn();
-        boardView.printBoardWithPlayers(CluedoGame.getInstance().getPlayers());
+        this.currentTurn = controller.getCurrentTurn();
+        boardView.printBoardWithPlayers(controller.getPlayers());
         rollResult();
         Cell destination = null;
         //depending on the game mode, ask the player to choose the destination cell in different ways
-        if (CluedoGame.getInstance().getGameModeFactory() instanceof ClassicGameModeFactory) {
+        if (controller.getGameMode() instanceof ClassicGameModeFactory) {
             destination = askDestination();  
             
         }
-        else if (CluedoGame.getInstance().getGameModeFactory() instanceof SpeedGameModeFactory) {
+        else if (controller.getGameMode() instanceof SpeedGameModeFactory) {
             displaySpeedDestination();
             destination = this.currentTurn.getRollResult().cells().iterator().next();
         }
@@ -95,7 +92,7 @@ public class TurnView {
      */
     private void handleDoAction() throws Exception {
         ActionResult actionResult = this.currentTurn.getActionResult();
-        ArrayList<Card> assumption = displayAction(actionResult);
+        ArrayList<String> assumption = displayAction(actionResult);
         controller.doAction(assumption);
     }
     
@@ -126,7 +123,7 @@ public class TurnView {
      * @param player
      */
     public void startTurn(){
-        Player player = CluedoGame.getInstance().getCurrentPlayer();
+        Player player = controller.getCurrentPlayer();
         System.out.println();
         printSeparatorTurn();
         System.out.print(" " + player.getPawnSkin() +player.getUsername().toUpperCase() + GameConfig.RESET + "'s turn ");
@@ -200,7 +197,7 @@ public class TurnView {
             }
         }
         System.out.println();
-        return Board.getInstance().getCellXY(choice, choice2);
+        return controller.getCellByCoordinates(choice, choice2);
     }
 
     /**
@@ -217,8 +214,8 @@ public class TurnView {
 
     //DO_ACTION
 
-    private ArrayList<Card> displayAction(ActionResult actionResult) throws Exception {
-        ArrayList<Card> assumption = new ArrayList<>();
+    private ArrayList<String> displayAction(ActionResult actionResult) throws Exception {
+        ArrayList<String> assumption = new ArrayList<>();
         switch (actionResult.getType()) {
             case "NORMAL_CELL":
                 displayNormalCellAction();
@@ -289,16 +286,15 @@ public class TurnView {
      * @return
      * @throws Exception 
      */
-    public ArrayList<Card> displayRoomAction() throws Exception{
-        CluedoGame cluedoGame = CluedoGame.getInstance();
-        ArrayList<Card> handCards = cluedoGame.getCurrentPlayer().getHandCards();
-        Map<Card,String> knownCards = cluedoGame.getCurrentPlayer().getKnownCards();
-        String suspectCards = cluedoGame.specificDeckByTypeToString(cluedoGame.getGameModeFactory().suspectCardPath());
-        String weaponCards = cluedoGame.specificDeckByTypeToString(cluedoGame.getGameModeFactory().weaponCardPath());
-        ArrayList<Card> assumption = new ArrayList<>();
+    public ArrayList<String> displayRoomAction() throws Exception{
+        ArrayList<Card> handCards = controller.getCurrentPlayer().getHandCards();
+        Map<Card,String> knownCards = controller.getCurrentPlayer().getKnownCards();
+        String suspectCards = controller.getsuspectCardsToString();
+        String weaponCards = controller.getweaponCardsToString();
+        ArrayList<String> assumption = new ArrayList<>();
         printSeparator();
         System.out.println();
-        System.out.println("You are in the " + cluedoGame.getCurrentPlayer().getPosition().getType() + ", make your assumption. \nPlease, note that the suspected room is the room you are into.");
+        System.out.println("You are in the " + controller.getCurrentPlayer().getPosition().getType() + ", make your assumption. \nPlease, note that the suspected room is the room you are into.");
         System.out.println();
         printSeparator();
         System.out.println();
@@ -324,13 +320,8 @@ public class TurnView {
                 System.out.println("Invalid person name.");
                 continue;
             } else {
-                Card suspectedPerson = (Card) CardFactory.createCard("suspect", person);
-                 if (suspectedPerson != null) {
-                    assumption.add(suspectedPerson);
-                    validInput = false;
-                } else {
-                    System.out.println("Invalid person. Please try again.");
-                }
+                assumption.add(person);
+                validInput = false;
             }
         }
         validInput = true;
@@ -341,13 +332,8 @@ public class TurnView {
                 System.out.println("Invalid weapon name.");
                 continue;
             } else {
-                Card suspectedWeapon = (Card) CardFactory.createCard("weapon", weapon);
-                 if (suspectedWeapon != null) {
-                    assumption.add(suspectedWeapon);
-                    validInput = false;
-                } else {
-                    System.out.println("Invalid weapon. Please try again.");
-                }
+                assumption.add(weapon);
+                validInput = false;
             }
         }
         System.out.println();
@@ -358,7 +344,7 @@ public class TurnView {
 
     public void displayDoActionResult(DoActionResult doActionResult) throws InterruptedException{
         if (doActionResult.isGameEnded()) {
-            printWinner(CluedoGame.getInstance().getCurrentPlayer());
+            printWinner(controller.getCurrentPlayer());
         } else {
             Cell cell = doActionResult.getCell();
             if (cell instanceof RoomCell) {
@@ -434,7 +420,7 @@ public class TurnView {
      * @param doActionResult
      */
     public void showPeekedCard(DoActionResult doActionResult){ 
-        System.out.println("You peeked at the card: " + doActionResult.getCardsShown().get(0).getName() + " from " + CluedoGame.getInstance().getNextPlayer().getUsername() + "'s hand.");
+        System.out.println("You peeked at the card: " + doActionResult.getCardsShown().get(0).getName() + " from " + controller.getNextPlayer().getUsername() + "'s hand.");
         System.out.println();
         printSeparator();
     }
