@@ -37,7 +37,6 @@ public class ChanceCell implements Cell {
 		return player.getChanceCard().effect(player);
 	}
 
-	// GETTERS AND SETTERS
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

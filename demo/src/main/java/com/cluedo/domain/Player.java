@@ -69,7 +69,7 @@ public class Player {
 	}
 
 	
-	// Hand Cards Management
+	/*********************************************************HAND CARDS MANAGEMENT******************************************************************/
 
 	/**
 	 * Adds a card to the player's hand.
@@ -108,7 +108,7 @@ public class Player {
 		this.chanceCard = chanceCard;
 	}
 
-	// Known Cards Management
+	/*********************************************************KNOWN CARDS MANAGEMENT******************************************************************/
 
 	/**	
 	 * Adds a known card to the player's list of known cards.
@@ -125,8 +125,9 @@ public class Player {
 	}
 
 	/**
-	 * verifica se nella guess del giocare ci sono carte di cui è in possesso
-	 * quelle di cui non è in possesso le aggiunge alle known card
+	 * Adds the cards from a guess to the player's known cards if they are not in the player's hand.
+	 * @param guess
+	 * @return A list of cards that were added to the player's known cards.
 	 */
 	public ArrayList<Card> addSuspectCards(Triplet guess) {
 		ArrayList<Card> result = new ArrayList<Card>();
@@ -167,7 +168,7 @@ public class Player {
 
 	/**
 	 * Prints all known cards.
-	 */
+	*/
 	public String printKnownCards() {
 		StringBuilder sb = new StringBuilder();
 		for (Map.Entry<Card, String> entry : knownCards.entrySet()) {
@@ -180,7 +181,7 @@ public class Player {
 
 	/**
 	 * Prints all hand cards.
-	 */
+	*/
 	public String printHandCards() {
 		StringBuilder sb = new StringBuilder();
 		for (Card card : handCards) {
@@ -191,14 +192,14 @@ public class Player {
 
 	/**
 	 * Clears all known cards.
-	 */
+	*/
 	public void clearKnownCards() {
 		knownCards.clear();
 	}
 
 	/**
 	 * Peeks at a random card from the player's hand without revealing it.
-	 */
+	*/
 	public Card peekRandomCard() {
 		if (handCards.isEmpty()) {
 			return null; // No cards to peek at
@@ -209,7 +210,8 @@ public class Player {
 		return randomCard;
 	}
 
-	// GETTERS AND SETTERS
+	/*********************************************************GETTERS AND SETTERS******************************************************************/
+
 	public String getUsername() {
 		return username;
 	}

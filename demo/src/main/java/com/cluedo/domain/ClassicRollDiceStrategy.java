@@ -44,7 +44,6 @@ public class ClassicRollDiceStrategy implements RollDiceStrategy {
         }
 		visited.remove(startPosition); // Exclude the starting position
         return new RollResult(steps, visited);
-
     }
     
 }

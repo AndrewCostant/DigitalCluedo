@@ -13,7 +13,6 @@ public class GamblingRoom extends RoomCell {
 		super(x, y, name, "GAMBLING_ROOM_CELL");
 	}
 
-
 	@Override
 	public ActionResult action() {
 		ActionResult result = super.action();
@@ -29,8 +28,6 @@ public class GamblingRoom extends RoomCell {
 		}
 	}
 
-
-	// GETTERS AND SETTERS
 	public int getCondition() {
 		return condition;
 	}

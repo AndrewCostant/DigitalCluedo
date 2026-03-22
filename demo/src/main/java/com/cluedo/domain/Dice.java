@@ -15,7 +15,6 @@ public class Dice {
 		return result;
 	}
 
-	// GETTERS AND SETTERS
 	public int getFaceNumber() {
 		return this.faceNumber;
 	}

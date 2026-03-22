@@ -7,7 +7,6 @@ public abstract class Card {
 		this.name = name;
 	}
 
-	// GETTERS AND SETTERS
 	public String getName() {
 		return name;
 	}

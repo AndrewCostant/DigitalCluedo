@@ -16,10 +16,6 @@ public class ChanceC extends Card {
     public DoActionResult effect(Player player) {
         return effectStrategy.effect(player);
     }
-    
-    // public String getName() {
-    //     return name;
-    // }
 
     @Override
     public String toString() {
