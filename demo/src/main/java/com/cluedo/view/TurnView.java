@@ -114,6 +114,10 @@ public class TurnView {
         System.out.print("=".repeat(70));
     }
 
+    public static void space() {
+        System.out.println();
+    }
+
     // ROLL_DICES
 
 
@@ -124,12 +128,12 @@ public class TurnView {
      */
     public void startTurn(){
         Player player = controller.getCurrentPlayer();
-        System.out.println();
+        space();
         printSeparatorTurn();
         System.out.print(" " + player.getPawnSkin() +player.getUsername().toUpperCase() + GameConfig.RESET + "'s turn ");
         printSeparatorTurn();
-        System.out.println();
-        System.out.println();
+        space();
+        space();
         System.out.println("This is your "+ GameConfig.GREEN + "hand " + GameConfig.RESET);
         System.out.println(player.printHandCards());
         System.out.println("\nThese are your" + GameConfig.PURPLE + " known cards " + GameConfig.RESET);
@@ -196,7 +200,7 @@ public class TurnView {
                 System.out.println("Invalid coordinates. Please try again.");
             }
         }
-        System.out.println();
+        space();
         return controller.getCellByCoordinates(choice, choice2);
     }
 
@@ -233,9 +237,9 @@ public class TurnView {
 
     public void displayNormalCellAction(){
         printSeparator();
-        System.out.println();
+        space();
         System.out.println("You are on a Normal Cell, you can't do any action...");
-        System.out.println();
+        space();
         printSeparator();
         
     }
@@ -246,11 +250,11 @@ public class TurnView {
      */
     public void displayChanceCellAction(Card card){
         printSeparator();
-        System.out.println();
+        space();
         System.out.println("You are on a Chance Cell, press Enter to draw a chance Card");
         input.pressButton();
         printSeparator();
-        System.out.println();
+        space();
         System.out.println("You drew the card: " + card.getName());
     }
 
@@ -259,7 +263,7 @@ public class TurnView {
      * @param actionResult
      */
     public void displayGamblingRoomAction(ActionResult actionResult){
-        System.out.println();
+        space();
         System.out.println("You are on a Gambling Room called " + actionResult.getCell().getType() + ", press Enter to gamble");
         input.pressButton();
         int number = actionResult.getValue();
@@ -293,19 +297,19 @@ public class TurnView {
         String weaponCards = controller.getweaponCardsToString();
         ArrayList<String> assumption = new ArrayList<>();
         printSeparator();
-        System.out.println();
+        space();
         System.out.println("You are in the " + controller.getCurrentPlayer().getPosition().getType() + ", make your assumption. \nPlease, note that the suspected room is the room you are into.");
-        System.out.println();
+        space();
         printSeparator();
-        System.out.println();
+        space();
         System.out.println("This is your "+ GameConfig.GREEN + "hand " + GameConfig.RESET );
         System.out.println(handCards);
-        System.out.println();
+        space();
         System.out.println("These are your" + GameConfig.PURPLE + " known cards " + GameConfig.RESET);
         System.out.println(knownCards);
-        System.out.println();
+        space();
         printSeparator();
-        System.out.println();
+        space();
         System.out.println("These are the suspect cards: ");
         System.out.println(suspectCards);
         System.out.println("These are the weapon cards: ");
@@ -313,7 +317,7 @@ public class TurnView {
         printSeparator();
         Boolean validInput = true;
         while (validInput) {
-            System.out.println();
+            space();
             System.out.print("Enter your suspected person:");
             String person = input.askString().trim();
             if (!GameController.checkIfSuspectCardExist(person)) {
@@ -336,7 +340,7 @@ public class TurnView {
                 validInput = false;
             }
         }
-        System.out.println();
+        space();
         return assumption;
     }
 
@@ -373,10 +377,10 @@ public class TurnView {
      */
     public void printWinner(Player player) throws InterruptedException{
         printSeparator();
-        System.out.println();
+        space();
         LoadingBar.dramaticLoading(player.getUsername());
         VictoryScreen.show();
-        System.out.println();
+        space();
         printSeparator();
     }
 
@@ -391,16 +395,16 @@ public class TurnView {
      */
     public void printCardsShown(ArrayList<Card> cardsShown){
         printSeparator();
-        System.out.println();
+        space();
         System.out.println("You have discovered the following cards: ");
         for (Card card : cardsShown) {
             System.out.println("- " + card.getName());
         }
-        System.out.println();
+        space();
         printSeparator();
-        System.out.println();
+        space();
         System.out.println("In the next turns, try to find out if these cards are in the winning solution or if they are in someone's hand.");
-        System.out.println();
+        space();
         printSeparator();
     }
 
@@ -411,7 +415,7 @@ public class TurnView {
      */
     public void printEffect(DoActionResult doActionResult){
         System.out.println("You have discovered the following effect: " + doActionResult.getEffect().getDescription());
-        System.out.println();
+        space();
         printSeparator();
     }
 
@@ -421,7 +425,7 @@ public class TurnView {
      */
     public void showPeekedCard(DoActionResult doActionResult){ 
         System.out.println("You peeked at the card: " + doActionResult.getCardsShown().get(0).getName() + " from " + controller.getNextPlayer().getUsername() + "'s hand.");
-        System.out.println();
+        space();
         printSeparator();
     }
 

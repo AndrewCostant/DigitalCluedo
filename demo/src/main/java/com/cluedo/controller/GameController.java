@@ -18,6 +18,11 @@ import com.cluedo.config.GameMode;
 
 public class GameController {
 
+    public void setUpGame() {
+        CluedoGame.getInstance();
+        Board.getInstance();
+    }
+    
     public static boolean checkIfSuspectCardExist(String name) {
         return CluedoGame.getInstance().checkIfASuspectCardExist(name);
     }
@@ -101,4 +106,5 @@ public class GameController {
     public Cell getCellByCoordinates(int choice, int choice2) {
         return Board.getInstance().getCellXY(choice, choice2);
     }
+
 }

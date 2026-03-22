@@ -74,6 +74,10 @@ public class WelcomeView {
         System.out.println("-.".repeat(49));
     }
 
+    public static void space() {
+        System.out.println();
+    }
+
     /**
      * Print the welcome message to the console. The welcome message is stored in the 'welcome' ArrayList, which is initialized by reading from a file in the resources folder. Each line of the welcome message is printed on a new line in the console.
      */
@@ -86,14 +90,14 @@ public class WelcomeView {
     public void askGameMode() throws FileNotFoundException {
         ArrayList<String> gameMode = GameModeRegistry.getAvailableModes();
         printSeparator();
-        System.out.println();   
+        space();   
         System.out.println("Which game mode do you want to play?");
         int i = 1;
         for (String mode : gameMode) {
             System.out.println(i + ". " + mode);
             i++;
         }
-        System.out.println();
+        space();
         int choice = -1;
         while (choice < 1 || choice > gameMode.size()) {
             System.out.print("Enter your choice (1 or 2): ");
@@ -102,11 +106,11 @@ public class WelcomeView {
                     System.out.println("Invalid choice. Please try again.");
                 }
             }
-        System.out.println();
+        space();
         printSeparator();
-        System.out.println();
+        space();
         System.out.println("You chose: " + gameMode.get(choice - 1));
-        System.out.println();
+        space();
         printSeparator();
         controller.setGameMode(GameModeRegistry.getMode(choice - 1));
     } 
@@ -120,7 +124,7 @@ public class WelcomeView {
         ArrayList<String> players = new ArrayList<>();
         int numPlayers = -1;
         while (numPlayers < GameConfig.MIN_PLAYERS || numPlayers > GameConfig.MAX_PLAYERS) {
-            System.out.println();
+            space();
             System.out.print("Enter number of players (" + GameConfig.MIN_PLAYERS + "-" + GameConfig.MAX_PLAYERS + "): ");
             numPlayers = input.askInt();
             if (numPlayers < GameConfig.MIN_PLAYERS || numPlayers > GameConfig.MAX_PLAYERS) {
@@ -132,7 +136,7 @@ public class WelcomeView {
             String name = input.askString();
             players.add(name);
         }
-        System.out.println();
+        space();
         LoadingBar.showLoadingBar(30);
         controller.setPlayers(players);
     }    
