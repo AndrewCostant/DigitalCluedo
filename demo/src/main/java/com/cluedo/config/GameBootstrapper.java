@@ -1,8 +1,6 @@
 package com.cluedo.config;
 
 import com.cluedo.controller.GameController;
-import com.cluedo.domain.Board;
-import com.cluedo.domain.CluedoGame;
 import com.cluedo.view.InputView;
 import com.cluedo.view.TurnView;
 import com.cluedo.view.WelcomeView;
