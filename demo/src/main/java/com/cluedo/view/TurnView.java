@@ -57,7 +57,21 @@ public class TurnView {
             handleEndTurn();
         });
     }
-    
+
+    /*********************************************************FUNCTIONAL METHODS******************************************************************/
+
+    public static void printSeparator() {
+        System.out.println("-.".repeat(49));
+    }
+
+    public static void printSeparatorTurn() {
+        System.out.print("=".repeat(70));
+    }
+
+    public static void space() {
+        System.out.println();
+    }
+
     /**
      * Returns the event handler for this view.
      * Use this to register the view as an observer to the game.
@@ -67,6 +81,8 @@ public class TurnView {
         return eventHandler;
     }
     
+    /*********************************************************HANDLE EVENT METHODS******************************************************************/
+
     /**
      * Handles the SELECT_DESTINATION event.
      */
@@ -106,20 +122,7 @@ public class TurnView {
         controller.endTurn(doActionResult);
     }
 
-    public static void printSeparator() {
-        System.out.println("-.".repeat(49));
-    }
-
-    public static void printSeparatorTurn() {
-        System.out.print("=".repeat(70));
-    }
-
-    public static void space() {
-        System.out.println();
-    }
-
-    // ROLL_DICES
-
+    /*********************************************************ROLL EVENT METHODS******************************************************************/
 
     /**
      * Start the turn for the given player. This method prints the player's name, their hand cards, and their known cards. 
@@ -143,7 +146,7 @@ public class TurnView {
         controller.rollDices();
     } 
 
-    // SELECT_DESTINATION
+    /*********************************************************SELECT_DESTINATIONS EVENT METHODS******************************************************************/
 
      /**
      * Print the result of rolling the dice, including the value rolled and the possible destination cells based on the roll result. 
@@ -216,7 +219,7 @@ public class TurnView {
         input.pressButton();
     }
 
-    //DO_ACTION
+    /*********************************************************DO_ACTION METHODS******************************************************************/
 
     private ArrayList<String> displayAction(ActionResult actionResult) throws Exception {
         ArrayList<String> assumption = new ArrayList<>();
@@ -295,7 +298,6 @@ public class TurnView {
         Map<Card,String> knownCards = controller.getCurrentPlayer().getKnownCards();
         String suspectCards = controller.getsuspectCardsToString();
         String weaponCards = controller.getweaponCardsToString();
-        ArrayList<String> assumption = new ArrayList<>();
         printSeparator();
         space();
         System.out.println("You are in the " + controller.getCurrentPlayer().getPosition().getType() + ", make your assumption. \nPlease, note that the suspected room is the room you are into.");
@@ -315,6 +317,16 @@ public class TurnView {
         System.out.println("These are the weapon cards: ");
         System.out.println(weaponCards);
         printSeparator();
+        return makeAndValidateAssumption();
+    }
+
+    /**
+     * Ask the user to make an assumption by inputting the name of a suspected person and a suspected weapon. 
+     * @return
+     * @throws Exception
+     */
+    public ArrayList<String> makeAndValidateAssumption() throws Exception{
+        ArrayList<String> assumption = new ArrayList<>();
         Boolean validInput = true;
         while (validInput) {
             space();
@@ -340,11 +352,10 @@ public class TurnView {
                 validInput = false;
             }
         }
-        space();
         return assumption;
     }
 
-    //END_TURN
+    /*********************************************************END TURN EVENT METHODS******************************************************************/
 
     public void displayDoActionResult(DoActionResult doActionResult) throws InterruptedException{
         if (doActionResult.isGameEnded()) {

@@ -40,6 +40,15 @@ public class WelcomeView {
         }
     }
     
+    /*********************************************************FUNCTIONAL METHODS******************************************************************/
+    public static void printSeparator() {
+        System.out.println("-.".repeat(49));
+    }
+
+    public static void space() {
+        System.out.println();
+    }
+
     /**
      * Returns the event handler for this view.
      * Use this to register the view as an observer to the game.
@@ -48,6 +57,8 @@ public class WelcomeView {
     public EventHandler getEventHandler() {
         return eventHandler;
     }
+
+    /*********************************************************START GAME METHODS******************************************************************/
 
     /**
      * Initialize the welcome message by reading it from a file specified in GameConfig. The file is expected to be in the resources folder of the project.
@@ -68,14 +79,6 @@ public class WelcomeView {
         catch (Exception e) {
             throw new FileNotFoundException("File " + path + " not found");
         }
-    }
-
-    public static void printSeparator() {
-        System.out.println("-.".repeat(49));
-    }
-
-    public static void space() {
-        System.out.println();
     }
 
     /**
