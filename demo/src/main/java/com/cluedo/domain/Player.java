@@ -153,8 +153,7 @@ public class Player {
 	/**
 	 * Searches for a known card by name.
 	 * @param cardName
-	 */
-	/*********************** */
+	*/
 	public String searchPlayerByKnownCard(Card card) {
 		return knownCards.get(card);
 	}
