@@ -2,6 +2,7 @@ package com.cluedo.domain;
 
 import java.util.ArrayList;
 
+import com.cluedo.config.GameConfig;
 import com.cluedo.domain.dto.*;
 
 public class PeekCard implements EffectStrategy {
@@ -12,7 +13,7 @@ public class PeekCard implements EffectStrategy {
 		Player nextPlayer = CluedoGame.getInstance().getNextPlayer();
 		Card peekedCard = nextPlayer.peekRandomCard();
 		cardsShown.add(peekedCard);
-		player.addKnownCard(peekedCard, nextPlayer.getUsername());
+		player.addKnownCard(peekedCard, nextPlayer.getPawnSkin() + nextPlayer.getUsername() + GameConfig.RESET);
 		return new ChanceDoAction(player.getPosition(), false, cardsShown, this);
 	}
 
