@@ -9,6 +9,7 @@ import com.cluedo.config.GameConfig;
 import com.cluedo.config.GameEvent;
 import com.cluedo.config.GameModeRegistry;
 import com.cluedo.controller.GameController;
+import com.cluedo.events.EventHandler;
 
 public class WelcomeView {
 

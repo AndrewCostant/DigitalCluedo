@@ -1,4 +1,4 @@
-package com.cluedo.view;
+package com.cluedo.events;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.cluedo.config.GameEvent;
-import com.cluedo.events.GameObserver;
 
 /**
  * Event handler that dispatches game events to registered listeners.

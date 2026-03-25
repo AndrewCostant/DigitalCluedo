@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
-import com.cluedo.config.EventDispatcher;
 import com.cluedo.config.GameEvent;
 import com.cluedo.domain.dto.*;
+import com.cluedo.events.EventDispatcher;
 
 
 public class CluedoGame {

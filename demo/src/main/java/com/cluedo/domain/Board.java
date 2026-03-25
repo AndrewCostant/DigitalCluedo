@@ -8,11 +8,10 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import com.cluedo.config.EventDispatcher;
 import com.cluedo.config.GameConfig;
 import com.cluedo.config.GameEvent;
 import com.cluedo.domain.dto.*;
+import com.cluedo.events.EventDispatcher;
 
 public class Board {
 

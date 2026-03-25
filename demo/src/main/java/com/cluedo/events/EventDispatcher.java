@@ -1,4 +1,4 @@
-package com.cluedo.config;
+package com.cluedo.events;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.cluedo.events.GameObserver;
+import com.cluedo.config.GameEvent;
 
 /**
  * Centralized event dispatcher that manages all event registration and dispatching.

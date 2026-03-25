@@ -2,10 +2,10 @@ package com.cluedo.domain;
 
 import java.util.ArrayList;
 
-import com.cluedo.config.EventDispatcher;
 import com.cluedo.config.GameConfig;
 import com.cluedo.config.GameEvent;
 import com.cluedo.domain.dto.*;
+import com.cluedo.events.EventDispatcher;
 
 public class AssumptionState extends AbstractGameState{
     @Override

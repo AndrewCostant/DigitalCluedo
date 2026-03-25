@@ -19,6 +19,7 @@ import com.cluedo.domain.Turn;
 import com.cluedo.domain.dto.ActionResult;
 import com.cluedo.domain.dto.DoActionResult;
 import com.cluedo.domain.dto.RollResult;
+import com.cluedo.events.EventHandler;
 
 public class TurnView {
     
